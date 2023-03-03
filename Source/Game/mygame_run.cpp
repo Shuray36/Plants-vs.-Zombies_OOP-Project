@@ -10,7 +10,7 @@
 using namespace game_framework;
 
 /////////////////////////////////////////////////////////////////////////////
-// ³o­Óclass¬°¹CÀ¸ªº¹CÀ¸°õ¦æª«¥ó¡A¥D­nªº¹CÀ¸µ{¦¡³£¦b³o¸Ì
+// ï¿½oï¿½ï¿½classï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½æª«ï¿½ï¿½Aï¿½Dï¿½nï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½bï¿½oï¿½ï¿½
 /////////////////////////////////////////////////////////////////////////////
 
 CGameStateRun::CGameStateRun(CGame *g) : CGameState(g)
@@ -25,7 +25,7 @@ void CGameStateRun::OnBeginState()
 {
 }
 
-bool CGameStateRun::OnMove(CMovingBitmap A, CMovingBitmap B)							// ²¾°Ê¹CÀ¸¤¸¯À
+bool CGameStateRun::OnMove(CMovingBitmap A, CMovingBitmap B)							// ï¿½ï¿½ï¿½Ê¹Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 {
 	if (A.Left() >=B.Left()-50 && A.Left() <= B.Left() + 50 && A.Top() >= B.Top() - 50 && A.Top() <= B.Top() + 50){
 		return true;
@@ -36,7 +36,7 @@ bool CGameStateRun::OnMove(CMovingBitmap A, CMovingBitmap B)							// ²¾°Ê¹CÀ¸¤¸
 		
 }
 
-void CGameStateRun::OnInit()  								// ¹CÀ¸ªºªì­È¤Î¹Ï§Î³]©w
+void CGameStateRun::OnInit()  								// ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¤Î¹Ï§Î³]ï¿½w
 {
 	background.LoadBitmapByString({ 
 		"resources/phase11_background.bmp", 
@@ -163,23 +163,23 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 }
 
-void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // ³B²z·Æ¹«ªº°Ê§@
+void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // ï¿½Bï¿½zï¿½Æ¹ï¿½ï¿½ï¿½ï¿½Ê§@
 {
 }
 
-void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// ³B²z·Æ¹«ªº°Ê§@
+void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// ï¿½Bï¿½zï¿½Æ¹ï¿½ï¿½ï¿½ï¿½Ê§@
 {
 }
 
-void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// ³B²z·Æ¹«ªº°Ê§@
+void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// ï¿½Bï¿½zï¿½Æ¹ï¿½ï¿½ï¿½ï¿½Ê§@
 {
 }
 
-void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // ³B²z·Æ¹«ªº°Ê§@
+void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // ï¿½Bï¿½zï¿½Æ¹ï¿½ï¿½ï¿½ï¿½Ê§@
 {
 }
 
-void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// ³B²z·Æ¹«ªº°Ê§@
+void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// ï¿½Bï¿½zï¿½Æ¹ï¿½ï¿½ï¿½ï¿½Ê§@
 {
 }
 
@@ -215,35 +215,35 @@ void CGameStateRun::show_text_by_phase() {
 	CDC *pDC = CDDraw::GetBackCDC();
 	CFont* fp;
 
-	CTextDraw::ChangeFontLog(pDC, fp, 21, "·L³n¥¿¶ÂÅé", RGB(0, 0, 0), 800);
+	CTextDraw::ChangeFontLog(pDC, fp, 21, "ï¿½Lï¿½nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", RGB(0, 0, 0), 800);
 
 	if (phase == 1 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 237, 128, "­×§ï§Aªº¥D¨¤¡I");
-		CTextDraw::Print(pDC, 55, 163, "±N¦Ç¦â¤è®æ´«¦¨ resources ¤ºªº giraffe.bmp ¹Ï¼Ë¡I");
-		CTextDraw::Print(pDC, 373, 537, "«ö¤U Enter Áä¨ÓÅçÃÒ");
+		CTextDraw::Print(pDC, 237, 128, "ï¿½×§ï¿½Aï¿½ï¿½ï¿½Dï¿½ï¿½ï¿½I");
+		CTextDraw::Print(pDC, 55, 163, "ï¿½Nï¿½Ç¦ï¿½ï¿½æ´«ï¿½ï¿½ resources ï¿½ï¿½ï¿½ï¿½ giraffe.bmp ï¿½Ï¼Ë¡I");
+		CTextDraw::Print(pDC, 373, 537, "ï¿½ï¿½ï¿½U Enter ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 	} else if (phase == 2 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 26, 128, "¤U¤@­Ó¶¥¬q¡AÅýªøÀV³À¯à°÷³z¹L¤W¤U¥ª¥k²¾°Ê¨ì³o­Ó¦ì¸m¡I");
-		CTextDraw::Print(pDC, 373, 537, "«ö¤U Enter Áä¨ÓÅçÃÒ");
+		CTextDraw::Print(pDC, 26, 128, "ï¿½Uï¿½@ï¿½Ó¶ï¿½ï¿½qï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½zï¿½Lï¿½Wï¿½Uï¿½ï¿½ï¿½kï¿½ï¿½ï¿½Ê¨ï¿½oï¿½Ó¦ï¿½mï¿½I");
+		CTextDraw::Print(pDC, 373, 537, "ï¿½ï¿½ï¿½U Enter ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 	} else if (phase == 3 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 205, 128, "À°§A·Ç³Æ¤F¤@­ÓÄ_½c");
-		CTextDraw::Print(pDC, 68, 162, "³]­pµ{¦¡ÅýªøÀV³ÀºN¨ìÄ_½c«á¡A±NÄ_½c®ø¥¢¡I");
-		CTextDraw::Print(pDC, 68, 196, "°O±oÄ_½c­n¥h­I¡A¨Ï¥Î RGB(255, 255, 255)");
-		CTextDraw::Print(pDC, 373, 537, "«ö¤U Enter Áä¨ÓÅçÃÒ");
+		CTextDraw::Print(pDC, 205, 128, "ï¿½ï¿½ï¿½Aï¿½Ç³Æ¤Fï¿½@ï¿½ï¿½ï¿½_ï¿½c");
+		CTextDraw::Print(pDC, 68, 162, "ï¿½]ï¿½pï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½_ï¿½cï¿½ï¿½Aï¿½Nï¿½_ï¿½cï¿½ï¿½ï¿½ï¿½ï¿½I");
+		CTextDraw::Print(pDC, 68, 196, "ï¿½Oï¿½oï¿½_ï¿½cï¿½nï¿½hï¿½Iï¿½Aï¿½Ï¥ï¿½ RGB(255, 255, 255)");
+		CTextDraw::Print(pDC, 373, 537, "ï¿½ï¿½ï¿½U Enter ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 	} else if (phase == 4 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 173, 128, "À°§A·Ç³Æ¤F¤@­Ó»e¸Á¦nªB¤Í");
-		CTextDraw::Print(pDC, 89, 162, "¤w¸gÀ°¥¦°µ¤F¨â´Vªº°Êµe¡AÅý¥¦¥i¥H¤W¤U²¾°Ê");
-		CTextDraw::Print(pDC, 110, 196, "¼g­Óµ{¦¡¨ÓÅý§Aªº»e¸Á¦nªB¤Í¾Ö¦³°Êµe¡I");
-		CTextDraw::Print(pDC, 373, 537, "«ö¤U Enter Áä¨ÓÅçÃÒ");
+		CTextDraw::Print(pDC, 173, 128, "ï¿½ï¿½ï¿½Aï¿½Ç³Æ¤Fï¿½@ï¿½Ó»eï¿½ï¿½ï¿½nï¿½Bï¿½ï¿½");
+		CTextDraw::Print(pDC, 89, 162, "ï¿½wï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½ï¿½Vï¿½ï¿½ï¿½Êµeï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Hï¿½Wï¿½Uï¿½ï¿½ï¿½ï¿½");
+		CTextDraw::Print(pDC, 110, 196, "ï¿½gï¿½Óµ{ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½eï¿½ï¿½ï¿½nï¿½Bï¿½Í¾Ö¦ï¿½ï¿½Êµeï¿½I");
+		CTextDraw::Print(pDC, 373, 537, "ï¿½ï¿½ï¿½U Enter ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 	} else if (phase == 5 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 173, 128, "À°§A·Ç³Æ¤F¤T®°ªù");
-		CTextDraw::Print(pDC, 89, 162, "³]­pµ{¦¡ÅýªøÀV³ÀºN¨ìªù¤§«á¡Aªù·|¥´¶}");
-		CTextDraw::Print(pDC, 373, 537, "«ö¤U Enter Áä¨ÓÅçÃÒ");
+		CTextDraw::Print(pDC, 173, 128, "ï¿½ï¿½ï¿½Aï¿½Ç³Æ¤Fï¿½Tï¿½ï¿½ï¿½ï¿½");
+		CTextDraw::Print(pDC, 89, 162, "ï¿½]ï¿½pï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½|ï¿½ï¿½ï¿½}");
+		CTextDraw::Print(pDC, 373, 537, "ï¿½ï¿½ï¿½U Enter ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 	} else if (phase == 6 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 173, 128, "À°§A·Ç³Æ¤F¤@Áû·|­Ë¼Æªº²y");
-		CTextDraw::Print(pDC, 89, 162, "³]­pµ{¦¡Åý²y­Ë¼Æ¡AµM«áÅã¥Ü OK «á°±¤î°Êµe");
-		CTextDraw::Print(pDC, 373, 537, "«ö¤U Enter Áä¨ÓÅçÃÒ");
+		CTextDraw::Print(pDC, 173, 128, "ï¿½ï¿½ï¿½Aï¿½Ç³Æ¤Fï¿½@ï¿½ï¿½ï¿½|ï¿½Ë¼Æªï¿½ï¿½y");
+		CTextDraw::Print(pDC, 89, 162, "ï¿½]ï¿½pï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½yï¿½Ë¼Æ¡Aï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½ OK ï¿½á°±ï¿½ï¿½Êµe");
+		CTextDraw::Print(pDC, 373, 537, "ï¿½ï¿½ï¿½U Enter ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 	} else if (sub_phase == 2) {
-		CTextDraw::Print(pDC, 268, 128, "§¹¦¨¡I");
+		CTextDraw::Print(pDC, 268, 128, "ï¿½ï¿½ï¿½ï¿½ï¿½I");
 	}
 
 	CDDraw::ReleaseBackCDC();
@@ -262,7 +262,7 @@ bool CGameStateRun::validate_phase_3() {
 		character.Top() + character.Height() >= chest_and_key.Top()
 		&& character.Left() + character.Width() >= chest_and_key.Left()
 		&& chest_and_key.GetSelectShowBitmap() == 1
-		&& chest_and_key.GetFilterColor() == RGB(255, 255, 255)
+		&& chest_and_key.GetFilterColor() == RGB(255, 255, 255) 
 	);
 }
 
