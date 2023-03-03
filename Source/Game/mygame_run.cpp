@@ -151,10 +151,10 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (OnMove(character, door[0]) && phase == 5) {
 		door[0].SelectShowBitmap(1);
 	}
-	else if (OnMove(character, door[1]) && phase == 5) {
+	if (OnMove(character, door[1]) && phase == 5) {
 		door[1].SelectShowBitmap(1);
 	}
-	else if (OnMove(character, door[2]) && phase == 5) {
+	if (OnMove(character, door[2]) && phase == 5) {
 		door[2].SelectShowBitmap(1);
 	}
 }
