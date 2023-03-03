@@ -17,9 +17,9 @@ CGameStateOver::CGameStateOver(CGame *g): CGameState(g)
 {
 }
 
-void CGameStateOver::OnMove()
+bool CGameStateOver::OnMove()
 {
-	
+	return false;
 }
 
 void CGameStateOver::OnBeginState()

@@ -23,11 +23,10 @@ void CGameStateInit::OnInit()
 	// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
 	//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 	//
-	
 	ShowInitProgress(0, "Start Initialize...");	// 一開始的loading進度為0%
 	Sleep(200);
+
 	load_background();
-	
 
 	ShowInitProgress(66, "Initialize...");
 	Sleep(200);
@@ -67,7 +66,7 @@ void CGameStateInit::draw_text() {
 
 	/* Print title */
 	CTextDraw::ChangeFontLog(pDC, fp, 36, "微軟正黑體", RGB(255, 255, 255));
-	CTextDraw::Print(pDC, 79, 50, "Game Framework Practice");
+	CTextDraw::Print(pDC, 79, 228, "Game Framework Practice");
 
 	/* Print info */
 	CTextDraw::ChangeFontLog(pDC, fp, 24, "微軟正黑體", RGB(255, 255, 255));

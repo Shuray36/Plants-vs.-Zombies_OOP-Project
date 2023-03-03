@@ -25,21 +25,15 @@ void CGameStateRun::OnBeginState()
 {
 }
 
-void CGameStateRun::OnMove(CMovingBitmap x, CMovingBitmap y, CMovingBitmap z, CMovingBitmap a, CMovingBitmap b)							// 移動遊戲元素
+bool CGameStateRun::OnMove(CMovingBitmap A, CMovingBitmap B)							// 移動遊戲元素
 {
-	if (x.Left() <= y.Left() + 50 && x.Left() >= y.Left() - 50 && x.Top() >= y.Top() - 50 && x.Top() <= y.Top() + 50) {
-		chest_and_key.SelectShowBitmap(1);
+	if (A.Left() >=B.Left()-50 && A.Left() <= B.Left() + 50 && A.Top() >= B.Top() - 50 && A.Top() <= B.Top() + 50){
+		return true;
 	}
-	if (x.Left() <= z.Left() + 50 && x.Left() >= z.Left() - 50 && x.Top() >= z.Top() - 50 && x.Top() <= z.Top() + 50) {
-		door[0].SelectShowBitmap(1);
+	else {
+		return false;
 	}
-	if (x.Left() <= a.Left() + 50 && x.Left() >= a.Left() - 50 && x.Top() >= a.Top() - 50 && x.Top() <= a.Top() + 50) {
-		door[1].SelectShowBitmap(1);
-	}
-	if (x.Left() <= b.Left() + 50 && x.Left() >= b.Left() - 50 && x.Top() >= b.Top() - 50 && x.Top() <= b.Top() + 50) {
-		door[2].SelectShowBitmap(1);
-	}
-	
+		
 }
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -68,12 +62,12 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 
 	bee.LoadBitmapByString({ "resources/bee_1.bmp", "resources/bee_2.bmp" });
 	bee.SetTopLeft(462, 265);
-	bee.SetAnimation(200, false);
+	bee.SetAnimation(300, false);
 
 	ball.LoadBitmapByString({ "resources/ball-3.bmp", "resources/ball-2.bmp", "resources/ball-1.bmp", "resources/ball-ok.bmp" });
 	ball.SetTopLeft(150, 430);
+	ball.SetAnimation(1000, true);
 	ball.ToggleAnimation();
-	ball.SetAnimation(200, true);
 
 	for (int i = 0; i < 3; i++) {
 		door[i].LoadBitmapByString({ "resources/door_close.bmp", "resources/door_open.bmp" }, RGB(255, 255, 255));
@@ -135,23 +129,38 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 			}
 		}
 	}
-	OnMove(character, chest_and_key, door[0], door[1], door[2]);
+	if (nChar == VK_RIGHT) {
+		// Do something...
+		character.SetTopLeft(character.Left() + 30, character.Top() + 0);
+	}
+	if (nChar == VK_LEFT) {
+		// Do something...
+		character.SetTopLeft(character.Left() - 30, character.Top() + 0);
+	}
+	if (nChar == VK_UP) {
+		// Do something...
+		character.SetTopLeft(character.Left() + 0, character.Top() - 30);
+	}
+	if (nChar == VK_DOWN) {
+		// Do something...
+		character.SetTopLeft(character.Left() + 0, character.Top() + 30);
+	}
+	if (OnMove(character, chest_and_key) && phase==3) {
+		chest_and_key.SelectShowBitmap(1);
+	}
+	if (OnMove(character, door[0]) && phase == 5) {
+		door[0].SelectShowBitmap(1);
+	}
+	else if (OnMove(character, door[1]) && phase == 5) {
+		door[1].SelectShowBitmap(1);
+	}
+	else if (OnMove(character, door[2]) && phase == 5) {
+		door[2].SelectShowBitmap(1);
+	}
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if (nChar == VK_RIGHT) {
-		character.SetTopLeft(character.Left() + 50, character.Top() + 0); // Do something...
-	}
-	if (nChar == VK_LEFT) {
-		character.SetTopLeft(character.Left() - 50, character.Top() + 0);
-	}
-	if (nChar == VK_UP) {
-		character.SetTopLeft(character.Left() + 0, character.Top() - 50);
-	}
-	if (nChar == VK_DOWN) {
-		character.SetTopLeft(character.Left() + 0, character.Top() + 50);
-	}
 }
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作

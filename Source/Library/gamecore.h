@@ -147,7 +147,7 @@ namespace game_framework {
 		//
 		// virtual functions, 由繼承者提供implementation
 		//
-		virtual void OnMove() {}								// 移動這個狀態的遊戲元素
+		virtual bool OnMove() { return false; }								// 移動這個狀態的遊戲元素
 		virtual void OnShow() = 0;								// 顯示這個狀態的遊戲畫面
 		CGame *game;
 		CMovingBitmap loadingBitmap;

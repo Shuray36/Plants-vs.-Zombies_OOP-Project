@@ -89,7 +89,7 @@ namespace game_framework {
 		void OnRButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
 		void OnRButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
 	protected:
-		void OnMove(CMovingBitmap x, CMovingBitmap y, CMovingBitmap z, CMovingBitmap a, CMovingBitmap b);									// 移動遊戲元素
+		bool OnMove(CMovingBitmap A, CMovingBitmap B);									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
 		int phase = 1;
@@ -122,7 +122,7 @@ namespace game_framework {
 		void OnInit();
 		void OnKeyDown(UINT, UINT, UINT);
 	protected:
-		void OnMove();									// 移動遊戲元素
+		bool OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
 		CMovingBitmap background;
