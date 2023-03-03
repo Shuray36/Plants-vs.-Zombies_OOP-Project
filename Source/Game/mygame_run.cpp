@@ -129,22 +129,6 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 			}
 		}
 	}
-	if (OnMove(character, chest_and_key) && phase==3) {
-		chest_and_key.SelectShowBitmap(1);
-	}
-	if (OnMove(character, door[0]) && phase == 5) {
-		door[0].SelectShowBitmap(1);
-	}
-	if (OnMove(character, door[1]) && phase == 5) {
-		door[1].SelectShowBitmap(1);
-	}
-	if (OnMove(character, door[2]) && phase == 5) {
-		door[2].SelectShowBitmap(1);
-	}
-}
-
-void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
-{
 	if (nChar == VK_RIGHT) {
 		// Do something...
 		character.SetTopLeft(character.Left() + 30, character.Top() + 0);
@@ -161,6 +145,22 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 		// Do something...
 		character.SetTopLeft(character.Left() + 0, character.Top() + 30);
 	}
+	if (OnMove(character, chest_and_key) && phase==3) {
+		chest_and_key.SelectShowBitmap(1);
+	}
+	if (OnMove(character, door[0]) && phase == 5) {
+		door[0].SelectShowBitmap(1);
+	}
+	else if (OnMove(character, door[1]) && phase == 5) {
+		door[1].SelectShowBitmap(1);
+	}
+	else if (OnMove(character, door[2]) && phase == 5) {
+		door[2].SelectShowBitmap(1);
+	}
+}
+
+void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
 }
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
