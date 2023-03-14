@@ -105,6 +105,7 @@ namespace game_framework {
 		CMovingBitmap fight_background;
 		// BG1的判斷變數
 		int BG1_flag1 = 0;
+		int time = 0;
 
 	};
 

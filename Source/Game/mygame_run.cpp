@@ -31,11 +31,11 @@ void CGameStateRun::OnMove()							// ²¾°Ê¹CÀ¸¤¸¯À
 {
 	if (fight_background.Left() >= (-350)) {
 		fight_background.SetTopLeft(fight_background.Left()-10, 0);
-		continue;
+		
 	}
 	if (fight_background.Left() <= (350)) {
 		fight_background.SetTopLeft(fight_background.Left() +5, 0);
-		continue;
+		
 	}
 }
 
