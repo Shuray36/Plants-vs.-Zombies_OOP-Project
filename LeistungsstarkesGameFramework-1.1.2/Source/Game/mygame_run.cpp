@@ -30,15 +30,15 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 {
 	//遊戲剛開始的移動 往右到一定程度後 往回到原本樣式
 	if (fight_background.GetLeft() >= (-350) && BG1_flag1==0){
-		fight_background.SetTopLeft(fight_background.GetLeft() - 5, 0);
+		fight_background.SetTopLeft(fight_background.GetLeft() - 3, 0);
 		if (fight_background.GetLeft() <= (-350)) {
 			BG1_flag1 = 1;
 		}
 	}
 	else if (fight_background.GetLeft() <= (350) && BG1_flag1==1) {
 		time += 1;
-		if (time >= 15) {
-			fight_background.SetTopLeft(fight_background.GetLeft() + 5, 0);
+		if (time >= 20) {
+			fight_background.SetTopLeft(fight_background.GetLeft() + 3, 0);
 			if (fight_background.GetLeft() >= (-80)) BG1_flag1 = 2;
 		}
 	}

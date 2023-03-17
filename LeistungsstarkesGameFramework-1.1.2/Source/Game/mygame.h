@@ -67,9 +67,11 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 		void OnMove();
 	private:
-		CMovingBitmap logo;								// csie的logo
+		CMovingBitmap logo;	// csie的logo
+		void load_initialbackground();
 		void load_background();
 		void draw_text();
+		CMovingBitmap initialbackground;
 		CMovingBitmap background;
 		CMovingBitmap start_button_1;
 		CMovingBitmap start_button_2;

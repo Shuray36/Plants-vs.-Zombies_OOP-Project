@@ -23,7 +23,8 @@ void CGameStateInit::OnInit()
 	// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
 	//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 	//
-	ShowInitProgress(0, "Start Initialize...");	// 一開始的loading進度為0%
+	load_initialbackground();
+	ShowInitProgress(0, "Plants_vs_Zombies_Image/Scenes/openingscene.bmp");	// 一開始的loading進度為0%
 	Sleep(200);
 	//
 	// 開始載入資料
@@ -60,14 +61,17 @@ void CGameStateInit::OnMouseMove(UINT nFlags, CPoint point)
 	pointy = point.y;
 }
 
-
 void CGameStateInit::OnShow()
 {
-	background.ShowBitmap();
+	initialbackground.ShowBitmap();
+	//background.ShowBitmap();
 	start_button_1.ShowBitmap();
 	draw_text();
 }
-
+void CGameStateInit::load_initialbackground() {
+	initialbackground.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/openingscene.bmp" });
+	initialbackground.SetTopLeft(0, 0);
+}
 void CGameStateInit::load_background() {
 	background.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/Surface.bmp" });
 	background.SetTopLeft(0, 0);
