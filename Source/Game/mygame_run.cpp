@@ -7,12 +7,11 @@
 #include "../Library/gamecore.h"
 #include "mygame.h"
 #include <string>
-#include<iostream>
 
 using namespace game_framework;
 
 /////////////////////////////////////////////////////////////////////////////
-// ³o­Óclass¬°¹CÀ¸ªº¹CÀ¸°õ¦æª«¥ó¡A¥D­nªº¹CÀ¸µ{¦¡³£¦b³o¸Ì
+// é€™å€‹classç‚ºéŠæˆ²çš„éŠæˆ²åŸ·è¡Œç‰©ä»¶ï¼Œä¸»è¦çš„éŠæˆ²ç¨‹å¼éƒ½åœ¨é€™è£¡
 /////////////////////////////////////////////////////////////////////////////
 
 CGameStateRun::CGameStateRun(CGame *g) : CGameState(g)
@@ -27,261 +26,179 @@ void CGameStateRun::OnBeginState()
 {
 }
 
-void CGameStateRun::OnMove()							// ²¾°Ê¹CÀ¸¤¸¯À
+void CGameStateRun::OnMove()							// ç§»å‹•éŠæˆ²å…ƒç´ 
 {
-	if (fight_background.Left() >= (-350)) {
-		fight_background.SetTopLeft(fight_background.Left()-10, 0);
-		
+	//éŠæˆ²å‰›é–‹å§‹çš„ç§»å‹• å¾€å³åˆ°ä¸€å®šç¨‹åº¦å¾Œ å¾€å›åˆ°åŸæœ¬æ¨£å¼
+	if (fight_background.GetLeft() >= (-350) && BG1_flag1==0){
+		fight_background.SetTopLeft(fight_background.GetLeft() - 50, 0);
+		if (fight_background.GetLeft() <= (-350)) {
+			BG1_flag1 = 1;
+		}
 	}
-	if (fight_background.Left() <= (350)) {
-		fight_background.SetTopLeft(fight_background.Left() +5, 0);
-		
+	else if (fight_background.GetLeft() <= (350) && BG1_flag1==1) {
+		time += 1;
+		if (time >= 15) {
+			fight_background.SetTopLeft(fight_background.GetLeft() + 50, 0);
+			if (fight_background.GetLeft() >= (-80)) BG1_flag1 = 2;
+		}
 	}
+	if (BG1_flag1 == 2) {
+		if (CMovingBitmap::IsOverlap(zombie[0], sunflower)) {
+			zombie[0].SetTopLeft(zombie[0].GetLeft(), zombie[0].GetTop());
+			zombie_change_flag = 1;
+		}
+		else zombie[0].SetTopLeft(zombie[0].GetLeft() - 3, zombie[0].GetTop() + 0);
+	}
+	
+
 }
 
-void CGameStateRun::OnInit()  								// ¹CÀ¸ªºªì­È¤Î¹Ï§Î³]©w
+void CGameStateRun::OnInit()  								// éŠæˆ²çš„åˆå€¼åŠåœ–å½¢è¨­å®š
 {
-	fight_background.LoadBitmapByString({ "´Óª«¤j¾ÔíL«Í ¯À§÷/³õ´º¹Ï/BG1.bmp" });
+	fight_background.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/BG1.bmp" });
 	fight_background.SetTopLeft(0, 0);
-
-	background.LoadBitmapByString({ 
-		"resources/phase11_background.bmp", 
-		"resources/phase12_background.bmp", 
-		"resources/phase21_background.bmp", 
-		"resources/phase22_background.bmp", 
-		"resources/phase31_background.bmp", 
-		"resources/phase32_background.bmp",
-		"resources/phase41_background.bmp",
-		"resources/phase42_background.bmp",
-		"resources/phase51_background.bmp",
-		"resources/phase52_background.bmp",
-		"resources/phase61_background.bmp",
-		"resources/phase62_background.bmp",
-	});
-	background.SetTopLeft(0, 0);
-
-	character.LoadBitmapByString({ "resources/giraffe.bmp" });
-	character.SetTopLeft(150, 265);
-
-	chest_and_key.LoadBitmapByString({ "resources/chest.bmp", "resources/chest_ignore.bmp" }, RGB(255, 255, 255));
-	chest_and_key.SetTopLeft(150, 430);
-
-	bee.LoadBitmapByString({ "resources/bee_1.bmp", "resources/bee_2.bmp" });
-	bee.SetTopLeft(462, 265);
-	bee.SetAnimation(300, false);
-
-	ball.LoadBitmapByString({ "resources/ball-3.bmp", "resources/ball-2.bmp", "resources/ball-1.bmp", "resources/ball-ok.bmp" });
-	ball.SetTopLeft(150, 430);
-	ball.SetAnimation(1000, true);
-	ball.ToggleAnimation();
-
-	for (int i = 0; i < 3; i++) {
-		door[i].LoadBitmapByString({ "resources/door_close.bmp", "resources/door_open.bmp" }, RGB(255, 255, 255));
-		door[i].SetTopLeft(462 - 100 * i, 265);
-	}
+	
+	load_zombie_move();
+	load_zombie_eat();
+	load_sunflower();
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if (nChar == VK_RETURN) {
-		if (phase == 1) {
-			if (sub_phase == 1) {
-				sub_phase += validate_phase_1();
-			}
-			else if (sub_phase == 2) {
-				sub_phase = 1;
-				phase += 1;
-			}
-		} else if (phase == 2) {
-			if (sub_phase == 1) {
-				sub_phase += validate_phase_2();
-			}
-			else if (sub_phase == 2) {
-				sub_phase = 1;
-				phase += 1;
-			}
-		}else if (phase == 3) {
-			if (sub_phase == 1) {
-				sub_phase += validate_phase_3();
-			}
-			else if (sub_phase == 2) {
-				sub_phase = 1;
-				phase += 1;
-			}
-		}else if (phase == 4) {
-			if (sub_phase == 1) {
-				sub_phase += validate_phase_4();
-			}
-			else if (sub_phase == 2) {
-				sub_phase = 1;
-				phase += 1;
-			}
-		}else if (phase == 5) {
-			if (sub_phase == 1) {
-				sub_phase += validate_phase_5();
-			}
-			else if (sub_phase == 2) {
-				sub_phase = 1;
-				phase += 1;
-			}
-		}else if (phase == 6) {
-			if (sub_phase == 1) {
-				sub_phase += validate_phase_6();
-			}
-			else if (sub_phase == 2) {
-				sub_phase = 1;
-				phase += 1;
-				GotoGameState(GAME_STATE_OVER);
-			}
-		}
-	}
-	if (nChar == VK_RIGHT) {
-		// Do something...
-		character.SetTopLeft(character.Left() + 30, character.Top() + 0);
-	}
-	if (nChar == VK_LEFT) {
-		// Do something...
-		character.SetTopLeft(character.Left() - 30, character.Top() + 0);
-	}
-	if (nChar == VK_UP) {
-		// Do something...
-		character.SetTopLeft(character.Left() + 0, character.Top() - 30);
-	}
-	if (nChar == VK_DOWN) {
-		// Do something...
-		character.SetTopLeft(character.Left() + 0, character.Top() + 30);
-	}
-
+	
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
+	
 }
 
-void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // ³B²z·Æ¹«ªº°Ê§@
+void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // è™•ç†æ»‘é¼ çš„å‹•ä½œ
 {
 }
 
-void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// ³B²z·Æ¹«ªº°Ê§@
+void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// è™•ç†æ»‘é¼ çš„å‹•ä½œ
 {
-
 }
 
-void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// ³B²z·Æ¹«ªº°Ê§@
+void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// è™•ç†æ»‘é¼ çš„å‹•ä½œ
 {
 	pointx = point.x;
 	pointy = point.y;
 }
 
-void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // ³B²z·Æ¹«ªº°Ê§@
+void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // è™•ç†æ»‘é¼ çš„å‹•ä½œ
 {
 }
 
-void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// ³B²z·Æ¹«ªº°Ê§@
+void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// è™•ç†æ»‘é¼ çš„å‹•ä½œ
 {
 }
 
 void CGameStateRun::OnShow()
 {
-	show_image_by_phase();
-	show_text_by_phase();
-}
-
-void CGameStateRun::show_image_by_phase() {
-	if (flag == 0) {
-		fight_background.ShowBitmap();
+	fight_background.ShowBitmap();
+	
+	if (BG1_flag1 == 2) {
+		if (zombie_change_flag == 0) {
+			zombie[0].ShowBitmap();
+		}
+		else if (zombie_change_flag == 1) {
+			zombie[1].SetTopLeft(sunflower.GetLeft(), sunflower.GetTop()-10);
+			zombie[1].ShowBitmap();
+		}
+		
+		sunflower.ShowBitmap();
 	}
-	if (phase <= 6 && flag==1) {
-		background.SelectShowBitmap((phase - 1) * 2 + (sub_phase - 1));
-		background.ShowBitmap();
-		character.ShowBitmap();
-		if (phase == 3 && sub_phase == 1) {
-			chest_and_key.ShowBitmap();
-		}
-		if (phase == 4 && sub_phase == 1) {
-			bee.ShowBitmap();
-		}
-		if (phase == 5 && sub_phase == 1) {
-			for (int i = 0; i < 3; i++) {
-				door[i].ShowBitmap();
-			}
-		}
-		if (phase == 6 && sub_phase == 1) {
-			ball.ShowBitmap();
-		}
-	}
+	draw_text();
 }
-
-void CGameStateRun::show_text_by_phase() {
+//-------------------------------------------------------------------------------------------
+void CGameStateRun::load_zombie_move() {
+	zombie[0].LoadBitmapByString({ "Plants_vs_Zombies_Image/zombie/zombie_move/zom_0.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_1.bmp" ,
+		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_2.bmp" ,
+		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_3.bmp" ,
+		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_4.bmp" ,
+		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_5.bmp" ,
+		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_6.bmp" ,
+		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_7.bmp" ,
+		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_8.bmp" ,
+		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_9.bmp" ,
+		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_10.bmp" ,
+		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_11.bmp" ,
+		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_12.bmp" ,
+		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_13.bmp" ,
+		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_14.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_15.bmp" ,
+		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_16.bmp" ,
+		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_17.bmp" ,
+		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_18.bmp" ,
+		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_19.bmp" ,
+		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_20.bmp" ,
+		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_21.bmp" 
+		}, RGB(255, 255, 255));
+	zombie[0].SetTopLeft(950, 250);
+	zombie[0].SetAnimation(120, false);
+	zombie[0].ToggleAnimation();
+}
+void CGameStateRun::load_zombie_eat() {
+	zombie[1].LoadBitmapByString({ "Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_0.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_1.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_2.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_3.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_4.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_5.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_6.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_7.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_8.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_9.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_10.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_11.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_12.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_13.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_14.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_15.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_16.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_17.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_18.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_19.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_20.bmp",
+		}, RGB(255, 255, 255));
+	zombie[1].SetTopLeft(0, 0);
+	zombie[1].SetAnimation(120, false);
+	zombie[1].ToggleAnimation();
+}
+void CGameStateRun::load_sunflower() {
+	sunflower.LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_0.bmp",
+		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_1.bmp",
+		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_2.bmp",
+		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_3.bmp",
+		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_4.bmp",
+		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_5.bmp",
+		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_6.bmp",
+		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_7.bmp",
+		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_8.bmp",
+		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_9.bmp",
+		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_10.bmp",
+		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_11.bmp",
+		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_12.bmp",
+		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_13.bmp",
+		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_14.bmp",
+		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_15.bmp",
+		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_16.bmp",
+		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_17.bmp",
+		}, RGB(255, 255, 255));
+	sunflower.SetTopLeft(283, 275);
+	sunflower.SetAnimation(100, false);
+	sunflower.ToggleAnimation();
+}
+void CGameStateRun::draw_text() {
 	CDC *pDC = CDDraw::GetBackCDC();
-	CFont* fp;
+	/* Print title */
 
-	CTextDraw::ChangeFontLog(pDC, fp, 21, "·L³n¥¿¶ÂÅé", RGB(0, 0, 0), 800);
-
-	if (phase == 1 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 237, 128, "­×§ï§Aªº¥D¨¤¡I");
-		CTextDraw::Print(pDC, 55, 163, "±N¦Ç¦â¤è®æ´«¦¨ resources ¤ºªº giraffe.bmp ¹Ï¼Ë¡I");
-		CTextDraw::Print(pDC, 373, 537, "«ö¤U Enter Áä¨ÓÅçÃÒ");
-		CTextDraw::Print(pDC, 0, 0, std::to_string(pointx));
-		CTextDraw::Print(pDC, 50, 0, std::to_string(pointy));
-
-	} else if (phase == 2 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 26, 128, "¤U¤@­Ó¶¥¬q¡AÅıªøÀV³À¯à°÷³z¹L¤W¤U¥ª¥k²¾°Ê¨ì³o­Ó¦ì¸m¡I");
-		CTextDraw::Print(pDC, 373, 537, "«ö¤U Enter Áä¨ÓÅçÃÒ");
-	} else if (phase == 3 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 205, 128, "À°§A·Ç³Æ¤F¤@­ÓÄ_½c");
-		CTextDraw::Print(pDC, 68, 162, "³]­pµ{¦¡ÅıªøÀV³ÀºN¨ìÄ_½c«á¡A±NÄ_½c®ø¥¢¡I");
-		CTextDraw::Print(pDC, 68, 196, "°O±oÄ_½c­n¥h­I¡A¨Ï¥Î RGB(255, 255, 255)");
-		CTextDraw::Print(pDC, 373, 537, "«ö¤U Enter Áä¨ÓÅçÃÒ");
-	} else if (phase == 4 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 173, 128, "À°§A·Ç³Æ¤F¤@­Ó»e¸Á¦nªB¤Í");
-		CTextDraw::Print(pDC, 89, 162, "¤w¸gÀ°¥¦°µ¤F¨â´Vªº°Êµe¡AÅı¥¦¥i¥H¤W¤U²¾°Ê");
-		CTextDraw::Print(pDC, 110, 196, "¼g­Óµ{¦¡¨ÓÅı§Aªº»e¸Á¦nªB¤Í¾Ö¦³°Êµe¡I");
-		CTextDraw::Print(pDC, 373, 537, "«ö¤U Enter Áä¨ÓÅçÃÒ");
-	} else if (phase == 5 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 173, 128, "À°§A·Ç³Æ¤F¤T®°ªù");
-		CTextDraw::Print(pDC, 89, 162, "³]­pµ{¦¡ÅıªøÀV³ÀºN¨ìªù¤§«á¡Aªù·|¥´¶}");
-		CTextDraw::Print(pDC, 373, 537, "«ö¤U Enter Áä¨ÓÅçÃÒ");
-	} else if (phase == 6 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 173, 128, "À°§A·Ç³Æ¤F¤@Áû·|­Ë¼Æªº²y");
-		CTextDraw::Print(pDC, 89, 162, "³]­pµ{¦¡Åı²y­Ë¼Æ¡AµM«áÅã¥Ü OK «á°±¤î°Êµe");
-		CTextDraw::Print(pDC, 373, 537, "«ö¤U Enter Áä¨ÓÅçÃÒ");
-	} else if (sub_phase == 2) {
-		CTextDraw::Print(pDC, 268, 128, "§¹¦¨¡I");
-	}
+	CTextDraw::ChangeFontLog(pDC, 24, "å¾®è»Ÿæ­£é»‘é«”", RGB(255, 255, 255));
+	CTextDraw::Print(pDC, 0, 0, std::to_string(pointx));
+	CTextDraw::Print(pDC, 50, 0, std::to_string(pointy));
 
 	CDDraw::ReleaseBackCDC();
-}
-
-bool CGameStateRun::validate_phase_1() {
-	return character.GetImageFilename() == "resources/giraffe.bmp";
-}
-
-bool CGameStateRun::validate_phase_2() {
-	return character.Top() > 204 && character.Top() < 325 && character.Left() > 339 && character.Left() < 459;
-}
-
-bool CGameStateRun::validate_phase_3() {
-	return (
-		character.Top() + character.Height() >= chest_and_key.Top()
-		&& character.Left() + character.Width() >= chest_and_key.Left()
-		&& chest_and_key.GetSelectShowBitmap() == 1
-		&& chest_and_key.GetFilterColor() == RGB(255, 255, 255)
-	);
-}
-
-bool CGameStateRun::validate_phase_4() {
-	return bee.IsAnimation() && bee.GetMovingBitmapFrame() == 2;
-}
-
-bool CGameStateRun::validate_phase_5() {
-	bool check_all_door_is_open = true;
-	for (int i = 0; i < 3; i++) {
-		check_all_door_is_open &= (door[i].GetSelectShowBitmap() == 1);
-	}
-	return check_all_door_is_open;
-}
-
-bool CGameStateRun::validate_phase_6() {
-	return ball.IsAnimationDone() && !ball.IsAnimation();
 }

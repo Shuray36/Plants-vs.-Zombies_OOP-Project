@@ -10,35 +10,36 @@
 
 using namespace game_framework;
 /////////////////////////////////////////////////////////////////////////////
-// ³o­Óclass¬°¹CÀ¸ªº¹CÀ¸¶}ÀYµe­±ª«¥ó
+// é€™å€‹classç‚ºéŠæˆ²çš„éŠæˆ²é–‹é ­ç•«é¢ç‰©ä»¶
 /////////////////////////////////////////////////////////////////////////////
 
 CGameStateInit::CGameStateInit(CGame *g) : CGameState(g)
 {
-	
 }
 
 void CGameStateInit::OnInit()
 {
 	//
-	// ·í¹Ï«Ü¦h®É¡AOnInit¸ü¤J©Ò¦³ªº¹Ï­nªá«Ü¦h®É¶¡¡C¬°Á×§Kª±¹CÀ¸ªº¤H
-	//     µ¥ªº¤£­@·Ð¡A¹CÀ¸·|¥X²{¡uLoading ...¡v¡AÅã¥ÜLoadingªº¶i«×¡C
+	// ç•¶åœ–å¾ˆå¤šæ™‚ï¼ŒOnInitè¼‰å…¥æ‰€æœ‰çš„åœ–è¦èŠ±å¾ˆå¤šæ™‚é–“ã€‚ç‚ºé¿å…çŽ©éŠæˆ²çš„äºº
+	//     ç­‰çš„ä¸è€ç…©ï¼ŒéŠæˆ²æœƒå‡ºç¾ã€ŒLoading ...ã€ï¼Œé¡¯ç¤ºLoadingçš„é€²åº¦ã€‚
 	//
-	ShowInitProgress(0, "Start Initialize...");	// ¤@¶}©lªºloading¶i«×¬°0%
+	ShowInitProgress(0, "Start Initialize...");	// ä¸€é–‹å§‹çš„loadingé€²åº¦ç‚º0%
 	Sleep(200);
-
+	//
+	// é–‹å§‹è¼‰å…¥è³‡æ–™
+	//
 	load_background();
 
 	ShowInitProgress(66, "Initialize...");
 	Sleep(200);
+	//Sleep(1000);				// æ”¾æ…¢ï¼Œä»¥ä¾¿çœ‹æ¸…æ¥šé€²åº¦ï¼Œå¯¦éš›éŠæˆ²è«‹åˆªé™¤æ­¤Sleep
 	//
-	// ¦¹OnInit°Ê§@·|±µ¨ìCGameStaterRun::OnInit()¡A©Ò¥H¶i«×ÁÙ¨S¨ì100%
+	// æ­¤OnInitå‹•ä½œæœƒæŽ¥åˆ°CGameStaterRun::OnInit()ï¼Œæ‰€ä»¥é€²åº¦é‚„æ²’åˆ°100%
 	//
 }
 
 void CGameStateInit::OnBeginState()
 {
-	
 }
 
 void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -48,20 +49,18 @@ void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 {
-}
-
-void CGameStateInit::OnLButtonUp(UINT nFlags, CPoint point)
-{
 	if (pointx >= 476 && pointx <= 797 && pointy >= 80 && pointy <= 188) {
 		GotoGameState(GAME_STATE_RUN);
 	}
 }
 
-void CGameStateInit::OnMouseMove(UINT nFlags, CPoint point) {
+void CGameStateInit::OnMouseMove(UINT nFlags, CPoint point)
+{
 	pointx = point.x;
-	pointy = point.y; //620 134
-	
+	pointy = point.y;
 }
+
+
 void CGameStateInit::OnShow()
 {
 	background.ShowBitmap();
@@ -70,36 +69,28 @@ void CGameStateInit::OnShow()
 }
 
 void CGameStateInit::load_background() {
-	background.LoadBitmapByString({ "´Óª«¤j¾ÔíL«Í ¯À§÷/³õ´º¹Ï/Surface.bmp" });
+	background.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/Surface.bmp" });
 	background.SetTopLeft(0, 0);
 
-	start_button_1.LoadBitmapByString({ "´Óª«¤j¾ÔíL«Í ¯À§÷/³õ´º¹Ï/SelectorScreenStartAdventure_1.bmp","´Óª«¤j¾ÔíL«Í ¯À§÷/³õ´º¹Ï/SelectorScreenStartAdventure_2.bmp" }, RGB(255, 255, 255));
+	start_button_1.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/SelectorScreenStartAdventure_1.bmp","Plants_vs_Zombies_Image/Scenes/SelectorScreenStartAdventure_2.bmp" }, RGB(255, 255, 255));
 	start_button_1.SetTopLeft(475, 75);
-
 }
 
 void CGameStateInit::draw_text() {
 	CDC *pDC = CDDraw::GetBackCDC();
-	CFont* fp;
-
 	/* Print title */
-	CTextDraw::ChangeFontLog(pDC, fp, 24,"·L³n¥¿¶ÂÅé", RGB(255, 255, 255));
-	CTextDraw::Print(pDC, 79, 228, "Game Framework Practice");
+
+	CTextDraw::ChangeFontLog(pDC,24, "å¾®è»Ÿæ­£é»‘é«”", RGB(255, 255, 255));
 	CTextDraw::Print(pDC, 0, 0, std::to_string(pointx));
 	CTextDraw::Print(pDC, 50, 0, std::to_string(pointy));
 
-	/* Print info */
-	CTextDraw::ChangeFontLog(pDC, fp, 24, "·L³n¥¿¶ÂÅé", RGB(255, 255, 255));
-	CTextDraw::Print(pDC, 182, 431, "Press any key to start");
-
 	CDDraw::ReleaseBackCDC();
 }
-
-void  CGameStateInit::OnMove(){
+void CGameStateInit::OnMove() {
 	if (pointx >= 476 && pointx <= 797 && pointy >= 80 && pointy <= 188) {
-		start_button_1.SelectShowBitmap(1);
+		start_button_1.SetFrameIndexOfBitmap(1); //SetFrameIndexOfBitmapé¸æ“‡åœ–ç‰‡
 	}
 	else {
-		start_button_1.SelectShowBitmap(0);
+		start_button_1.SetFrameIndexOfBitmap(0);
 	}
 }
