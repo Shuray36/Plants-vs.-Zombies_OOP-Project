@@ -6,7 +6,10 @@
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
 #include "mygame.h"
+//#include "zombie.h"
 #include <string>
+
+
 
 using namespace game_framework;
 
@@ -37,17 +40,23 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	}
 	else if (fight_background.GetLeft() <= (350) && BG1_flag1==1) {
 		time += 1;
-		if (time >= 15) {
+		if (time >= 20) {
 			fight_background.SetTopLeft(fight_background.GetLeft() + 50, 0);
 			if (fight_background.GetLeft() >= (-80)) BG1_flag1 = 2;
 		}
 	}
-	if (BG1_flag1 == 2) {
-		if (CMovingBitmap::IsOverlap(zombie[0], sunflower)) {
+	if (BG1_flag1 == 2) {        //遊戲跑換地圖後正式開始 
+		if (CMovingBitmap::IsOverlap_new(zombie[0], sunflower)) { 
 			zombie[0].SetTopLeft(zombie[0].GetLeft(), zombie[0].GetTop());
 			zombie_change_flag = 1;
 		}
 		else zombie[0].SetTopLeft(zombie[0].GetLeft() - 3, zombie[0].GetTop() + 0);
+
+		sun.SetTopLeft(sun.GetLeft() + 0, sun.GetTop() + 2);
+		if (car_run == 1) { //除草機的細節
+			if(car[2].GetLeft()<=1500)
+			car[2].SetTopLeft(car[2].GetLeft() + 10, car[2].GetTop());
+		}
 	}
 	
 
@@ -61,20 +70,45 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	load_zombie_move();
 	load_zombie_eat();
 	load_sunflower();
+	load_sunback();
+	load_sun();
+	load_car();
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	
+	money += 50;
+	sun_flag = 1;
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	
+	/*
+	if (nChar == VK_DOWN) {
+		car[0].SetTopLeft(car[0].GetLeft() + 0, car[0].GetTop() + 5);
+	}
+	if (nChar == VK_UP) {
+		car[0].SetTopLeft(car[0].GetLeft() + 0, car[0].GetTop() - 5);
+	}
+	if (nChar == VK_LEFT) {
+		car[0].SetTopLeft(car[0].GetLeft() - 5, car[0].GetTop() + 0);
+	}
+	if (nChar == VK_RIGHT) {
+		car[0].SetTopLeft(car[0].GetLeft() + 5, car[0].GetTop() + 0);
+	}
+	*/
+	if (nChar == VK_DOWN) {
+		car_run = 1;
+	}
 }
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 {
+	
+	if(pointx >=sun.GetLeft()-50 && pointx <= sun.GetLeft() + 50 && pointy >= sun.GetTop() - 50 && pointy <= sun.GetTop() + 50){
+		money += 50;
+		sun_flag = 1;
+	}
 }
 
 void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
@@ -104,13 +138,21 @@ void CGameStateRun::OnShow()
 			zombie[0].ShowBitmap();
 		}
 		else if (zombie_change_flag == 1) {
-			zombie[1].SetTopLeft(sunflower.GetLeft(), sunflower.GetTop()-10);
+			zombie[1].SetTopLeft(sunflower.GetLeft()-20, sunflower.GetTop()-50);
 			zombie[1].ShowBitmap();
 		}
 		
 		sunflower.ShowBitmap();
+		if(sun_flag==0) sun.ShowBitmap();
+		car[0].ShowBitmap();
+		car[1].ShowBitmap();
+		car[2].ShowBitmap();
+		car[3].ShowBitmap();
+		car[4].ShowBitmap();
 	}
+	sunback.ShowBitmap();
 	draw_text();
+	
 }
 //-------------------------------------------------------------------------------------------
 void CGameStateRun::load_zombie_move() {
@@ -137,7 +179,7 @@ void CGameStateRun::load_zombie_move() {
 		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_20.bmp" ,
 		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_21.bmp" 
 		}, RGB(255, 255, 255));
-	zombie[0].SetTopLeft(950, 250);
+	zombie[0].SetTopLeft(950, 240);
 	zombie[0].SetAnimation(120, false);
 	zombie[0].ToggleAnimation();
 }
@@ -168,6 +210,7 @@ void CGameStateRun::load_zombie_eat() {
 	zombie[1].SetAnimation(120, false);
 	zombie[1].ToggleAnimation();
 }
+
 void CGameStateRun::load_sunflower() {
 	sunflower.LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_0.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_1.bmp",
@@ -188,17 +231,66 @@ void CGameStateRun::load_sunflower() {
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_16.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_17.bmp",
 		}, RGB(255, 255, 255));
-	sunflower.SetTopLeft(283, 275);
+	sunflower.SetTopLeft(283, 285);
 	sunflower.SetAnimation(100, false);
 	sunflower.ToggleAnimation();
 }
+
+void CGameStateRun::load_sunback() {
+	sunback.LoadBitmapByString({ "Plants_vs_Zombies_Image/SunBack.bmp", }, RGB(255, 255, 255));
+	sunback.SetTopLeft(115, 0);
+
+}
+void CGameStateRun::load_sun() {
+	sun.LoadBitmapByString({"Plants_vs_Zombies_Image/sun/sun_0.bmp",
+		"Plants_vs_Zombies_Image/sun/sun_1.bmp", 
+		"Plants_vs_Zombies_Image/sun/sun_2.bmp", 
+		"Plants_vs_Zombies_Image/sun/sun_3.bmp", 
+		"Plants_vs_Zombies_Image/sun/sun_4.bmp", 
+		"Plants_vs_Zombies_Image/sun/sun_5.bmp", 
+		"Plants_vs_Zombies_Image/sun/sun_6.bmp", 
+		"Plants_vs_Zombies_Image/sun/sun_7.bmp", 
+		"Plants_vs_Zombies_Image/sun/sun_8.bmp", 
+		"Plants_vs_Zombies_Image/sun/sun_9.bmp",
+		"Plants_vs_Zombies_Image/sun/sun_10.bmp",
+		"Plants_vs_Zombies_Image/sun/sun_11.bmp",
+		"Plants_vs_Zombies_Image/sun/sun_12.bmp",
+		"Plants_vs_Zombies_Image/sun/sun_13.bmp",
+		"Plants_vs_Zombies_Image/sun/sun_14.bmp",
+		"Plants_vs_Zombies_Image/sun/sun_15.bmp",
+		"Plants_vs_Zombies_Image/sun/sun_16.bmp",
+		"Plants_vs_Zombies_Image/sun/sun_17.bmp",
+		"Plants_vs_Zombies_Image/sun/sun_18.bmp", 
+		"Plants_vs_Zombies_Image/sun/sun_19.bmp", 
+		"Plants_vs_Zombies_Image/sun/sun_20.bmp", 
+		"Plants_vs_Zombies_Image/sun/sun_21.bmp", }, RGB(255, 255, 255));
+	sun.SetTopLeft(500, 0);
+	sun.SetAnimation(100, false);
+	sun.ToggleAnimation();
+}
+void CGameStateRun::load_car() {
+	car[0].LoadBitmapByString({ "Plants_vs_Zombies_Image/car/car.bmp" }, RGB(255, 255, 255));
+	car[0].SetTopLeft(140, 125);
+	car[1].LoadBitmapByString({ "Plants_vs_Zombies_Image/car/car.bmp" }, RGB(255, 255, 255));
+	car[1].SetTopLeft(140, 220);
+	car[2].LoadBitmapByString({ "Plants_vs_Zombies_Image/car/car.bmp" }, RGB(255, 255, 255));
+	car[2].SetTopLeft(140, 315);
+	car[3].LoadBitmapByString({ "Plants_vs_Zombies_Image/car/car.bmp" }, RGB(255, 255, 255));
+	car[3].SetTopLeft(140, 405);
+	car[4].LoadBitmapByString({ "Plants_vs_Zombies_Image/car/car.bmp" }, RGB(255, 255, 255));
+	car[4].SetTopLeft(140, 500);
+}
 void CGameStateRun::draw_text() {
 	CDC *pDC = CDDraw::GetBackCDC();
+	//CDC *number = CDDraw::GetBackCDC();
 	/* Print title */
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(255, 255, 255));
 	CTextDraw::Print(pDC, 0, 0, std::to_string(pointx));
 	CTextDraw::Print(pDC, 50, 0, std::to_string(pointy));
+
+	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
+	CTextDraw::Print(pDC, 157, 5, std::to_string(money));
 
 	CDDraw::ReleaseBackCDC();
 }

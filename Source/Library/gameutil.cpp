@@ -380,6 +380,9 @@ namespace game_framework {
 		BOOL isOverlap = rect.IntersectRect(bmp1.locations[bmp1.GetFrameIndexOfBitmap()], bmp2.locations[bmp2.GetFrameIndexOfBitmap()]);
 		return isOverlap;
 	}
+	bool CMovingBitmap::IsOverlap_new(CMovingBitmap bmp1, CMovingBitmap bmp2) {
+		return bmp1.GetLeft() >= bmp2.GetLeft() - 50 && bmp1.GetLeft() <= bmp2.GetLeft() + 50 && bmp1.GetTop() >= bmp2.GetTop() - 50 && bmp1.GetTop() <= bmp2.GetTop() + 50;
+	}
 
 	/////////////////////////////////////////////////////////////////////////////
 	// CTextDraw: The class provide the ability to draw the text.
