@@ -37,7 +37,7 @@
  *      2. Replace the demonstration of animation as a new bouncing ball.
  *      3. Use ShowInitProgress(percent) to display loading progress.
 */
-
+#include "zombie.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -100,6 +100,7 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 		void draw_text();
 	private:
+		Zombie test;
 		int pointx = 0;
 		int pointy = 0;
 		int money = 0;
@@ -115,7 +116,8 @@ namespace game_framework {
 		//-------------------------------------------------------------------
 
 		//太陽花-------------------------------------------------------------
-		CMovingBitmap sunflower;
+		CMovingBitmap sunflower[3];
+		bool sunflower_click_show = false;
 		void load_sunflower();//太陽花圖片載入
 		//-------------------------------------------------------------------
 		
@@ -135,6 +137,10 @@ namespace game_framework {
 		int car_run = 0;
 		void load_car();
 		//-------------------------------------------------------------------
+		CMovingBitmap sunflower_card;
+		void load_sunflower_card();
+		//
+		
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

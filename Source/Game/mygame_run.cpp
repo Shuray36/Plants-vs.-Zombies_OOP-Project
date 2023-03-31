@@ -6,7 +6,7 @@
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
 #include "mygame.h"
-//#include "zombie.h"
+#include "zombie.h"
 #include <string>
 
 
@@ -16,6 +16,8 @@ using namespace game_framework;
 /////////////////////////////////////////////////////////////////////////////
 // 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
 /////////////////////////////////////////////////////////////////////////////
+
+
 
 CGameStateRun::CGameStateRun(CGame *g) : CGameState(g)
 {
@@ -46,7 +48,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 	}
 	if (BG1_flag1 == 2) {        //遊戲跑換地圖後正式開始 
-		if (CMovingBitmap::IsOverlap_new(zombie[0], sunflower)) { 
+		if (CMovingBitmap::IsOverlap_new(zombie[0], sunflower[0])) { 
 			zombie[0].SetTopLeft(zombie[0].GetLeft(), zombie[0].GetTop());
 			zombie_change_flag = 1;
 		}
@@ -66,13 +68,14 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 {
 	fight_background.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/BG1.bmp" });
 	fight_background.SetTopLeft(0, 0);
-	
+	test.init();
 	load_zombie_move();
 	load_zombie_eat();
 	load_sunflower();
 	load_sunback();
 	load_sun();
 	load_car();
+	load_sunflower_card();
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -105,9 +108,14 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 {
 	
-	if(pointx >=sun.GetLeft()-50 && pointx <= sun.GetLeft() + 50 && pointy >= sun.GetTop() - 50 && pointy <= sun.GetTop() + 50){
-		money += 50;
+	if(CMovingBitmap::IsMouseClick(pointx,pointy,sun)){
+		money += 150;
 		sun_flag = 1;
+	}
+	if (CMovingBitmap::IsMouseClick(pointx, pointy, sunflower_card)&&money>=50){
+		sunflower_click_show = true;
+		
+		money -= 50;
 	}
 }
 
@@ -119,6 +127,8 @@ void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動
 {
 	pointx = point.x;
 	pointy = point.y;
+	if(sunflower_click_show) sunflower[1].SetTopLeft(pointx - 32, pointy - 25);
+	
 }
 
 void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
@@ -138,11 +148,12 @@ void CGameStateRun::OnShow()
 			zombie[0].ShowBitmap();
 		}
 		else if (zombie_change_flag == 1) {
-			zombie[1].SetTopLeft(sunflower.GetLeft()-20, sunflower.GetTop()-50);
+			zombie[1].SetTopLeft(sunflower[0].GetLeft()-20, sunflower[0].GetTop()-50);
 			zombie[1].ShowBitmap();
 		}
 		
-		sunflower.ShowBitmap();
+		sunflower[0].ShowBitmap();
+		if(sunflower_click_show) sunflower[1].ShowBitmap();
 		if(sun_flag==0) sun.ShowBitmap();
 		car[0].ShowBitmap();
 		car[1].ShowBitmap();
@@ -151,6 +162,8 @@ void CGameStateRun::OnShow()
 		car[4].ShowBitmap();
 	}
 	sunback.ShowBitmap();
+	sunflower_card.ShowBitmap();
+	test.show();
 	draw_text();
 	
 }
@@ -212,7 +225,8 @@ void CGameStateRun::load_zombie_eat() {
 }
 
 void CGameStateRun::load_sunflower() {
-	sunflower.LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_0.bmp",
+	for (int i = 0; i < 3; i++) {
+		sunflower[i].LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_0.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_1.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_2.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_3.bmp",
@@ -230,16 +244,27 @@ void CGameStateRun::load_sunflower() {
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_15.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_16.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_17.bmp",
-		}, RGB(255, 255, 255));
-	sunflower.SetTopLeft(283, 285);
-	sunflower.SetAnimation(100, false);
-	sunflower.ToggleAnimation();
+		}, RGB(255, 255, 255));//315 310
+
+		
+	}
+	sunflower[0].SetTopLeft(283, 285);
+	sunflower[0].SetAnimation(100, false);
+	sunflower[0].ToggleAnimation();
+
+	sunflower[1].SetTopLeft(283, 185);
+	sunflower[1].SetAnimation(100, false);
+	sunflower[1].ToggleAnimation();
 }
 
 void CGameStateRun::load_sunback() {
 	sunback.LoadBitmapByString({ "Plants_vs_Zombies_Image/SunBack.bmp", }, RGB(255, 255, 255));
 	sunback.SetTopLeft(115, 0);
 
+}
+void CGameStateRun::load_sunflower_card() {
+	sunflower_card.LoadBitmapByString({ "Plants_vs_Zombies_Image/card/sunflower_card/sunflower_card.bmp" }, RGB(255, 255, 255));
+	sunflower_card.SetTopLeft(240, 0);
 }
 void CGameStateRun::load_sun() {
 	sun.LoadBitmapByString({"Plants_vs_Zombies_Image/sun/sun_0.bmp",

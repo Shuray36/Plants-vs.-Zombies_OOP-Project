@@ -1,36 +1,23 @@
 #ifndef ZOMBIE_H
 #define ZOMBIE_H
 
-#include "stdafx.h"
-#include "../Core/Resource.h"
-#include <mmsystem.h>
-#include <ddraw.h>
-#include "../Library/audio.h"
-#include "../Library/gameutil.h"
-#include "../Library/gamecore.h"
-#include "mygame.h"
 #include <string>
 
+using namespace game_framework;
 
-
-
-
-namespace game_framework {
 class Zombie {
 private:
 	int hp;
 	int atk;
 	int state;
 	double speed;
-	CMovingBitmap a;
+	game_framework::CMovingBitmap a;
 public:
-	Zombie() {
-
-	}
+	Zombie() {}
 	~Zombie() = default;
-	
+	void show();
+	void init();
 };
-}
 
 #endif // ZOMBIE_H
 
