@@ -29,13 +29,13 @@ void CGameStateRun::OnBeginState()
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {
 	//遊戲剛開始的移動 往右到一定程度後 往回到原本樣式
-	if (fight_background.GetLeft() >= (-350) && BG1_flag1==0){
+	if (fight_background.GetLeft() >= (-350) && BG1_flag1 == 0) {
 		fight_background.SetTopLeft(fight_background.GetLeft() - 50, 0);
 		if (fight_background.GetLeft() <= (-350)) {
 			BG1_flag1 = 1;
 		}
 	}
-	else if (fight_background.GetLeft() <= (350) && BG1_flag1==1) {
+	else if (fight_background.GetLeft() <= (350) && BG1_flag1 == 1) {
 		time += 1;
 		if (time >= 15) {
 			fight_background.SetTopLeft(fight_background.GetLeft() + 50, 0);
@@ -44,13 +44,13 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	}
 	if (BG1_flag1 == 2) {
 		if (CMovingBitmap::IsOverlap(zombie[0], sunflower)) {
+			time += 1;
 			zombie[0].SetTopLeft(zombie[0].GetLeft(), zombie[0].GetTop());
 			zombie_change_flag = 1;
+			if (time >= 60) zombie_change_flag = 2;
 		}
 		else zombie[0].SetTopLeft(zombie[0].GetLeft() - 3, zombie[0].GetTop() + 0);
 	}
-	
-
 }
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -60,7 +60,11 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	
 	load_zombie_move();
 	load_zombie_eat();
+	load_zombie_headfall();
+	load_zombie_die();
 	load_sunflower();
+	load_bean();
+	load_beanbullet();
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -102,13 +106,19 @@ void CGameStateRun::OnShow()
 	if (BG1_flag1 == 2) {
 		if (zombie_change_flag == 0) {
 			zombie[0].ShowBitmap();
+			beanbullet.ShowBitmap();
 		}
 		else if (zombie_change_flag == 1) {
 			zombie[1].SetTopLeft(sunflower.GetLeft(), sunflower.GetTop()-10);
 			zombie[1].ShowBitmap();
 		}
+		else if (zombie_change_flag == 2) {
+			zombie[2].ShowBitmap();
+			zombie[3].ShowBitmap();
+		}
 		
 		sunflower.ShowBitmap();
+		bean.ShowBitmap();
 	}
 	draw_text();
 }
@@ -135,7 +145,7 @@ void CGameStateRun::load_zombie_move() {
 		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_18.bmp" ,
 		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_19.bmp" ,
 		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_20.bmp" ,
-		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_21.bmp" 
+		"Plants_vs_Zombies_Image/zombie/zombie_move/zom_21.bmp" ,
 		}, RGB(255, 255, 255));
 	zombie[0].SetTopLeft(950, 250);
 	zombie[0].SetAnimation(120, false);
@@ -164,9 +174,43 @@ void CGameStateRun::load_zombie_eat() {
 		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_19.bmp",
 		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_20.bmp",
 		}, RGB(255, 255, 255));
-	zombie[1].SetTopLeft(0, 0);
+	zombie[1].SetTopLeft(40, 40);
 	zombie[1].SetAnimation(120, false);
 	zombie[1].ToggleAnimation();
+}
+void CGameStateRun::load_zombie_headfall() {
+	zombie[2].LoadBitmapByString({ "Plants_vs_Zombies_Image/zombie/headfall/headfall_0.bmp",
+		"Plants_vs_Zombies_Image/zombie/headfall/headfall_1.bmp",
+		"Plants_vs_Zombies_Image/zombie/headfall/headfall_2.bmp",
+		"Plants_vs_Zombies_Image/zombie/headfall/headfall_3.bmp",
+		"Plants_vs_Zombies_Image/zombie/headfall/headfall_4.bmp",
+		"Plants_vs_Zombies_Image/zombie/headfall/headfall_5.bmp",
+		"Plants_vs_Zombies_Image/zombie/headfall/headfall_6.bmp",
+		"Plants_vs_Zombies_Image/zombie/headfall/headfall_7.bmp",
+		"Plants_vs_Zombies_Image/zombie/headfall/headfall_8.bmp",
+		"Plants_vs_Zombies_Image/zombie/headfall/headfall_9.bmp",
+		"Plants_vs_Zombies_Image/zombie/headfall/headfall_10.bmp",
+		"Plants_vs_Zombies_Image/zombie/headfall/headfall_11.bmp",
+		}, RGB(255, 255, 255));
+	zombie[2].SetTopLeft(359, 277);
+	zombie[2].SetAnimation(120, true);
+	zombie[2].ToggleAnimation();
+}
+void CGameStateRun::load_zombie_die() {
+	zombie[3].LoadBitmapByString({ "Plants_vs_Zombies_Image/zombie/die/falldown_0.bmp",
+		"Plants_vs_Zombies_Image/zombie/die/falldown_1.bmp",
+		"Plants_vs_Zombies_Image/zombie/die/falldown_2.bmp",
+		"Plants_vs_Zombies_Image/zombie/die/falldown_3.bmp",
+		"Plants_vs_Zombies_Image/zombie/die/falldown_4.bmp",
+		"Plants_vs_Zombies_Image/zombie/die/falldown_5.bmp",
+		"Plants_vs_Zombies_Image/zombie/die/falldown_6.bmp",
+		"Plants_vs_Zombies_Image/zombie/die/falldown_7.bmp",
+		"Plants_vs_Zombies_Image/zombie/die/falldown_8.bmp",
+		"Plants_vs_Zombies_Image/zombie/die/falldown_9.bmp",
+		}, RGB(255, 255, 255));
+	zombie[3].SetTopLeft(359, 277);
+	zombie[3].SetAnimation(120, true);
+	zombie[3].ToggleAnimation();
 }
 void CGameStateRun::load_sunflower() {
 	sunflower.LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_0.bmp",
@@ -191,6 +235,39 @@ void CGameStateRun::load_sunflower() {
 	sunflower.SetTopLeft(283, 275);
 	sunflower.SetAnimation(100, false);
 	sunflower.ToggleAnimation();
+}
+void CGameStateRun::load_bean() {
+	bean.LoadBitmapByString({ "Plants_vs_Zombies_Image/planet/bean/bean_0.bmp",
+		"Plants_vs_Zombies_Image/planet/bean/bean_1.bmp",
+		"Plants_vs_Zombies_Image/planet/bean/bean_2.bmp",
+		"Plants_vs_Zombies_Image/planet/bean/bean_3.bmp",
+		"Plants_vs_Zombies_Image/planet/bean/bean_4.bmp",
+		"Plants_vs_Zombies_Image/planet/bean/bean_5.bmp",
+		"Plants_vs_Zombies_Image/planet/bean/bean_6.bmp",
+		"Plants_vs_Zombies_Image/planet/bean/bean_7.bmp",
+		"Plants_vs_Zombies_Image/planet/bean/bean_8.bmp",
+		"Plants_vs_Zombies_Image/planet/bean/bean_9.bmp",
+		"Plants_vs_Zombies_Image/planet/bean/bean_10.bmp",
+		"Plants_vs_Zombies_Image/planet/bean/bean_11.bmp",
+		}, RGB(255, 255, 255));
+	bean.SetTopLeft(372, 282);
+	bean.SetAnimation(100, false);
+	bean.ToggleAnimation();
+}
+
+void CGameStateRun::load_beanbullet() {
+	beanbullet.LoadBitmapByString({ "Plants_vs_Zombies_Image/planet/bullet/beanbullet_0.bmp",
+		"Plants_vs_Zombies_Image/planet/bullet/beanbullet_1.bmp",
+		"Plants_vs_Zombies_Image/planet/bullet/beanbullet_2.bmp",
+		"Plants_vs_Zombies_Image/planet/bullet/beanbullet_3.bmp",
+		"Plants_vs_Zombies_Image/planet/bullet/beanbullet_4.bmp",
+		"Plants_vs_Zombies_Image/planet/bullet/beanbullet_5.bmp",
+		"Plants_vs_Zombies_Image/planet/bullet/beanbullet_6.bmp",
+		"Plants_vs_Zombies_Image/planet/bullet/beanbullet_7.bmp",
+		}, RGB(255, 255, 255));
+	beanbullet.SetTopLeft(400, 288);
+	beanbullet.SetAnimation(50, false);
+	beanbullet.ToggleAnimation();
 }
 void CGameStateRun::draw_text() {
 	CDC *pDC = CDDraw::GetBackCDC();

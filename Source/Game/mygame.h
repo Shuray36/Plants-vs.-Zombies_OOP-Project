@@ -107,15 +107,21 @@ namespace game_framework {
 		int BG1_flag1 = 0;
 		int time = 0;
 		//殭屍---------------------------------------------------------------
-		CMovingBitmap zombie[2];
+		CMovingBitmap zombie[4];
 		int zombie_change_flag = 0;
 		void load_zombie_move();//殭屍移動圖片載入
 		void load_zombie_eat();//殭屍吃圖片載入
+		void load_zombie_headfall();//殭屍掉頭圖片載入
+		void load_zombie_die();//殭屍死掉圖片載入
 		//-------------------------------------------------------------------
 
 		//太陽花-------------------------------------------------------------
 		CMovingBitmap sunflower;
+		CMovingBitmap bean;
+		CMovingBitmap beanbullet;
 		void load_sunflower();//太陽花圖片載入
+		void load_bean();//豆子圖片載入
+		void load_beanbullet();//豆子子彈載入
 		//-------------------------------------------------------------------
 
 
