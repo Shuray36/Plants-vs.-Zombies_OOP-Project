@@ -38,6 +38,7 @@
  *      3. Use ShowInitProgress(percent) to display loading progress.
 */
 #include "zombie.h"
+#include "plant.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -100,11 +101,22 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 		void draw_text();
 	private:
-		Zombie test;
+		Basic_zombie basic_zombie;
+		Sunflower sunflower;
 		int pointx = 0;
 		int pointy = 0;
 		int money = 0;
 		CMovingBitmap fight_background;
+
+		//物件測試
+		int move_right = 0;
+		int move_left = 0;
+		int move_up = 0;
+		int move_down = 0;
+		int test_x = 0;
+		int test_y = 0;
+		//--------
+
 		// BG1的判斷變數
 		int BG1_flag1 = 0;
 		int time = 0;
@@ -116,11 +128,11 @@ namespace game_framework {
 		//-------------------------------------------------------------------
 
 		//太陽花-------------------------------------------------------------
-		CMovingBitmap sunflower[3];
+		//CMovingBitmap sunflower[3];
 		bool sunflower_click_show = false;
 		void load_sunflower();//太陽花圖片載入
 		//-------------------------------------------------------------------
-		
+
 		//太陽記分板-----------------------------------------------------------------
 		CMovingBitmap sunback;
 		void load_sunback();
@@ -128,6 +140,7 @@ namespace game_framework {
 
 		//小太陽-----------------------------------------------------------------
 		int sun_flag = 0;
+		int sun_cooldown = 0;
 		CMovingBitmap sun;
 		void load_sun();
 		//-------------------------------------------------------------------
@@ -140,7 +153,11 @@ namespace game_framework {
 		CMovingBitmap sunflower_card;
 		void load_sunflower_card();
 		//
-		
+		//看位置的物件-------------------------------------------------------
+		CMovingBitmap test;
+		void load_test();
+		//-------------------------------------------------------------------
+
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -159,5 +176,4 @@ namespace game_framework {
 	private:
 		int counter;	// 倒數之計數器
 	};
-
 }

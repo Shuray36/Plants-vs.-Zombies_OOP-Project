@@ -1,32 +1,26 @@
 #ifndef PLANT_H
 #define PLANT_H
 
-#include "stdafx.h"
-#include "../Core/Resource.h"
-#include <mmsystem.h>
-#include <ddraw.h>
-#include "../Library/audio.h"
-#include "../Library/gameutil.h"
-#include "../Library/gamecore.h"
-#include "mygame.h"
-
 #include <string>
 
 class Plant {
-private:
-	int hp;  //血量
-	int state; // 狀態
 protected:
-	int atk; //攻擊力
-	int counter; // 次數
-	int time;  //時間
+	int hp;
+	int atk;
+	int state;
+	double speed;
+	game_framework::CMovingBitmap a;
+	game_framework::CMovingBitmap plant;
 public:
-	Plant() {
-
-	}
+	Plant() {}
 	~Plant() = default;
-	virtual void Skill() {};
-
+	void show();
+	virtual void init();
 };
-
-#endif // PLANT_H
+class Sunflower:public Plant{
+public:
+	Sunflower():Plant(){}
+	void init();
+	void show(); 
+};
+#endif 
