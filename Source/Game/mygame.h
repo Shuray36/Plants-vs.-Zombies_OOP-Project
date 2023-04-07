@@ -103,6 +103,7 @@ namespace game_framework {
 	private:
 		Basic_zombie basic_zombie;
 		Sunflower sunflower;
+		Bean bean_plant;
 		int pointx = 0;
 		int pointy = 0;
 		int money = 0;
@@ -152,11 +153,28 @@ namespace game_framework {
 		//-------------------------------------------------------------------
 		CMovingBitmap sunflower_card;
 		void load_sunflower_card();
+		CMovingBitmap sunflower_gray_card;
+		void load_sunflower_gray_card();
+		int sunflower_flag = 0;
+		int sunflower_show_flag = 0;
 		//
+		//-------------------------------------------------------------------
+		CMovingBitmap peashooter_card;
+		void load_peashooter_card();
+		CMovingBitmap peashooter_gray_card;
+		void load_peashooter_gray_card();
+		int pershooter_flag = 0;
+		int pershooter_show_flag = 0;
+		//
+
+
 		//看位置的物件-------------------------------------------------------
 		CMovingBitmap test;
+		CMovingBitmap test2;
 		void load_test();
 		//-------------------------------------------------------------------
+		int die_flag = 0;
+		int die_time = 0;
 
 	};
 
