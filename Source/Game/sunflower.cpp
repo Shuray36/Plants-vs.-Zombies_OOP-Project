@@ -31,7 +31,7 @@ void Sunflower::init() {
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_16.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_17.bmp",
 		}, RGB(255, 255, 255)); //315 310}, RGB(255, 255, 255);
-	plant.SetTopLeft(283, 285);
+	plant.SetTopLeft(50, 50); //283 285
 	plant.SetAnimation(100, false);
 	plant.ToggleAnimation();
 }

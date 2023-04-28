@@ -71,7 +71,7 @@ namespace game_framework {
 		CMovingBitmap logo;								// csie的logo
 		void load_background();
 		void draw_text();
-		CMovingBitmap background;
+		CMovingBitmap background;   
 		CMovingBitmap start_button_1;
 		CMovingBitmap start_button_2;
 		int pointx = 0;
@@ -101,6 +101,9 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 		void draw_text();
 	private:
+		int seat[9][5];
+		int place_flag = 0;
+		void place_seat(int x,int y);
 		Basic_zombie basic_zombie;
 		Sunflower sunflower;
 		Bean bean_plant;
@@ -175,6 +178,7 @@ namespace game_framework {
 		//-------------------------------------------------------------------
 		int die_flag = 0;
 		int die_time = 0;
+		//地圖 位置左上(200,85) 右上(940,85) 左下(200,570) 右下(940,570)
 
 	};
 
