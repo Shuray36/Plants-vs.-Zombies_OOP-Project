@@ -37,7 +37,8 @@
  *      2. Replace the demonstration of animation as a new bouncing ball.
  *      3. Use ShowInitProgress(percent) to display loading progress.
 */
-
+#include "zombie.h"
+#include "plant.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -70,7 +71,7 @@ namespace game_framework {
 		CMovingBitmap logo;								// csie的logo
 		void load_background();
 		void draw_text();
-		CMovingBitmap background;
+		CMovingBitmap background;   
 		CMovingBitmap start_button_1;
 		CMovingBitmap start_button_2;
 		int pointx = 0;
@@ -100,9 +101,28 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 		void draw_text();
 	private:
+		int seat[9][5];
+		int place_flag = 0;
+		void place_seat(int x,int y);
+		Basic_zombie basic_zombie;
+		Sunflower sunflower;
+		Sunflower testflower[9];
+		int sunflower_index = 0;
+		Bean bean_plant;
 		int pointx = 0;
 		int pointy = 0;
+		int money = 0;
 		CMovingBitmap fight_background;
+
+		//物件測試
+		int move_right = 0;
+		int move_left = 0;
+		int move_up = 0;
+		int move_down = 0;
+		int test_x = 0;
+		int test_y = 0;
+		//--------
+
 		// BG1的判斷變數
 		int BG1_flag1 = 0;
 		int time = 0;
@@ -114,10 +134,54 @@ namespace game_framework {
 		//-------------------------------------------------------------------
 
 		//太陽花-------------------------------------------------------------
-		CMovingBitmap sunflower;
+		CMovingBitmap sunflower_with_mouse;
+		int sunflower_with_mouse_show = 0;
+		bool sunflower_click_show = false;
 		void load_sunflower();//太陽花圖片載入
 		//-------------------------------------------------------------------
 
+		//太陽記分板-----------------------------------------------------------------
+		CMovingBitmap sunback;
+		void load_sunback();
+		//-------------------------------------------------------------------
+
+		//小太陽-----------------------------------------------------------------
+		int sun_flag = 0;
+		int sun_cooldown = 0;
+		CMovingBitmap sun;
+		void load_sun();
+		//-------------------------------------------------------------------
+
+		//車-----------------------------------------------------------------
+		CMovingBitmap car[7];
+		int car_run = 0;
+		void load_car();
+		//-------------------------------------------------------------------
+		CMovingBitmap sunflower_card;
+		void load_sunflower_card();
+		CMovingBitmap sunflower_gray_card;
+		void load_sunflower_gray_card();
+		int sunflower_flag = 0;
+		int sunflower_show_flag = 0;
+		//
+		//-------------------------------------------------------------------
+		CMovingBitmap peashooter_card;
+		void load_peashooter_card();
+		CMovingBitmap peashooter_gray_card;
+		void load_peashooter_gray_card();
+		int pershooter_flag = 0;
+		int pershooter_show_flag = 0;
+		//
+
+
+		//看位置的物件-------------------------------------------------------
+		CMovingBitmap test;
+		CMovingBitmap test2;
+		void load_test();
+		//-------------------------------------------------------------------
+		int die_flag = 0;
+		int die_time = 0;
+		//地圖 位置左上(200,85) 右上(940,85) 左下(200,570) 右下(940,570)
 
 	};
 
@@ -137,5 +201,4 @@ namespace game_framework {
 	private:
 		int counter;	// 倒數之計數器
 	};
-
 }

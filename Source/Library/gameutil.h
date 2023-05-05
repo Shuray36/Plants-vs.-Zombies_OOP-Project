@@ -118,6 +118,8 @@ namespace game_framework {
 		bool  IsBitmapLoaded();
 		bool  IsOnceAnimation();
 		static bool IsOverlap(CMovingBitmap bmp1, CMovingBitmap bmp2);
+		static bool IsOverlap_new(CMovingBitmap bmp1, CMovingBitmap bmp2);
+		static bool IsMouseClick(int x, int y, CMovingBitmap bmp1);
 		
 		/* Toggle function */
 		void  ToggleAnimation();
