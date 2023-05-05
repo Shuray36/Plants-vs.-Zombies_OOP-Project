@@ -98,6 +98,7 @@ int Basic_zombie::GetTop() {
 	return zombie.GetTop();
 }
 
+
 void Basic_zombie::loadstate(int state) {
 	
 }

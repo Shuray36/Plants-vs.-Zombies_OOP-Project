@@ -5,7 +5,6 @@
 
 class Plant {
 protected:
-	int hp;
 	int state;
 	int pb_x = 0;
 	int pb_y = 0;
@@ -20,6 +19,7 @@ public:
 	void show();
 	virtual void init();
 	int atk_speed = 0;
+	int hp = 100;
 };
 class Sunflower:public Plant {
 public:

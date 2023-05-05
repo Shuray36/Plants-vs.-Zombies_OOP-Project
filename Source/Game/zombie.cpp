@@ -39,5 +39,5 @@ void Zombie::init() {
 	zombie.ToggleAnimation();
 }
 void Zombie::SetTopLeft(int x,int y) {
-	zombie.SetTopLeft(zombie.GetLeft() + x, zombie.GetTop() + y);
+	zombie.SetTopLeft( x, y);
 }

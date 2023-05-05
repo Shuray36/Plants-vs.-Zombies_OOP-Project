@@ -35,6 +35,7 @@ public:
 	int GetTop();
 	int state = 0;
 	void loadstate(int state);
+	void attack();
 };
 #endif // ZOMBIE_H
 

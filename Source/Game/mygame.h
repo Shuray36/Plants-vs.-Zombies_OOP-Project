@@ -106,6 +106,8 @@ namespace game_framework {
 		void place_seat(int x,int y);
 		Basic_zombie basic_zombie;
 		Sunflower sunflower;
+		Sunflower testflower[9];
+		int sunflower_index = 0;
 		Bean bean_plant;
 		int pointx = 0;
 		int pointy = 0;
@@ -132,7 +134,8 @@ namespace game_framework {
 		//-------------------------------------------------------------------
 
 		//太陽花-------------------------------------------------------------
-		//CMovingBitmap sunflower[3];
+		CMovingBitmap sunflower_with_mouse;
+		int sunflower_with_mouse_show = 0;
 		bool sunflower_click_show = false;
 		void load_sunflower();//太陽花圖片載入
 		//-------------------------------------------------------------------
