@@ -20,6 +20,7 @@ public:
 	virtual void init();
 	int atk_speed = 0;
 	int hp = 100;
+	int cd = 0;
 
 };
 class Sunflower:public Plant {

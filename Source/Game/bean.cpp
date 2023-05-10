@@ -46,7 +46,7 @@ void Bean::attack(){
 	pb.SetTopLeft(pb.GetLeft() + 3, pb.GetTop());
 	if (pb.GetLeft() >= 950) {
 		pb_flag = 1;
-		atk_speed = 0;
+		cd = 0;
 		reload();
 	}
 }

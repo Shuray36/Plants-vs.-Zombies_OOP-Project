@@ -123,11 +123,13 @@ namespace game_framework {
 		int sunflower_index = 0;
 
 		//射手-----------------------
+		CMovingBitmap bean_plant_with_mouse;
 		Bean bean_plant[20];
 		Bean test_bean[10];
 		int bean_plant_index = 0;
+		int bean_plant_with_mouse_show = 0;
+		void load_bean_plant_with_mouse();
 		//---------------------------
-
 
 		int pointx = 0;
 		int pointy = 0;

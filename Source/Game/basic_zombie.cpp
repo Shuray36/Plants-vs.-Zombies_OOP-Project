@@ -102,6 +102,7 @@ void Basic_zombie::show() {
 		zombie_die.SetTopLeft(zombie.GetLeft(), zombie.GetTop());
 		zombie_die.ShowBitmap();
 		speed = 0;
+		die_flag = 1;
 		if(zombie_die.IsAnimationDone()) state = 2;
 	}
 	else if (state == 2) {

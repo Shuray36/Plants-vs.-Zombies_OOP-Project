@@ -82,7 +82,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 		sun.SetTopLeft(sun.GetLeft() + 0, sun.GetTop() + 2);
 		for (int i = 0; i < 3; i++) {
-			if (car[2].GetLeft() >= basic_zombie[i].GetLeft() - 150 && car[2].GetLeft() <= basic_zombie[i].GetLeft() + 150 && car[2].GetTop() >= basic_zombie[i].GetTop() - 150 && car[2].GetTop() <= basic_zombie[i].GetTop() + 150) {
+			if (car[2].GetLeft() >= basic_zombie[i].GetLeft() - 100 && car[2].GetLeft() <= basic_zombie[i].GetLeft() + 100 && car[2].GetTop() >= basic_zombie[i].GetTop() - 150 && car[2].GetTop() <= basic_zombie[i].GetTop() + 150) {
 				car_run = 1;
 				basic_zombie[i].state = 3;
 			}
@@ -110,6 +110,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 
 	load_zombie_eat();
 	for (int i = 0; i < plant_place_max; i++) sunflower[i].init();
+	load_bean_plant_with_mouse();
 	load_sunflower();
 	load_sunback();
 	load_sun();
@@ -119,11 +120,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	load_peashooter_gray_card();
 	load_peashooter_card();
 	load_test();//查看物件位置 可移動的
-	/*
-	for (int i = 0; i < 9; i++) {
-		testflower[i].init();
-	}
-	*/
+
 	
 }
 
@@ -157,9 +154,9 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 	if (CMovingBitmap::IsMouseClick(pointx, pointy, peashooter_card)&&money>=100) {
 		//money -= 100;
 		pershooter_show_flag = 1;
-		//bean_plant_index += 1;
 		item = 1;
 		place_flag = 1;
+		bean_plant_with_mouse_show = 1;
 
 		
 	}
@@ -187,6 +184,9 @@ void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動
 	pointy = point.y;
 	if (sunflower_with_mouse_show == 1) {
 		sunflower_with_mouse.SetTopLeft(pointx - 32, pointy - 25);
+	}
+	if (bean_plant_with_mouse_show == 1) {
+		bean_plant_with_mouse.SetTopLeft(pointx - 32, pointy - 25);
 	}
 	
 	
@@ -216,13 +216,24 @@ void CGameStateRun::OnShow()
 		else if (sunflower_with_mouse_show == 0) {
 			sunflower_with_mouse.SetTopLeft(999, 999);
 		}
+		if (bean_plant_with_mouse_show == 1) {
+			bean_plant_with_mouse.ShowBitmap();
+		}
+		else if (bean_plant_with_mouse_show == 0) {
+			bean_plant_with_mouse.SetTopLeft(999, 999);
+		}
+		if (place_flag == 0) {
+			bean_plant_with_mouse_show = 0;
+		}
+
+		//物件跟隨滑鼠----------------------------------------------------
 		if (zombie_index < 3) basic_zombie[zombie_index].SetTopLeft(950, 240);
 		
 		for (int i = 0; i < 3; i++) {
 			basic_zombie[i].show();
 		}
 		call_time += 1;
-		if (call_time ==100) {
+		if (call_time ==200) {
 			if (zombie_index < 3) {
 				zombie_index += 1;
 			}
@@ -249,14 +260,34 @@ void CGameStateRun::OnShow()
 			bean_plant[bean_plant_index].show();
 		}
 		else if (pershooter_show_flag == 1) {
-			//test_bean[bean_plant_index].SetTopLeft((bean_plant_index + 50)*bean_plant_index, (bean_plant_index + 50)*bean_plant_index);
-			//test_bean[bean_plant_index].show();
 			//bean_plant[0].SetTopLeft(675, 285); //375 285
 			bean_plant[bean_plant_index].show();
 		}
 		//植物攻擊-----------
+		//bean_plant[0].atk_speed += 1;
+		for (int i = 0; i < 20; i++) bean_plant[i].cd += 1;
+		for (int i = 0; i < 20; i++) {
+			if (bean_plant[i].cd >= 50) {
+				bean_plant[i].pb_flag = 0;
+				bean_plant[i].attack();
+			}
+			for (int j = 0; j < 3; j++) {
+				if (bean_plant[i].PBgetleft() <= basic_zombie[j].GetLeft() + 50 && bean_plant[i].PBgetleft() >= basic_zombie[j].GetLeft() + 45 && bean_plant[i].PBgettop() <= basic_zombie[j].GetTop() + 50 && bean_plant[i].PBgettop() >= basic_zombie[j].GetTop() - 50 && basic_zombie[j].die_flag == 0) {
+					bean_plant[i].leave();
+					bean_plant[i].pb_flag = 1;
+					bean_plant[i].cd = 0;
+					basic_zombie[j].hp -= 10;
+					if (basic_zombie[j].hp <= 0) basic_zombie[j].state = 1;
+					bean_plant[i].reload();
+				}
+			}
+			
+		}
+
+
+		/*
 		bean_plant[0].atk_speed += 1;
-		if (bean_plant[0].atk_speed >= 100) {
+		if (bean_plant[0].atk_speed >= 50) {
 			for (int i = 0; i < 10; i++) {
 				test_bean[i].pb_flag = 0;
 				test_bean[i].attack();
@@ -272,23 +303,35 @@ void CGameStateRun::OnShow()
 			if (basic_zombie[0].hp <= 0) basic_zombie[0].state = 1;
 			bean_plant[0].reload();
 		}
+		*/
+		
 		//-----------------------
 
 		//殭屍攻擊---------------
 
-		if (basic_zombie[0].GetLeft() <= bean_plant[0].GetLeft() + 30 && basic_zombie[0].GetLeft() >= bean_plant[0].GetLeft() + 20 && basic_zombie[0].GetTop() <= bean_plant[0].GetTop() + 50 && basic_zombie[0].GetTop() >= bean_plant[0].GetTop() - 50 && basic_zombie[0].die_flag == 0) {
-			basic_zombie[0].state = 4;
-			zombie_atk_time += 1;
-			if (zombie_atk_time >= 100 && bean_plant[0].hp > 0) {
-				zombie_atk_time = 0;
-				bean_plant[0].hp -= 30;
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 20; j++) {
+				if (basic_zombie[i].GetLeft() <= bean_plant[j].GetLeft() + 30 && basic_zombie[i].GetLeft() >= bean_plant[j].GetLeft() + 20 && basic_zombie[i].GetTop() <= bean_plant[j].GetTop() + 50 && basic_zombie[i].GetTop() >= bean_plant[j].GetTop() - 50 && basic_zombie[i].die_flag == 0) {
+					basic_zombie[i].state = 4;
+					//zombie_atk_time += 1;
+					basic_zombie[i].cd += 1;
+					if (basic_zombie[i].cd >= 100 && bean_plant[j].hp > 0) {
+						basic_zombie[i].cd = 0;
+						bean_plant[j].hp -= 30;
+					}
+					if (bean_plant[j].hp <= 0) {
+						for (int k = 0; k < 3; k++) {
+							if (basic_zombie[k].state == 4) {
+								//zombie_atk_time = 0;
+								basic_zombie[k].cd = 0;
+								basic_zombie[k].state = 0;
+								basic_zombie[k].speed = -1;
+							}
+						}
+					}
+				}
 			}
-			if (bean_plant[0].hp <= 0) {
-				zombie_atk_time = 0;
-				basic_zombie[0].state = 0;
-				basic_zombie[0].speed = -1;
-			}
-		}
+		}//待修的bug 原本的問題 兩隻殭屍同時吃的時候，植物死掉後 第一隻吃到的殭屍才能繼續走，後面吃到的會一直吃 修改後雖然能所有殭屍一起走，但是所有殭屍的攻擊秒數會重製。
 		
 		//-----------------------
 	}
@@ -478,7 +521,24 @@ void CGameStateRun::load_peashooter_card() {
 	peashooter_card.SetTopLeft(350, 0);
 }
 
+void CGameStateRun::load_bean_plant_with_mouse() {
+	bean_plant_with_mouse.LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/bean/bean_0.bmp",
+		"Plants_vs_Zombies_Image/plants/bean/bean_1.bmp",
+		"Plants_vs_Zombies_Image/plants/bean/bean_2.bmp",
+		"Plants_vs_Zombies_Image/plants/bean/bean_3.bmp",
+		"Plants_vs_Zombies_Image/plants/bean/bean_4.bmp",
+		"Plants_vs_Zombies_Image/plants/bean/bean_5.bmp",
+		"Plants_vs_Zombies_Image/plants/bean/bean_6.bmp",
+		"Plants_vs_Zombies_Image/plants/bean/bean_7.bmp",
+		"Plants_vs_Zombies_Image/plants/bean/bean_9.bmp",
+		"Plants_vs_Zombies_Image/plants/bean/bean_10.bmp",
+		"Plants_vs_Zombies_Image/plants/bean/bean_11.bmp", }, RGB(255, 255, 255));
 
+	bean_plant_with_mouse.SetTopLeft(999, 999);
+	bean_plant_with_mouse.SetAnimation(240, false);
+	bean_plant_with_mouse.ToggleAnimation();
+
+}
 
 
 void CGameStateRun::load_test() {
