@@ -15,6 +15,7 @@ protected:
 	game_framework::CMovingBitmap zombie;
 	game_framework::CMovingBitmap zombie_die;
 	game_framework::CMovingBitmap zombie_headfall;
+	game_framework::CMovingBitmap zombie_atk;
 public:
 	Zombie() {}
 	~Zombie() = default;
@@ -34,6 +35,7 @@ public:
 	int GetLeft();
 	int GetTop();
 	int state = 0;
+	int die_flag = 0;
 	void loadstate(int state);
 	void attack();
 };

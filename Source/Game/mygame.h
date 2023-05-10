@@ -101,14 +101,34 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 		void draw_text();
 	private:
+
+
 		int seat[9][5];
 		int place_flag = 0;
-		void place_seat(int x,int y);
-		Basic_zombie basic_zombie;
-		Sunflower sunflower;
+		void place_seat(int x,int y,int item);
+		int plant_place_max = 45;
+		int item = -1;
+		//----------------------
+		
+		//殭屍---------------
+		Basic_zombie basic_zombie[3];
+		int zombie_index = 0;
+		int call_time = 0;
+		int zombie_atk = 0;
+		int zombie_atk_time = 0;
+		//-------------------
+
+		Sunflower sunflower[45];
 		Sunflower testflower[9];
 		int sunflower_index = 0;
-		Bean bean_plant;
+
+		//射手-----------------------
+		Bean bean_plant[20];
+		Bean test_bean[10];
+		int bean_plant_index = 0;
+		//---------------------------
+
+
 		int pointx = 0;
 		int pointy = 0;
 		int money = 0;
@@ -183,6 +203,7 @@ namespace game_framework {
 		int die_time = 0;
 		//地圖 位置左上(200,85) 右上(940,85) 左下(200,570) 右下(940,570)
 
+		//int item = 0;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

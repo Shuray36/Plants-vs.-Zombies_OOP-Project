@@ -31,7 +31,7 @@ void Basic_zombie::init() {
 	"Plants_vs_Zombies_Image/zombie/zombie_move/zom_20.bmp" ,
 	"Plants_vs_Zombies_Image/zombie/zombie_move/zom_21.bmp"
 		}, RGB(255, 255, 255));
-	zombie.SetTopLeft(950, 240);
+	zombie.SetTopLeft(999,999);//950 240
 	zombie.SetAnimation(120, false);
 
 	zombie_die.LoadBitmapByString({ "Plants_vs_Zombies_Image/zombie/basic_zombie_die/falldown_0.bmp" ,
@@ -65,10 +65,36 @@ void Basic_zombie::init() {
 	zombie_headfall.SetTopLeft(zombie.GetLeft(), zombie.GetTop());
 	zombie_headfall.SetAnimation(120, true);
 	zombie_headfall.ToggleAnimation();
+
+	zombie_atk.LoadBitmapByString({ "Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_0.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_1.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_2.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_3.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_4.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_5.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_6.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_7.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_8.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_9.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_10.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_11.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_12.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_13.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_14.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_15.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_16.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_17.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_18.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_19.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_20.bmp", }, RGB(255, 255, 255));
+	zombie_atk.SetTopLeft(zombie.GetLeft(), zombie.GetTop());
+	zombie_atk.SetAnimation(120, false);
+	zombie_atk.ToggleAnimation();
 }
 
 void Basic_zombie::show() {
 	if (hp > 0 && state==0) {
+		//speed = 0;
 		zombie.ShowBitmap();
 	}
 	else if (hp <= 0 && state==1) {
@@ -85,8 +111,14 @@ void Basic_zombie::show() {
 		zombie_headfall.SetTopLeft(zombie.GetLeft(), zombie.GetTop());
 		zombie_headfall.ShowBitmap();
 		speed = 0;
-
+		die_flag = 1;
 		if (zombie_headfall.IsAnimationDone()) state = 2;
+	}
+	else if (state == 4) {
+		zombie_atk.SetTopLeft(zombie.GetLeft(), zombie.GetTop());
+		zombie_atk.ShowBitmap();
+		speed = 0;
+
 	}
 }
 
