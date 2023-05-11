@@ -264,7 +264,6 @@ void CGameStateRun::OnShow()
 			bean_plant[bean_plant_index].show();
 		}
 		//植物攻擊-----------
-		//bean_plant[0].atk_speed += 1;
 		for (int i = 0; i < 20; i++) bean_plant[i].cd += 1;
 		for (int i = 0; i < 20; i++) {
 			if (bean_plant[i].cd >= 50) {
@@ -277,34 +276,17 @@ void CGameStateRun::OnShow()
 					bean_plant[i].pb_flag = 1;
 					bean_plant[i].cd = 0;
 					basic_zombie[j].hp -= 10;
-					if (basic_zombie[j].hp <= 0) basic_zombie[j].state = 1;
+					if (basic_zombie[j].hp <= 0) {
+						basic_zombie[j].state = 1;
+						basic_zombie[j].die_flag = 1;
+					}
+						
 					bean_plant[i].reload();
 				}
 			}
 			
 		}
 
-
-		/*
-		bean_plant[0].atk_speed += 1;
-		if (bean_plant[0].atk_speed >= 50) {
-			for (int i = 0; i < 10; i++) {
-				test_bean[i].pb_flag = 0;
-				test_bean[i].attack();
-			}
-			bean_plant[0].pb_flag = 0;
-			bean_plant[0].attack();
-		}
-		if (bean_plant[0].PBgetleft() <= basic_zombie[0].GetLeft()+50 && bean_plant[0].PBgetleft() >= basic_zombie[0].GetLeft()+45 && bean_plant[0].PBgettop() <= basic_zombie[0].GetTop() + 50 && bean_plant[0].PBgettop() >= basic_zombie[0].GetTop() - 50) {
-			bean_plant[0].leave();
-			bean_plant[0].pb_flag = 1;
-			bean_plant[0].atk_speed = 0;
-			basic_zombie[0].hp -= 10;
-			if (basic_zombie[0].hp <= 0) basic_zombie[0].state = 1;
-			bean_plant[0].reload();
-		}
-		*/
-		
 		//-----------------------
 
 		//殭屍攻擊---------------
@@ -636,6 +618,7 @@ void CGameStateRun::place_seat(int x, int y,int item){
 	else if (x >= 774 && x < 856 && y > 468 && y < 564 && seat[7][4] != 2) seat[7][4] = 1;
 	else if (x >= 856 && x < 938 && y > 468 && y < 564 && seat[8][4] != 2) seat[8][4] = 1;
 	//------------------------------------------------------------------------------------
+
 	if (seat[0][0] == 1 ) {
 		//207 100
 		//第一格跟第二格差85
