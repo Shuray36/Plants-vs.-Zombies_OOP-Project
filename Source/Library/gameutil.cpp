@@ -387,6 +387,7 @@ namespace game_framework {
 		return x >= bmp1.GetLeft() - 50 && x <= bmp1.GetLeft() + 50 && y >= bmp1.GetTop() - 50 && y <= bmp1.GetTop() + 50;
 	}
 
+
 	/////////////////////////////////////////////////////////////////////////////
 	// CTextDraw: The class provide the ability to draw the text.
 	// 這個 class 提供文字的呈現

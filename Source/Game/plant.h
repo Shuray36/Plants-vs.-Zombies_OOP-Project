@@ -5,7 +5,6 @@
 
 class Plant {
 protected:
-	int state;
 	int pb_x = 0;
 	int pb_y = 0;
 	double speed;
@@ -13,6 +12,9 @@ protected:
 	game_framework::CMovingBitmap a;
 	game_framework::CMovingBitmap plant;
 	game_framework::CMovingBitmap pb;
+	game_framework::CMovingBitmap sunflower_getsun;
+	game_framework::CMovingBitmap getsun;
+
 public:
 	Plant() {}
 	~Plant() = default;
@@ -29,6 +31,13 @@ public:
 	void init();
 	void show(); 
 	void SetTopLeft(int x, int y);
+	int state = 0;
+	int getsun_flag = 0;
+	int GetLeft();
+	int GetTop();
+	int sunGetLeft();
+	int sunGetTop();
+	int cd_keep = 0;
 };
 class Bean:public Plant {
 public:
@@ -44,5 +53,17 @@ public:
 	void SetTopLeft(int x, int y);
 	int GetLeft();
 	int GetTop();
+	int state = 0;
 };
+class Nut :public Plant {
+public:
+	Nut() :Plant() {}
+	void init();
+	void show();
+	void SetTopLeft(int x, int y);
+	int GetLeft();
+	int GetTop();
+};
+
+
 #endif 

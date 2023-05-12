@@ -27,7 +27,7 @@ void Bean::init() {
 	pb.SetTopLeft(plant.GetLeft() + 65, plant.GetTop());
 }
 void Bean::show() {
-	if (hp > 0) {
+	if (hp > 0 ) {
 		plant.ShowBitmap();
 	}
 	else {

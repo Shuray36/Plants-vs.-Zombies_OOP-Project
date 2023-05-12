@@ -155,6 +155,13 @@ namespace game_framework {
 		void load_zombie_eat();//殭屍吃圖片載入
 		//-------------------------------------------------------------------
 
+		//堅果--------------------------
+		CMovingBitmap nut_plant_with_mouse;
+		Nut nut[20];
+		int nut_plant_index = 0;
+		int nut_with_mouse_show = 0;
+		void load_nut_with_mouse();
+
 		//太陽花-------------------------------------------------------------
 		CMovingBitmap sunflower_with_mouse;
 		int sunflower_with_mouse_show = 0;
@@ -194,6 +201,14 @@ namespace game_framework {
 		int pershooter_flag = 0;
 		int pershooter_show_flag = 0;
 		//
+
+		//堅果----------------------------------------------------
+		CMovingBitmap nut_card;
+		void load_nut_card();
+		CMovingBitmap nut_gray_card;
+		void load_nut_gray_card();
+		int nut_flag = 0;
+		int nut_show_flag = 0;
 
 
 		//看位置的物件-------------------------------------------------------
