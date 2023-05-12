@@ -24,7 +24,6 @@ void Bean::init() {
 	plant.ToggleAnimation();
 	
 	pb.LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/PB.bmp" }, RGB(255, 255, 255));//440 285
-<<<<<<< HEAD
 	pb.SetTopLeft(plant.GetLeft() + 65, plant.GetTop());
 }
 void Bean::show() {
@@ -34,13 +33,8 @@ void Bean::show() {
 	else {
 		plant.SetTopLeft(999, 999);
 	}
-=======
-	pb.SetTopLeft(plant.GetLeft() + 65, 285);
-}
-void Bean::show() {
-	plant.ShowBitmap();
-	
->>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
+	if (pb_flag == 0)pb.ShowBitmap();
+
 }
 int Bean::PBgetleft() {
 	return pb.GetLeft();
@@ -50,25 +44,16 @@ int Bean::PBgettop() {
 }
 
 void Bean::attack(){
-	if(pb_flag==0)pb.ShowBitmap();
 	pb.SetTopLeft(pb.GetLeft() + 3, pb.GetTop());
 	if (pb.GetLeft() >= 950) {
 		pb_flag = 1;
-<<<<<<< HEAD
 		cd = 0;
-=======
-		atk_speed = 0;
->>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 		reload();
 	}
 }
 
 void Bean::reload() {
-<<<<<<< HEAD
 	pb.SetTopLeft(plant.GetLeft() + 65, plant.GetTop());
-=======
-	pb.SetTopLeft(plant.GetLeft() + 65, 285);
->>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 }
 
 void Bean::leave() {
@@ -77,7 +62,6 @@ void Bean::leave() {
 	
 void Bean::SetTopLeft(int x, int y) {
 	plant.SetTopLeft(x, y);
-<<<<<<< HEAD
 }
 int Bean::GetLeft() {
 	return plant.GetLeft();
@@ -85,6 +69,4 @@ int Bean::GetLeft() {
 
 int Bean::GetTop() {
 	return plant.GetTop();
-=======
->>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 }

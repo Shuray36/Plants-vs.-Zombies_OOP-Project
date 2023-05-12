@@ -69,12 +69,9 @@
     <ClCompile Include="Source\Game\bean.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="Source\Game\map.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
-=======
->>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Library\audio.h">

@@ -31,11 +31,7 @@ void Basic_zombie::init() {
 	"Plants_vs_Zombies_Image/zombie/zombie_move/zom_20.bmp" ,
 	"Plants_vs_Zombies_Image/zombie/zombie_move/zom_21.bmp"
 		}, RGB(255, 255, 255));
-<<<<<<< HEAD
 	zombie.SetTopLeft(999,999);//950 240
-=======
-	zombie.SetTopLeft(950, 240);
->>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 	zombie.SetAnimation(120, false);
 
 	zombie_die.LoadBitmapByString({ "Plants_vs_Zombies_Image/zombie/basic_zombie_die/falldown_0.bmp" ,
@@ -69,7 +65,6 @@ void Basic_zombie::init() {
 	zombie_headfall.SetTopLeft(zombie.GetLeft(), zombie.GetTop());
 	zombie_headfall.SetAnimation(120, true);
 	zombie_headfall.ToggleAnimation();
-<<<<<<< HEAD
 
 	zombie_atk.LoadBitmapByString({ "Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_0.bmp",
 		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_1.bmp", 
@@ -95,16 +90,11 @@ void Basic_zombie::init() {
 	zombie_atk.SetTopLeft(zombie.GetLeft(), zombie.GetTop());
 	zombie_atk.SetAnimation(120, false);
 	zombie_atk.ToggleAnimation();
-=======
->>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 }
 
 void Basic_zombie::show() {
 	if (hp > 0 && state==0) {
-<<<<<<< HEAD
 		//speed = 0;
-=======
->>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 		zombie.ShowBitmap();
 	}
 	else if (hp <= 0 && state==1) {
@@ -112,10 +102,7 @@ void Basic_zombie::show() {
 		zombie_die.SetTopLeft(zombie.GetLeft(), zombie.GetTop());
 		zombie_die.ShowBitmap();
 		speed = 0;
-<<<<<<< HEAD
 		die_flag = 1;
-=======
->>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 		if(zombie_die.IsAnimationDone()) state = 2;
 	}
 	else if (state == 2) {
@@ -125,7 +112,6 @@ void Basic_zombie::show() {
 		zombie_headfall.SetTopLeft(zombie.GetLeft(), zombie.GetTop());
 		zombie_headfall.ShowBitmap();
 		speed = 0;
-<<<<<<< HEAD
 		die_flag = 1;
 		if (zombie_headfall.IsAnimationDone()) state = 2;
 	}
@@ -134,10 +120,6 @@ void Basic_zombie::show() {
 		zombie_atk.ShowBitmap();
 		speed = 0;
 
-=======
-
-		if (zombie_headfall.IsAnimationDone()) state = 2;
->>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 	}
 }
 
