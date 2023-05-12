@@ -275,7 +275,7 @@ void CGameStateRun::OnShow()
 				bean_plant[i].attack();
 			}
 			for (int j = 0; j < 3; j++) {
-				if (bean_plant[i].PBgetleft() <= basic_zombie[j].GetLeft() + 50 && bean_plant[i].PBgetleft() >= basic_zombie[j].GetLeft() + 45 && bean_plant[i].PBgettop() <= basic_zombie[j].GetTop() + 50 && bean_plant[i].PBgettop() >= basic_zombie[j].GetTop() - 50 && basic_zombie[j].die_flag == 0) {
+				if (bean_plant[i].PBgetleft() <= basic_zombie[j].GetLeft() + 50 && bean_plant[i].PBgetleft() >= basic_zombie[j].GetLeft() - 50 && bean_plant[i].PBgettop() <= basic_zombie[j].GetTop() + 50 && bean_plant[i].PBgettop() >= basic_zombie[j].GetTop() - 50 && basic_zombie[j].die_flag == 0) {
 					bean_plant[i].leave();
 					bean_plant[i].pb_flag = 1;
 					bean_plant[i].cd = 0;
