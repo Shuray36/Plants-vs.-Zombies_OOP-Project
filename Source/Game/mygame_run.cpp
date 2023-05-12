@@ -286,9 +286,10 @@ void CGameStateRun::OnShow()
 		for (int i = 0; i < 3; i++) {
 			basic_zombie[i].show();
 		}
-		call_time += 1;
+		if (zombie_index != 2) call_time += 1;
+		//call_time += 1;
 		if (call_time ==200) {
-			if (zombie_index < 2) {
+			if (zombie_index < 3) {
 				zombie_index += 1; 
 				basic_zombie[zombie_index].SetTopLeft(950, 240);
 			}
