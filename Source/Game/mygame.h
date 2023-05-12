@@ -101,6 +101,7 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 		void draw_text();
 	private:
+<<<<<<< HEAD
 
 
 		int seat[9][5];
@@ -131,6 +132,16 @@ namespace game_framework {
 		void load_bean_plant_with_mouse();
 		//---------------------------
 
+=======
+		int seat[9][5];
+		int place_flag = 0;
+		void place_seat(int x,int y);
+		Basic_zombie basic_zombie;
+		Sunflower sunflower;
+		Sunflower testflower[9];
+		int sunflower_index = 0;
+		Bean bean_plant;
+>>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 		int pointx = 0;
 		int pointy = 0;
 		int money = 0;
@@ -166,6 +177,47 @@ namespace game_framework {
 		CMovingBitmap sunback;
 		void load_sunback();
 		//-------------------------------------------------------------------
+<<<<<<< HEAD
+=======
+
+		//小太陽-----------------------------------------------------------------
+		int sun_flag = 0;
+		int sun_cooldown = 0;
+		CMovingBitmap sun;
+		void load_sun();
+		//-------------------------------------------------------------------
+
+		//車-----------------------------------------------------------------
+		CMovingBitmap car[7];
+		int car_run = 0;
+		void load_car();
+		//-------------------------------------------------------------------
+		CMovingBitmap sunflower_card;
+		void load_sunflower_card();
+		CMovingBitmap sunflower_gray_card;
+		void load_sunflower_gray_card();
+		int sunflower_flag = 0;
+		int sunflower_show_flag = 0;
+		//
+		//-------------------------------------------------------------------
+		CMovingBitmap peashooter_card;
+		void load_peashooter_card();
+		CMovingBitmap peashooter_gray_card;
+		void load_peashooter_gray_card();
+		int pershooter_flag = 0;
+		int pershooter_show_flag = 0;
+		//
+
+
+		//看位置的物件-------------------------------------------------------
+		CMovingBitmap test;
+		CMovingBitmap test2;
+		void load_test();
+		//-------------------------------------------------------------------
+		int die_flag = 0;
+		int die_time = 0;
+		//地圖 位置左上(200,85) 右上(940,85) 左下(200,570) 右下(940,570)
+>>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 
 		//小太陽-----------------------------------------------------------------
 		int sun_flag = 0;

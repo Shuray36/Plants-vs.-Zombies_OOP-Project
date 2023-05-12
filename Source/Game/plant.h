@@ -20,8 +20,11 @@ public:
 	virtual void init();
 	int atk_speed = 0;
 	int hp = 100;
+<<<<<<< HEAD
 	int cd = 0;
 
+=======
+>>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 };
 class Sunflower:public Plant {
 public:
@@ -42,7 +45,10 @@ public:
 	void reload();
 	void leave();
 	void SetTopLeft(int x, int y);
+<<<<<<< HEAD
 	int GetLeft();
 	int GetTop();
+=======
+>>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 };
 #endif 

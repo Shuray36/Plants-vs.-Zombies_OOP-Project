@@ -245,7 +245,10 @@
     </ClCompile>
     <ClCompile Include="Source\Game\basic_zombie.cpp" />
     <ClCompile Include="Source\Game\bean.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="Source\Game\map.cpp" />
+=======
+>>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
     <ClCompile Include="Source\Game\mygame_initialize.cpp" />
     <ClCompile Include="Source\Game\mygame_over.cpp" />
     <ClCompile Include="Source\Game\mygame_run.cpp" />

@@ -13,10 +13,13 @@
 
 
 
+<<<<<<< HEAD
 enum class plant {
 	SUN_FLOWER=0,
 	BEAN_PLANT=1
 };
+=======
+>>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 
 using namespace game_framework;
 
@@ -62,6 +65,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		if (move_down == 1) test.SetTopLeft(test.GetLeft(), test.GetTop() + 1);
 		test_x = test.GetLeft();
 		test_y = test.GetTop();
+<<<<<<< HEAD
 		
 
 		
@@ -97,6 +101,27 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			if(car[2].GetLeft()<=1500) car[2].SetTopLeft(car[2].GetLeft() + 10, car[2].GetTop());
 		}
 		
+=======
+		basic_zombie.SetTopLeft(basic_zombie.GetLeft() + basic_zombie.speed, 240);
+		//花開始落下--------------------------------------------
+		sun_cooldown += 1;
+		if (sun_cooldown >= 300) {
+			int r = (rand() % 900 + 100);
+			sun.SetTopLeft(r, 0);
+			sun_flag = 0;
+			sun_cooldown = 0;
+		}
+		sun.SetTopLeft(sun.GetLeft() + 0, sun.GetTop() + 2);
+		if (car[2].GetLeft() >= basic_zombie.GetLeft() -150 && car[2].GetLeft() <= basic_zombie.GetLeft() + 150 && car[2].GetTop() >= basic_zombie.GetTop()-150 && car[2].GetTop() <= basic_zombie.GetTop()+150){
+			car_run = 1;
+			basic_zombie.state = 3;
+		}
+		//------------------------------------------------------
+		if (car_run == 1) { //除草機的細節
+			if(car[2].GetLeft()<=1500)
+			car[2].SetTopLeft(car[2].GetLeft() + 10, car[2].GetTop());
+		}
+>>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 	}
 	
 
@@ -106,6 +131,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 {
 	fight_background.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/BG1.bmp" });
 	fight_background.SetTopLeft(0, 0);
+<<<<<<< HEAD
 	for (int i = 0; i < 3; i++)basic_zombie[i].init();
 	for (int i = 0; i < 3; i++) basic_zombie[i].speed = 0;
 	for (int i = 0; i < 20; i++) bean_plant[i].init();
@@ -115,6 +141,12 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	load_zombie_eat();
 	for (int i = 0; i < plant_place_max; i++) sunflower[i].init();
 	load_bean_plant_with_mouse();
+=======
+	basic_zombie.init();
+	bean_plant.init();
+	load_zombie_eat();
+	sunflower.init();
+>>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 	load_sunflower();
 	load_sunback();
 	load_sun();
@@ -124,8 +156,14 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	load_peashooter_gray_card();
 	load_peashooter_card();
 	load_test();//查看物件位置 可移動的
+<<<<<<< HEAD
 
 	
+=======
+	for (int i = 0; i < 9; i++) {
+		testflower[i].init();
+	}
+>>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -156,6 +194,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 		sun_flag = 1;
 	}
 	if (CMovingBitmap::IsMouseClick(pointx, pointy, peashooter_card)&&money>=100) {
+<<<<<<< HEAD
 		//money -= 100;
 		pershooter_show_flag = 1;
 		item = 1;
@@ -163,17 +202,28 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 		bean_plant_with_mouse_show = 1;
 
 		
+=======
+		money -= 100;
+		pershooter_show_flag = 1;
+>>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 	}
 	if (CMovingBitmap::IsMouseClick(pointx, pointy, sunflower_card)&&money>=50){
 		//money -= 50;
 		sunflower_show_flag = 1;
 		sunflower_index += 1;
+<<<<<<< HEAD
 		item = 0;
+=======
+>>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 		place_flag = 1;
 		sunflower_with_mouse_show = 1;
 	}
 	if (place_flag == 1) {
+<<<<<<< HEAD
 		place_seat(pointx, pointy, item);
+=======
+		place_seat(pointx, pointy);
+>>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 	}
 
 }
@@ -186,12 +236,19 @@ void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動
 {
 	pointx = point.x;
 	pointy = point.y;
+<<<<<<< HEAD
 	if (sunflower_with_mouse_show == 1) {
 		sunflower_with_mouse.SetTopLeft(pointx - 32, pointy - 25);
 	}
 	if (bean_plant_with_mouse_show == 1) {
 		bean_plant_with_mouse.SetTopLeft(pointx - 32, pointy - 25);
 	}
+=======
+	//if(sunflower_click_show) sunflower[1].SetTopLeft(pointx - 32, pointy - 25);
+	if (sunflower_with_mouse_show == 1) {
+		sunflower_with_mouse.SetTopLeft(pointx - 32, pointy - 25);
+	}
+>>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 	
 	
 }
@@ -207,6 +264,7 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動
 void CGameStateRun::OnShow()
 {
 	fight_background.ShowBitmap();
+<<<<<<< HEAD
 	for (int i = 0; i < plant_place_max; i++) {
 		sunflower[i].show();
 	}
@@ -320,6 +378,54 @@ void CGameStateRun::OnShow()
 		}//待修的bug 原本的問題 兩隻殭屍同時吃的時候，植物死掉後 第一隻吃到的殭屍才能繼續走，後面吃到的會一直吃 修改後雖然能所有殭屍一起走，但是所有殭屍的攻擊秒數會重製。
 		
 		//-----------------------
+=======
+	for (int i = 0; i < 9; i++) {
+		testflower[i].show();
+	}
+	if (BG1_flag1 == 2) {
+
+
+
+		if (sunflower_with_mouse_show == 1) {
+			sunflower_with_mouse.ShowBitmap();
+		}
+		
+		basic_zombie.show();
+		if (sunflower_show_flag == 0) {
+			sunflower.SetTopLeft(999, 999);
+			sunflower.show();
+		}
+		else if (sunflower_show_flag == 1) {
+			testflower[sunflower_index].SetTopLeft((sunflower_index + 50)*sunflower_index, (sunflower_index + 50)*sunflower_index);
+			//testflower[sunflower_index].show();
+			sunflower.show();
+		}
+		if(sun_flag==0) sun.ShowBitmap();
+		for (int i = 0; i < 5; i++) car[i].ShowBitmap();
+		if (pershooter_show_flag == 0) {
+			bean_plant.SetTopLeft(999, 999);
+			bean_plant.show();
+		}
+		else if (pershooter_show_flag == 1) {
+			bean_plant.SetTopLeft(375, 285);
+			bean_plant.show();
+		}
+		bean_plant.atk_speed += 1;
+		if (bean_plant.atk_speed >= 100) {
+			
+			bean_plant.pb_flag = 0;
+			bean_plant.attack();
+		}
+		if (bean_plant.PBgetleft() <= basic_zombie.GetLeft()+50 && bean_plant.PBgetleft() >= basic_zombie.GetLeft()+45 && bean_plant.PBgettop() <= basic_zombie.GetTop() + 50 && bean_plant.PBgettop() >= basic_zombie.GetTop() - 50) {
+			bean_plant.leave();
+			bean_plant.pb_flag = 1;
+			bean_plant.atk_speed = 0;
+			basic_zombie.hp -= 500;
+			if (basic_zombie.hp <= 0) basic_zombie.state = 1;
+			bean_plant.reload();
+		}
+		
+>>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 	}
 	sunback.ShowBitmap();
 	sunflower_card.ShowBitmap();
@@ -507,6 +613,7 @@ void CGameStateRun::load_peashooter_card() {
 	peashooter_card.SetTopLeft(350, 0);
 }
 
+<<<<<<< HEAD
 void CGameStateRun::load_bean_plant_with_mouse() {
 	bean_plant_with_mouse.LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/bean/bean_0.bmp",
 		"Plants_vs_Zombies_Image/plants/bean/bean_1.bmp",
@@ -525,6 +632,9 @@ void CGameStateRun::load_bean_plant_with_mouse() {
 	bean_plant_with_mouse.ToggleAnimation();
 
 }
+=======
+
+>>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 
 
 void CGameStateRun::load_test() {
@@ -567,6 +677,7 @@ void CGameStateRun::load_test() {
 }
 
 
+<<<<<<< HEAD
 void CGameStateRun::place_seat(int targetx, int targety,int item){
 	
 	//int seat_x[9];
@@ -610,6 +721,399 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 
 	}
 	
+=======
+void CGameStateRun::place_seat(int x, int y){
+	
+	//int seat_x[9];
+	int map_length = 200;
+	int map_high = 90;
+	if (x >= 200 && x < 282 && y > 90 && y < 179 && seat[0][0] !=2) seat[0][0] = 1; //82 96
+	else if (x >= 282 && x < 364 && y > 90 && y < 179 && seat[1][0] != 2) seat[1][0] = 1;
+	else if (x >= 364 && x < 446 && y > 90 && y < 179 && seat[2][0] != 2) seat[2][0] = 1;
+	else if (x >= 446 && x < 528 && y > 90 && y < 179 && seat[3][0] != 2) seat[3][0] = 1;
+	else if (x >= 528 && x < 610 && y > 90 && y < 179 && seat[4][0] != 2) seat[4][0] = 1;
+	else if (x >= 610 && x < 692 && y > 90 && y < 179 && seat[5][0] != 2) seat[5][0] = 1;
+	else if (x >= 692 && x < 774 && y > 90 && y < 179 && seat[6][0] != 2) seat[6][0] = 1;
+	else if (x >= 774 && x < 856 && y > 90 && y < 179 && seat[7][0] != 2) seat[7][0] = 1;
+	else if (x >= 856 && x < 938 && y > 90 && y < 179 && seat[8][0] != 2) seat[8][0] = 1;
+	//------------------------------------------------------------------------------------
+	if (x >= 200 && x < 282 && y>180 && y < 276 && seat[0][1] != 2) seat[0][1] = 1; //82 96
+	else if (x >= 282 && x < 364 && y > 180 && y < 276 && seat[1][1] != 2) seat[1][1] = 1;
+	else if (x >= 364 && x < 446 && y > 180 && y < 276 && seat[2][1] != 2) seat[2][1] = 1;
+	else if (x >= 446 && x < 528 && y > 180 && y < 276 && seat[3][1] != 2) seat[3][1] = 1;
+	else if (x >= 528 && x < 610 && y > 180 && y < 276 && seat[4][1] != 2) seat[4][1] = 1;
+	else if (x >= 610 && x < 692 && y > 180 && y < 276 && seat[5][1] != 2) seat[5][1] = 1;
+	else if (x >= 692 && x < 774 && y > 180 && y < 276 && seat[6][1] != 2) seat[6][1] = 1;
+	else if (x >= 774 && x < 856 && y > 180 && y < 276 && seat[7][1] != 2) seat[7][1] = 1;
+	else if (x >= 856 && x < 938 && y > 180 && y < 276 && seat[8][1] != 2) seat[8][1] = 1;
+	//------------------------------------------------------------------------------------
+	if (x >= 200 && x < 282 && y > 276 && y < 372 && seat[0][1] != 2) seat[0][2] = 1; //82 96
+	else if (x >= 282 && x < 364 && y > 276 && y < 372 && seat[1][2] != 2) seat[1][2] = 1;
+	else if (x >= 364 && x < 446 && y > 276 && y < 372 && seat[2][2] != 2) seat[2][2] = 1;
+	else if (x >= 446 && x < 528 && y > 276 && y < 372 && seat[3][2] != 2) seat[3][2] = 1;
+	else if (x >= 528 && x < 610 && y > 276 && y < 372 && seat[4][2] != 2) seat[4][2] = 1;
+	else if (x >= 610 && x < 692 && y > 276 && y < 372 && seat[5][2] != 2) seat[5][2] = 1;
+	else if (x >= 692 && x < 774 && y > 276 && y < 372 && seat[6][2] != 2) seat[6][2] = 1;
+	else if (x >= 774 && x < 856 && y > 276 && y < 372 && seat[7][2] != 2) seat[7][2] = 1;
+	else if (x >= 856 && x < 938 && y > 276 && y < 372 && seat[8][2] != 2) seat[8][2] = 1;
+	//------------------------------------------------------------------------------------
+	if (x >= 200 && x < 282 && y > 372 && y < 468 && seat[0][3] != 2) seat[0][3] = 1; //82 96
+	else if (x >= 282 && x < 364 && y > 372 && y < 468 && seat[1][3] != 2) seat[1][3] = 1;
+	else if (x >= 364 && x < 446 && y > 372 && y < 468 && seat[2][3] != 2) seat[2][3] = 1;
+	else if (x >= 446 && x < 528 && y > 372 && y < 468 && seat[3][3] != 2) seat[3][3] = 1;
+	else if (x >= 528 && x < 610 && y > 372 && y < 468 && seat[4][3] != 2) seat[4][3] = 1;
+	else if (x >= 610 && x < 692 && y > 372 && y < 468 && seat[5][3] != 2) seat[5][3] = 1;
+	else if (x >= 692 && x < 774 && y > 372 && y < 468 && seat[6][3] != 2) seat[6][3] = 1;
+	else if (x >= 774 && x < 856 && y > 372 && y < 468 && seat[7][3] != 2) seat[7][3] = 1;
+	else if (x >= 856 && x < 938 && y > 372 && y < 468 && seat[8][3] != 2) seat[8][3] = 1;
+	//------------------------------------------------------------------------------------
+	if (x >= 200 && x < 282 && y > 468 && y < 564 && seat[0][4] != 2) seat[0][4] = 1; //82 96
+	else if (x >= 282 && x < 364 && y > 468 && y < 564 && seat[1][4] != 2) seat[1][4] = 1;
+	else if (x >= 364 && x < 446 && y > 468 && y < 564 && seat[2][4] != 2) seat[2][4] = 1;
+	else if (x >= 446 && x < 528 && y > 468 && y < 564 && seat[3][4] != 2) seat[3][4] = 1;
+	else if (x >= 528 && x < 610 && y > 468 && y < 564 && seat[4][4] != 2) seat[4][4] = 1;
+	else if (x >= 610 && x < 692 && y > 468 && y < 564 && seat[5][4] != 2) seat[5][4] = 1;
+	else if (x >= 692 && x < 774 && y > 468 && y < 564 && seat[6][4] != 2) seat[6][4] = 1;
+	else if (x >= 774 && x < 856 && y > 468 && y < 564 && seat[7][4] != 2) seat[7][4] = 1;
+	else if (x >= 856 && x < 938 && y > 468 && y < 564 && seat[8][4] != 2) seat[8][4] = 1;
+	//------------------------------------------------------------------------------------
+	if (seat[0][0] == 1 ) {
+		//207 100
+		//第一格跟第二格差85
+		sunflower.SetTopLeft(207, 100);
+		money -= 50;
+		place_flag = 0;
+		seat[0][0] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[1][0] == 1) {
+		sunflower.SetTopLeft(292, 100);
+		money -= 50;
+		place_flag = 0;
+		seat[1][0] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[2][0] == 1) {
+		sunflower.SetTopLeft(366, 100);
+		money -= 50;
+		place_flag = 0;
+		seat[2][0] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[3][0] == 1) {
+		sunflower.SetTopLeft(449, 100);
+		money -= 50;
+		place_flag = 0;
+		seat[3][0] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[4][0] == 1) {
+		sunflower.SetTopLeft(532, 100);
+		money -= 50;
+		place_flag = 0;
+		seat[4][0] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[5][0] == 1) {
+		sunflower.SetTopLeft(614, 100);
+		money -= 50;
+		place_flag = 0;
+		seat[5][0] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[6][0] == 1) {
+		sunflower.SetTopLeft(696, 100);
+		money -= 50;
+		place_flag = 0;
+		seat[6][0] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[7][0] == 1) {
+		sunflower.SetTopLeft(778, 100);
+		money -= 50;
+		place_flag = 0;
+		seat[7][0] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[8][0] == 1) {
+		sunflower.SetTopLeft(860, 100);
+		money -= 50;
+		place_flag = 0;
+		seat[8][0] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	//第一排-----------------------------------------------
+	if (seat[0][1] == 1) {
+		//207 100
+		//第一格跟第二格差85
+		sunflower.SetTopLeft(207, 189);
+		money -= 50;
+		place_flag = 0;
+		seat[0][1] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[1][1] == 1) {
+		sunflower.SetTopLeft(292, 189);
+		money -= 50;
+		place_flag = 0;
+		seat[1][1] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[2][1] == 1) {
+		sunflower.SetTopLeft(366, 189);
+		money -= 50;
+		place_flag = 0;
+		seat[2][1] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[3][1] == 1) {
+		sunflower.SetTopLeft(449, 189);
+		money -= 50;
+		place_flag = 0;
+		seat[3][1] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[4][1] == 1) {
+		sunflower.SetTopLeft(532, 189);
+		money -= 50;
+		place_flag = 0;
+		seat[4][1] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[5][1] == 1) {
+		sunflower.SetTopLeft(614, 189);
+		money -= 50;
+		place_flag = 0;
+		seat[5][1] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[6][1] == 1) {
+		sunflower.SetTopLeft(696, 189);
+		money -= 50;
+		place_flag = 0;
+		seat[6][1] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[7][1] == 1) {
+		sunflower.SetTopLeft(778, 189);
+		money -= 50;
+		place_flag = 0;
+		seat[7][1] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[8][1] == 1) {
+		sunflower.SetTopLeft(860, 189);
+		money -= 50;
+		place_flag = 0;
+		seat[8][1] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	//第二排----------------------------------------------
+	if (seat[0][2] == 1) {
+		//207 100
+		//第一格跟第二格差85
+		sunflower.SetTopLeft(207, 290);
+		money -= 50;
+		place_flag = 0;
+		seat[0][2] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[1][2] == 1) {
+		sunflower.SetTopLeft(292, 290);
+		money -= 50;
+		place_flag = 0;
+		seat[1][2] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[2][2] == 1) {
+		sunflower.SetTopLeft(366, 290);
+		money -= 50;
+		place_flag = 0;
+		seat[2][2] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+
+	else if (seat[3][2] == 1) {
+		sunflower.SetTopLeft(449, 290);
+		money -= 50;
+		place_flag = 0;
+		seat[3][2] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[4][2] == 1) {
+		sunflower.SetTopLeft(532, 290);
+		money -= 50;
+		place_flag = 0;
+		seat[4][2] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[5][2] == 1) {
+		sunflower.SetTopLeft(614, 290);
+		money -= 50;
+		place_flag = 0;
+		seat[5][2] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[6][2] == 1) {
+		sunflower.SetTopLeft(696, 290);
+		money -= 50;
+		place_flag = 0;
+		seat[6][2] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+
+	}
+	else if (seat[7][2] == 1) {
+		sunflower.SetTopLeft(778, 290);
+		money -= 50;
+		place_flag = 0;
+		seat[7][2] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+
+	}
+	else if (seat[8][2] == 1) {
+		sunflower.SetTopLeft(860, 290);
+		money -= 50;
+		place_flag = 0;
+		seat[8][2] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+
+	}
+	//第三排--------------------------------
+	if (seat[0][3] == 1) {
+		//207 100
+		//第一格跟第二格差85
+		sunflower.SetTopLeft(207, 390);
+		money -= 50;
+		place_flag = 0;
+		seat[0][3] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+
+
+	}
+	else if (seat[1][3] == 1) {
+		sunflower.SetTopLeft(292, 390);
+		money -= 50;
+		place_flag = 0;
+		seat[1][3] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[2][3] == 1) {
+		sunflower.SetTopLeft(366, 390);
+		money -= 50;
+		place_flag = 0;
+		seat[2][3] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[3][3] == 1) {
+		sunflower.SetTopLeft(449, 390);
+		money -= 50;
+		place_flag = 0;
+		seat[3][3] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[4][3] == 1) {
+		sunflower.SetTopLeft(532, 390);
+		money -= 50;
+		place_flag = 0;
+		seat[4][3] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[5][3] == 1) {
+		sunflower.SetTopLeft(614, 390);
+		money -= 50;
+		place_flag = 0;
+		seat[5][3] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[6][3] == 1) {
+		sunflower.SetTopLeft(696, 390);
+		money -= 50;
+		place_flag = 0;
+		seat[6][3] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[7][3] == 1) {
+		sunflower.SetTopLeft(778, 390);
+		money -= 50;
+		place_flag = 0;
+		seat[7][3] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[8][3] == 1) {
+		sunflower.SetTopLeft(860, 390);
+		money -= 50;
+		place_flag = 0;
+		seat[8][3] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	//第四排--------------------------------
+	if (seat[0][4] == 1) {
+		//207 100
+		//第一格跟第二格差85
+		sunflower.SetTopLeft(207, 490);
+		money -= 50;
+		place_flag = 0;
+		seat[0][4] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[1][4] == 1) {
+		sunflower.SetTopLeft(292, 490);
+		money -= 50;
+		place_flag = 0;
+		seat[1][4] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[2][4] == 1) {
+		sunflower.SetTopLeft(366, 490);
+		money -= 50;
+		place_flag = 0;
+		seat[2][4] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[3][4] == 1) {
+		sunflower.SetTopLeft(449, 490);
+		money -= 50;
+		place_flag = 0;
+		seat[3][4] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[4][4] == 1) {
+		sunflower.SetTopLeft(532, 490);
+		money -= 50;
+		place_flag = 0;
+		seat[4][4] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[5][4] == 1) {
+		sunflower.SetTopLeft(614, 490);
+		money -= 50;
+		place_flag = 0;
+		seat[5][4] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[6][4] == 1) {
+		sunflower.SetTopLeft(696, 490);
+		money -= 50;
+		place_flag = 0;
+		seat[6][4] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[7][4] == 1) {
+		sunflower.SetTopLeft(778, 490);
+		money -= 50;
+		place_flag = 0;
+		seat[7][4] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	else if (seat[8][4] == 1) {
+		sunflower.SetTopLeft(860, 490);
+		money -= 50;
+		place_flag = 0;
+		seat[8][4] = 2;
+		sunflower_with_mouse_show = 0; //CMovie的太陽花圖示會跟著滑鼠移動
+	}
+	//第五排--------------------------------
+>>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 }
 
 void CGameStateRun::draw_text() {
@@ -617,7 +1121,11 @@ void CGameStateRun::draw_text() {
 	//CDC *number = CDDraw::GetBackCDC();
 	/* Print title */
 	std::string str_x;
+<<<<<<< HEAD
 	str_x = "test_x:" + std::to_string(test_x);
+=======
+	str_x = "test_x:"+std::to_string(test_x);
+>>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 	std::string str_y;
 	str_y = "test_y:" + std::to_string(test_y);
 
@@ -638,6 +1146,7 @@ void CGameStateRun::draw_text() {
 	CTextDraw::Print(pDC, 900, 55, str_y);
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
+<<<<<<< HEAD
 	CTextDraw::Print(pDC, 900, 80, std::to_string(basic_zombie[0].hp));
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
@@ -662,6 +1171,9 @@ void CGameStateRun::draw_text() {
 	CTextDraw::Print(pDC, 900, 430, std::to_string(bean_plant[0].GetLeft()));
 
 
+=======
+	CTextDraw::Print(pDC, 900, 80, std::to_string(basic_zombie.hp));
+>>>>>>> c62af637a7982c05ddd401ddc0a01cb624279f35
 
 	CDDraw::ReleaseBackCDC();
 }
