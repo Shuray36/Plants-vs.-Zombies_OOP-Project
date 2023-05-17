@@ -124,6 +124,27 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 						}
 					}
 				}
+				//堅果--------------------------------------
+				if (basic_zombie[i].GetLeft() <= nut[j].GetLeft() + 30 && basic_zombie[i].GetLeft() >= nut[j].GetLeft() + 20 && basic_zombie[i].GetTop() <= nut[j].GetTop() + 0 && basic_zombie[i].GetTop() >= nut[j].GetTop() - 60 && basic_zombie[i].die_flag == 0) {
+					basic_zombie[i].state = 4;
+					//zombie_atk_time += 1;
+					basic_zombie[i].cd += 1;
+					if (basic_zombie[i].cd >= 100 && nut[j].hp > 0) {
+						basic_zombie[i].cd = 0;
+						nut[j].hp -= 30;
+					}
+					if (nut[j].hp <= 0) {
+						for (int k = 0; k < 3; k++) {
+							if (basic_zombie[k].state == 4) {
+								//zombie_atk_time = 0;
+								basic_zombie[k].cd = 0;
+								basic_zombie[k].state = 0;
+								basic_zombie[k].speed = -1;
+							}
+						}
+					}
+				}
+				//--------------------------------------------
 			}
 		}
 
@@ -141,6 +162,16 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			if(car[2].GetLeft()<=1500) car[2].SetTopLeft(car[2].GetLeft() + 10, car[2].GetTop());
 		}
 		
+		//太陽花技能----------------------
+		for (int i = 0; i < 45; i++) {
+			sunflower[i].cd += 1;
+			if (sunflower[i].cd >= 245) {
+				sunflower[i].cd_keep += 1;
+				sunflower[i].state = 1;
+			}
+		}
+		//--------------------------------
+
 	}
 	
 
@@ -214,6 +245,14 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 		place_flag = 1;
 		nut_with_mouse_show = 1;
 	}
+
+	for (int i = 0; i < 45; i++) {
+		if (pointx >= sunflower[i].sunGetLeft() - 50 && pointx <= sunflower[i].sunGetLeft() + 50 && pointy >= sunflower[i].sunGetTop() - 50 && pointy <= sunflower[i].sunGetTop() + 50) {
+			sunflower[i].getsun_flag = 0;
+			money += 50;
+		}
+	}
+
 
 	if (place_flag == 1) {
 		place_seat(pointx, pointy, item);

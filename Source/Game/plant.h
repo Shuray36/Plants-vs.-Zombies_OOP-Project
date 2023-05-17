@@ -21,11 +21,21 @@ public:
 
 
 class Sunflower:public Plant {
+protected:
+	game_framework::CMovingBitmap sunflower_getsun;
+	game_framework::CMovingBitmap getsun;
 public:
 	Sunflower() = default;
 	void init();
-	void show(); 
+	void show();
 	void SetTopLeft(int x, int y);
+	int state = 0;
+	int getsun_flag = 0;
+	int GetLeft();
+	int GetTop();
+	int sunGetLeft();
+	int sunGetTop();
+	int cd_keep = 0;
 };
 
 
