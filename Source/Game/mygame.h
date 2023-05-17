@@ -101,7 +101,7 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 		void draw_text();
 	private:
-
+		//main
 		int pointx = 0;
 		int pointy = 0;
 		int money = 0;
@@ -136,13 +136,21 @@ namespace game_framework {
 		//射手-----------------------
 		CMovingBitmap bean_plant_with_mouse;
 		Bean bean_plant[20];
-		Bean test_bean[10];
 		int bean_plant_index = 0;
 		int bean_plant_with_mouse_show = 0;
 		void load_bean_plant_with_mouse();
 		//---------------------------
 
-		//太陽花-------------------------------------------------------------
+		//堅果--------------------------
+		CMovingBitmap nut_plant_with_mouse;
+		Nut nut[20];
+		int nut_plant_index = 0;
+		int nut_with_mouse_show = 0;
+		void load_nut_with_mouse();
+		//------------------------------
+
+
+		//太陽花跟隨滑鼠-------------------------------------------------------------
 		CMovingBitmap sunflower_with_mouse;
 		int sunflower_with_mouse_show = 0;
 		bool sunflower_click_show = false;
@@ -182,6 +190,13 @@ namespace game_framework {
 		void load_peashooter_gray_card();
 		int pershooter_flag = 0;
 		int pershooter_show_flag = 0;
+		//堅果----------------------------------------------------
+		CMovingBitmap nut_card;
+		void load_nut_card();
+		CMovingBitmap nut_gray_card;
+		void load_nut_gray_card();
+		int nut_flag = 0;
+		int nut_show_flag = 0;
 		//-------------------------------------------------------------------
 		//地圖 位置左上(200,85) 右上(940,85) 左下(200,570) 右下(940,570)
 

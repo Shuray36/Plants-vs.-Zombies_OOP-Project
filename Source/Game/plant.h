@@ -50,4 +50,14 @@ public:
 	game_framework::CMovingBitmap pb;
 
 };
+class Nut:public Plant {
+public:
+	Nut() :Plant() {}
+	void init();
+	void show();
+	void SetTopLeft(int x, int y);
+	int GetLeft();
+	int GetTop();
+};
+
 #endif 
