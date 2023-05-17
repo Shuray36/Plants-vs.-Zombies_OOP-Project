@@ -102,7 +102,15 @@ namespace game_framework {
 		void draw_text();
 	private:
 
+		int pointx = 0;
+		int pointy = 0;
+		int money = 0;
+		CMovingBitmap fight_background;
+		// BG1的判斷變數
+		int BG1_flag1 = 0;
+		int time = 0;
 
+		//map-------------------
 		int seat[9][5];
 		int place_flag = 0;
 		void place_seat(int x,int y,int item);
@@ -111,16 +119,19 @@ namespace game_framework {
 		//----------------------
 		
 		//殭屍---------------
-		Basic_zombie basic_zombie[3];
+		Basic_zombie basic_zombie[4];
+		int zombie_max = 4;
 		int zombie_index = 0;
 		int call_time = 0;
 		int zombie_atk = 0;
 		int zombie_atk_time = 0;
 		//-------------------
 
+		//太陽花-----------------
 		Sunflower sunflower[45];
 		Sunflower testflower[9];
 		int sunflower_index = 0;
+		//--------------------------
 
 		//射手-----------------------
 		CMovingBitmap bean_plant_with_mouse;
@@ -130,30 +141,6 @@ namespace game_framework {
 		int bean_plant_with_mouse_show = 0;
 		void load_bean_plant_with_mouse();
 		//---------------------------
-
-		int pointx = 0;
-		int pointy = 0;
-		int money = 0;
-		CMovingBitmap fight_background;
-
-		//物件測試
-		int move_right = 0;
-		int move_left = 0;
-		int move_up = 0;
-		int move_down = 0;
-		int test_x = 0;
-		int test_y = 0;
-		//--------
-
-		// BG1的判斷變數
-		int BG1_flag1 = 0;
-		int time = 0;
-		//殭屍---------------------------------------------------------------
-		CMovingBitmap zombie[2];
-		int zombie_change_flag = 0;
-		void load_zombie_move();//殭屍移動圖片載入
-		void load_zombie_eat();//殭屍吃圖片載入
-		//-------------------------------------------------------------------
 
 		//太陽花-------------------------------------------------------------
 		CMovingBitmap sunflower_with_mouse;
@@ -179,33 +166,25 @@ namespace game_framework {
 		int car_run = 0;
 		void load_car();
 		//-------------------------------------------------------------------
+
+		//card------------------------------------------------------------
+		//太陽花----------------------------------------------------------
 		CMovingBitmap sunflower_card;
 		void load_sunflower_card();
 		CMovingBitmap sunflower_gray_card;
 		void load_sunflower_gray_card();
 		int sunflower_flag = 0;
 		int sunflower_show_flag = 0;
-		//
-		//-------------------------------------------------------------------
+		//射手----------------------------------------------------
 		CMovingBitmap peashooter_card;
 		void load_peashooter_card();
 		CMovingBitmap peashooter_gray_card;
 		void load_peashooter_gray_card();
 		int pershooter_flag = 0;
 		int pershooter_show_flag = 0;
-		//
-
-
-		//看位置的物件-------------------------------------------------------
-		//CMovingBitmap test;
-		//CMovingBitmap test2;
-		void load_test();
 		//-------------------------------------------------------------------
-		int die_flag = 0;
-		int die_time = 0;
 		//地圖 位置左上(200,85) 右上(940,85) 左下(200,570) 右下(940,570)
 
-		//int item = 0;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

@@ -30,7 +30,7 @@ void Basic_zombie::init() {
 	"Plants_vs_Zombies_Image/zombie/zombie_move/zom_19.bmp" ,
 	"Plants_vs_Zombies_Image/zombie/zombie_move/zom_20.bmp" ,
 	"Plants_vs_Zombies_Image/zombie/zombie_move/zom_21.bmp"
-		}, RGB(255, 255, 255));
+		}, RGB(255,255,255));
 	zombie.SetTopLeft(999,999);//950 240
 	zombie.SetAnimation(120, false);
 

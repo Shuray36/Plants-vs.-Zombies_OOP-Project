@@ -66,8 +66,10 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 		
 		for (int i = 0; i < 3; i++){
-			basic_zombie[zombie_index].speed = -1;
+			if (basic_zombie[i].die_flag == 0)basic_zombie[zombie_index].speed = -1;
+			
 			basic_zombie[i].SetTopLeft(basic_zombie[i].GetLeft() + basic_zombie[i].speed, 240);
+			//這行的邏輯漏洞 因為他每行都在執行這個，所以他的初始位置一直在999 240
 		}
 
 		
@@ -89,7 +91,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				bean_plant[i].attack();
 			}
 			for (int j = 0; j < 3; j++) {
-				if (bean_plant[i].PBgetleft() <= basic_zombie[j].GetLeft() + 50 && bean_plant[i].PBgetleft() >= basic_zombie[j].GetLeft() + 45 && bean_plant[i].PBgettop() <= basic_zombie[j].GetTop() + 50 && bean_plant[i].PBgettop() >= basic_zombie[j].GetTop() - 50 && basic_zombie[j].die_flag == 0) {
+				if (bean_plant[i].PBgetleft() <= basic_zombie[j].GetLeft() + 50 && bean_plant[i].PBgetleft() >= basic_zombie[j].GetLeft() + 45 && bean_plant[i].PBgettop() <= basic_zombie[j].GetTop() + 60 && bean_plant[i].PBgettop() >= basic_zombie[j].GetTop() - 0 && basic_zombie[j].die_flag == 0) {
 					bean_plant[i].leave();
 					bean_plant[i].pb_flag = 1;
 					bean_plant[i].cd = 0;
@@ -111,7 +113,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 20; j++) {
-				if (basic_zombie[i].GetLeft() <= bean_plant[j].GetLeft() + 30 && basic_zombie[i].GetLeft() >= bean_plant[j].GetLeft() + 20 && basic_zombie[i].GetTop() <= bean_plant[j].GetTop() + 50 && basic_zombie[i].GetTop() >= bean_plant[j].GetTop() - 50 && basic_zombie[i].die_flag == 0) {
+				if (basic_zombie[i].GetLeft() <= bean_plant[j].GetLeft() + 30 && basic_zombie[i].GetLeft() >= bean_plant[j].GetLeft() + 20 && basic_zombie[i].GetTop() <= bean_plant[j].GetTop() + 0 && basic_zombie[i].GetTop() >= bean_plant[j].GetTop() -60 && basic_zombie[i].die_flag == 0) {
 					basic_zombie[i].state = 4;
 					//zombie_atk_time += 1;
 					basic_zombie[i].cd += 1;
@@ -131,12 +133,12 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					}
 				}
 			}
-		}//待修的bug 原本的問題 兩隻殭屍同時吃的時候，植物死掉後 第一隻吃到的殭屍才能繼續走，後面吃到的會一直吃 修改後雖然能所有殭屍一起走，但是所有殭屍的攻擊秒數會重製。
+		}
 
 		//-----------------------
 		sun.SetTopLeft(sun.GetLeft() + 0, sun.GetTop() + 2);
 		for (int i = 0; i < 3; i++) {
-			if (car[2].GetLeft() >= basic_zombie[i].GetLeft() - 100 && car[2].GetLeft() <= basic_zombie[i].GetLeft() + 100 && car[2].GetTop() >= basic_zombie[i].GetTop() - 150 && car[2].GetTop() <= basic_zombie[i].GetTop() + 150) {
+			if (car[2].GetLeft() >= basic_zombie[i].GetLeft() - 100 && car[2].GetLeft() <= basic_zombie[i].GetLeft() + 100 && car[2].GetTop() >= basic_zombie[i].GetTop() + 0 && car[2].GetTop() <= basic_zombie[i].GetTop() + 100) {
 				car_run = 1;
 				basic_zombie[i].state = 3;
 			}
@@ -156,14 +158,13 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 {
 	fight_background.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/BG1.bmp" });
 	fight_background.SetTopLeft(0, 0);
-	for (int i = 0; i < 3; i++)basic_zombie[i].init();
-	for (int i = 0; i < 3; i++) basic_zombie[i].speed = 0;
-	for (int i = 0; i < 20; i++) bean_plant[i].init();
-	//bean_plant.init();
-	for (int i = 0; i < 10; i++) test_bean[i].init();
+	for (int i = 0; i < zombie_max; i++)basic_zombie[i].init();
+	for (int i = 0; i < zombie_max; i++) basic_zombie[i].speed = 0;
 
-	load_zombie_eat();
+	for (int i = 0; i < 20; i++) bean_plant[i].init();
+	for (int i = 0; i < 10; i++) test_bean[i].init();
 	for (int i = 0; i < plant_place_max; i++) sunflower[i].init();
+	
 	load_bean_plant_with_mouse();
 	load_sunflower();
 	load_sunback();
@@ -173,18 +174,13 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	load_sunflower_gray_card();
 	load_peashooter_gray_card();
 	load_peashooter_card();
-	load_test();//查看物件位置 可移動的
 
 	
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if (nChar == VK_RIGHT) move_right = 1;
-	if (nChar == VK_LEFT) move_left = 1;
-	if (nChar == VK_UP) move_up = 1;
 	if (nChar == VK_DOWN) {
-		move_down = 1;
 		car_run = 1;
 	} 
 
@@ -192,10 +188,7 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if (nChar == VK_RIGHT) move_right = 0;
-	if (nChar == VK_LEFT) move_left = 0;
-	if (nChar == VK_UP) move_up = 0;
-	if (nChar == VK_DOWN) move_down = 0;
+
 }
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
@@ -283,15 +276,15 @@ void CGameStateRun::OnShow()
 		//物件跟隨滑鼠----------------------------------------------------
 	
 		
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 3; i++) { 
+			
 			basic_zombie[i].show();
 		}
-		if (zombie_index != 2) call_time += 1;
-		//call_time += 1;
-		if (call_time ==200) {
+		call_time += 1;
+		if (call_time == 200) {
 			if (zombie_index < 3) {
 				zombie_index += 1; 
-				basic_zombie[zombie_index].SetTopLeft(950, 240);
+				//basic_zombie[zombie_index].SetTopLeft(950, 240);
 			}
 			call_time = 0;
 		}
@@ -304,8 +297,6 @@ void CGameStateRun::OnShow()
 			sunflower[sunflower_index].show();
 		}
 		else if (sunflower_show_flag == 1) {
-			//testflower[sunflower_index].SetTopLeft((sunflower_index + 50)*sunflower_index, (sunflower_index + 50)*sunflower_index);
-			//testflower[sunflower_index].show();
 			sunflower[sunflower_index].show();
 		}
 		if(sun_flag==0) sun.ShowBitmap();
@@ -347,43 +338,12 @@ void CGameStateRun::OnShow()
 	else if (sunflower_flag == 1) {
 		sunflower_card.ShowBitmap();
 	}
-	//test.ShowBitmap();
-	//test2.SetTopLeft(test.GetLeft() + 50, test.GetTop() + 10);
-	//test2.ShowBitmap();
 	draw_text();
 	
 }
 //-------------------------------------------------------------------------------------------
-void CGameStateRun::load_zombie_move() {
-	
-}
-void CGameStateRun::load_zombie_eat() {
-	zombie[1].LoadBitmapByString({ "Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_0.bmp",
-		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_1.bmp",
-		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_2.bmp",
-		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_3.bmp",
-		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_4.bmp",
-		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_5.bmp",
-		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_6.bmp",
-		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_7.bmp",
-		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_8.bmp",
-		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_9.bmp",
-		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_10.bmp",
-		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_11.bmp",
-		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_12.bmp",
-		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_13.bmp",
-		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_14.bmp",
-		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_15.bmp",
-		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_16.bmp",
-		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_17.bmp",
-		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_18.bmp",
-		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_19.bmp",
-		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_20.bmp",
-		}, RGB(255, 255, 255));
-	zombie[1].SetTopLeft(0, 0);
-	zombie[1].SetAnimation(120, false);
-	zombie[1].ToggleAnimation();
-}
+
+
 
 void CGameStateRun::load_sunflower() {
 	
@@ -498,33 +458,7 @@ void CGameStateRun::load_bean_plant_with_mouse() {
 }
 
 
-void CGameStateRun::load_test() {
-	/*
-	test.LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_1.bmp"
-		}, RGB(255, 255, 255)); //440 285
-	test.SetTopLeft(0, 0);
-	test.SetAnimation(140, false);
-	test.ToggleAnimation();
-	
-	test2.LoadBitmapByString({
-		"Plants_vs_Zombies_Image/zombie/basic_zombie_headfall/headfall_0.bmp",
-		"Plants_vs_Zombies_Image/zombie/basic_zombie_headfall/headfall_1.bmp",
-		"Plants_vs_Zombies_Image/zombie/basic_zombie_headfall/headfall_2.bmp",
-		"Plants_vs_Zombies_Image/zombie/basic_zombie_headfall/headfall_3.bmp",
-		"Plants_vs_Zombies_Image/zombie/basic_zombie_headfall/headfall_4.bmp",
-		"Plants_vs_Zombies_Image/zombie/basic_zombie_headfall/headfall_5.bmp",
-		"Plants_vs_Zombies_Image/zombie/basic_zombie_headfall/headfall_6.bmp",
-		"Plants_vs_Zombies_Image/zombie/basic_zombie_headfall/headfall_7.bmp",
-		"Plants_vs_Zombies_Image/zombie/basic_zombie_headfall/headfall_8.bmp",
-		"Plants_vs_Zombies_Image/zombie/basic_zombie_headfall/headfall_9.bmp",
-		"Plants_vs_Zombies_Image/zombie/basic_zombie_headfall/headfall_10.bmp",
-		"Plants_vs_Zombies_Image/zombie/basic_zombie_headfall/headfall_11.bmp",
-		}, RGB(255, 255, 255)); //440 285
-	test2.SetTopLeft(test.GetLeft(), test.GetTop());
-	test2.SetAnimation(140, false);
-	test2.ToggleAnimation();
-	*/
-}
+
 
 
 void CGameStateRun::place_seat(int targetx, int targety,int item){
@@ -576,10 +510,6 @@ void CGameStateRun::draw_text() {
 	CDC *pDC = CDDraw::GetBackCDC();
 	//CDC *number = CDDraw::GetBackCDC();
 	/* Print title */
-	std::string str_x;
-	str_x = "test_x:" + std::to_string(test_x);
-	std::string str_y;
-	str_y = "test_y:" + std::to_string(test_y);
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(255, 255, 255));
 	CTextDraw::Print(pDC, 0, 0, std::to_string(pointx));
@@ -590,12 +520,6 @@ void CGameStateRun::draw_text() {
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 900, 5, std::to_string(sun_cooldown));
-
-	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 900, 30, str_x);
-
-	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 900, 55, str_y);
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 900, 80, std::to_string(basic_zombie[0].hp));
@@ -623,5 +547,12 @@ void CGameStateRun::draw_text() {
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 900, 485, std::to_string(zombie_index));
+	
+	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
+	CTextDraw::Print(pDC, 700, 540, std::to_string(bean_plant[0].GetLeft()));
+
+	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
+	CTextDraw::Print(pDC, 900, 540, std::to_string(bean_plant[0].PBgettop()));
+
 	CDDraw::ReleaseBackCDC();
 }

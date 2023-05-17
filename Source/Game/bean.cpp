@@ -18,7 +18,7 @@ void Bean::init() {
 		"Plants_vs_Zombies_Image/plants/bean/bean_7.bmp", 
 		"Plants_vs_Zombies_Image/plants/bean/bean_9.bmp", 
 		"Plants_vs_Zombies_Image/plants/bean/bean_10.bmp", 
-		"Plants_vs_Zombies_Image/plants/bean/bean_11.bmp", }, RGB(255, 255, 255));
+		"Plants_vs_Zombies_Image/plants/bean/bean_11.bmp", }, RGB(255,255,255));
 	plant.SetTopLeft(999, 999);
 	plant.SetAnimation(240, false);
 	plant.ToggleAnimation();
