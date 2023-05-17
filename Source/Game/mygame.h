@@ -121,7 +121,7 @@ namespace game_framework {
 		//殭屍---------------
 		Basic_zombie basic_zombie[4];
 		int zombie_max = 4;
-		int zombie_index = 0;
+		int zombie_index = -1;
 		int call_time = 0;
 		int zombie_atk = 0;
 		int zombie_atk_time = 0;

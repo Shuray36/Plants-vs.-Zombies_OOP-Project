@@ -55,21 +55,12 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 	}
 	if (BG1_flag1 == 2) {        //遊戲跑換地圖後正式開始 
-		//測試物件移動查看位置
-		//if (move_right == 1) test.SetTopLeft(test.GetLeft() + 1, test.GetTop());
-		//if (move_left == 1) test.SetTopLeft(test.GetLeft() - 1, test.GetTop());
-		//if (move_up == 1) test.SetTopLeft(test.GetLeft(), test.GetTop() - 1);
-		//if (move_down == 1) test.SetTopLeft(test.GetLeft(), test.GetTop() + 1);
-		//test_x = test.GetLeft();
-		//test_y = test.GetTop();
-		
-
-		
+	
 		for (int i = 0; i < 3; i++){
-			if (basic_zombie[i].die_flag == 0)basic_zombie[zombie_index].speed = -1;
+			if (basic_zombie[i].die_flag == 0 && zombie_index >= 0)basic_zombie[zombie_index].speed = -1;
 			
-			basic_zombie[i].SetTopLeft(basic_zombie[i].GetLeft() + basic_zombie[i].speed, 240);
-			//這行的邏輯漏洞 因為他每行都在執行這個，所以他的初始位置一直在999 240
+			basic_zombie[i].SetTopLeft(basic_zombie[i].GetLeft() + basic_zombie[i].speed, basic_zombie[i].GetTop());
+			
 		}
 
 		
@@ -276,15 +267,12 @@ void CGameStateRun::OnShow()
 		//物件跟隨滑鼠----------------------------------------------------
 	
 		
-		for (int i = 0; i < 3; i++) { 
-			
-			basic_zombie[i].show();
-		}
+		for (int i = 0; i < 3; i++)  basic_zombie[i].show();
 		call_time += 1;
 		if (call_time == 200) {
 			if (zombie_index < 3) {
 				zombie_index += 1; 
-				//basic_zombie[zombie_index].SetTopLeft(950, 240);
+				basic_zombie[zombie_index].SetTopLeft(950, 240);
 			}
 			call_time = 0;
 		}
