@@ -41,6 +41,9 @@
 #include "plant.h"
 #include <vector>
 
+#include "Car.h"
+#include "Sun.h"
+
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 	// Constants

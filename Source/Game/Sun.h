@@ -1,5 +1,8 @@
 #pragma once
-class Sun:game_framework::CMovingBitmap{
+#include "../Library/gameutil.h"
+
+class Sun: public game_framework::CMovingBitmap{
+public:
     void LoadSun();
 
 };

@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "Sun.h"
 
 void Sun::LoadSun(){
 	LoadBitmapByString({"Plants_vs_Zombies_Image/sun/sun_0.bmp",
@@ -23,8 +24,8 @@ void Sun::LoadSun(){
 		"Plants_vs_Zombies_Image/sun/sun_19.bmp", 
 		"Plants_vs_Zombies_Image/sun/sun_20.bmp", 
 		"Plants_vs_Zombies_Image/sun/sun_21.bmp", }, RGB(255, 255, 255));
-
-	sun.SetTopLeft(500, 0);
-	sun.SetAnimation(100, false);
-	sun.ToggleAnimation();
+	
+	SetTopLeft(500, 0);
+	SetAnimation(100, false);
+	ToggleAnimation();
 }

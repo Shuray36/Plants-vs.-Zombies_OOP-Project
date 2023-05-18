@@ -1,5 +1,6 @@
 #include "stdafx.h"
 
+#include "Car.h"
 
 void Car::Init(){
     trigger = false;
@@ -11,15 +12,15 @@ void Car::Update(){
     if(active){
         if(trigger){
             auto x = GetLeft();
-            setTopLeft(x+speed,GetTop());
-            if(x>mapRight){
+            SetTopLeft(x+speed,GetTop());
+            if(x>goal){
                 active = false;
             }
         }
     }
 }
 
-void Car::Trigger(){
-    trigger = true;
-
+void Car::SetGoal(int Goal)
+{
+    goal = Goal;
 }
