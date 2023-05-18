@@ -39,6 +39,7 @@
 */
 #include "zombie.h"
 #include "plant.h"
+#include <vector>
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -169,6 +170,7 @@ namespace game_framework {
 		//-------------------------------------------------------------------
 
 		//車-----------------------------------------------------------------
+		std::vector<Car> carList;
 		CMovingBitmap car[7];
 		int car_run = 0;
 		void load_car();
