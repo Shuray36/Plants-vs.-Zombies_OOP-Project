@@ -41,6 +41,10 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {
+	for(auto&car :carList)
+	{
+		car.Update();
+	}
 	//遊戲剛開始的移動 往右到一定程度後 往回到原本樣式
 	if (fight_background.GetLeft() >= (-350) && BG1_flag1 == 0) {
 		fight_background.SetTopLeft(fight_background.GetLeft() - 10, 0);
@@ -150,17 +154,16 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 		//-----------------------
 		sun.SetTopLeft(sun.GetLeft() + 0, sun.GetTop() + 2);
-		for (int i = 0; i < 3; i++) {
-			if (car[2].GetLeft() >= basic_zombie[i].GetLeft() - 100 && car[2].GetLeft() <= basic_zombie[i].GetLeft() + 100 && car[2].GetTop() >= basic_zombie[i].GetTop() + 0 && car[2].GetTop() <= basic_zombie[i].GetTop() + 100) {
-				car_run = 1;
-				basic_zombie[i].state = 3;
-			}
-		}
+
+		//todo car :zombie list done can kill zombie
+		// for(auto &car : carList)
+		// {
+		// 	for(auto &zombie:zombieList)
+		// 	{
+		// 		if(CMovingBitmap::IsOverlap((CMovingBitmap)car,zombie))	;
+		// 	}
+		// }
 		
-		//------------------------------------------------------
-		if (car_run == 1) { //除草機的細節
-			if(car[2].GetLeft()<=1500) car[2].SetTopLeft(car[2].GetLeft() + 10, car[2].GetTop());
-		}
 		
 		//太陽花技能----------------------
 		for (int i = 0; i < 45; i++) {
@@ -179,6 +182,13 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 {
+	int roadNum = 5;
+	for(int i = 0 ;i< roadNum;i++)
+	{
+		Car newcar=Car();
+		newcar.Init(i);
+		carList.push_back(newcar);
+	}
 	fight_background.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/BG1.bmp" });
 	fight_background.SetTopLeft(0, 0);
 	for (int i = 0; i < zombie_max; i++)basic_zombie[i].init();
@@ -192,7 +202,6 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	load_sunflower();//with_mouse
 	load_sunback();
 	sun.LoadSun();
-	load_car();
 	load_sunflower_card();
 	load_sunflower_gray_card();
 	load_peashooter_gray_card();
@@ -206,7 +215,10 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	if (nChar == VK_DOWN) {
-		car_run = 1;
+		for(auto & car :carList)
+		{
+			car.Trigger();
+		}
 	} 
 
 }
@@ -345,7 +357,6 @@ void CGameStateRun::OnShow()
 			sunflower[sunflower_index].show();
 		}
 		if(sun_flag==0) sun.ShowBitmap();
-		for (int i = 0; i < 5; i++) car[i].ShowBitmap();
 
 		if (pershooter_show_flag == 0) {
 			bean_plant[bean_plant_index].SetTopLeft(999, 999);
@@ -353,6 +364,9 @@ void CGameStateRun::OnShow()
 		}
 		else if (pershooter_show_flag == 1) {
 			bean_plant[bean_plant_index].show();
+		}
+		for(auto&car:carList){
+			car.ShowBitmap();
 		}
 		
 	}
@@ -449,18 +463,6 @@ void CGameStateRun::load_sunflower_gray_card() {
 	sunflower_gray_card.SetTopLeft(240, 0);
 }
 
-void CGameStateRun::load_car() {
-	car[0].LoadBitmapByString({ "Plants_vs_Zombies_Image/car/car.bmp" }, RGB(255, 255, 255));
-	car[0].SetTopLeft(140, 125);
-	car[1].LoadBitmapByString({ "Plants_vs_Zombies_Image/car/car.bmp" }, RGB(255, 255, 255));
-	car[1].SetTopLeft(140, 220);
-	car[2].LoadBitmapByString({ "Plants_vs_Zombies_Image/car/car.bmp" }, RGB(255, 255, 255));
-	car[2].SetTopLeft(140, 315);
-	car[3].LoadBitmapByString({ "Plants_vs_Zombies_Image/car/car.bmp" }, RGB(255, 255, 255));
-	car[3].SetTopLeft(140, 405);
-	car[4].LoadBitmapByString({ "Plants_vs_Zombies_Image/car/car.bmp" }, RGB(255, 255, 255));
-	car[4].SetTopLeft(140, 500);
-}
 void CGameStateRun::load_peashooter_gray_card() {
 	peashooter_gray_card.LoadBitmapByString({ "Plants_vs_Zombies_Image/card/peashooter_card/peashooter_gray.bmp" }, RGB(255, 255, 255));
 	peashooter_gray_card.SetTopLeft(350, 0);

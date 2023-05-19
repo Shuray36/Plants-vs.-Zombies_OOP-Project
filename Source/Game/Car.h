@@ -10,9 +10,10 @@ private:
     int goal;
 
 public:
-    void Init();
+    void Init(int line);
     void Update();
     void Trigger();
     void SetGoal(int Goal);
+    void ShowBitmap();
 
 };
