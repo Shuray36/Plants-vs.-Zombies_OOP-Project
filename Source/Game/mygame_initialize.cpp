@@ -29,6 +29,9 @@ void CGameStateInit::OnInit()
 	// 開始載入資料
 	//
 	load_background();
+	load_level_menu();
+	load_close_button();
+
 
 	ShowInitProgress(66, "Initialize...");
 	Sleep(200);
@@ -50,8 +53,10 @@ void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	if (pointx >= 476 && pointx <= 797 && pointy >= 80 && pointy <= 188) {
-		GotoGameState(GAME_STATE_RUN);
+		//GotoGameState(GAME_STATE_RUN);
+		menu_flag = 1;
 	}
+	//685 765 530 555
 }
 
 void CGameStateInit::OnMouseMove(UINT nFlags, CPoint point)
@@ -65,6 +70,15 @@ void CGameStateInit::OnShow()
 {
 	background.ShowBitmap();
 	start_button_1.ShowBitmap();
+	if (menu_flag == 1) {
+		level_menu.ShowBitmap();
+		close_button.ShowBitmap();
+	}
+
+
+
+
+
 	draw_text();
 }
 
@@ -80,9 +94,15 @@ void CGameStateInit::draw_text() {
 	CDC *pDC = CDDraw::GetBackCDC();
 	/* Print title */
 
-	CTextDraw::ChangeFontLog(pDC,24, "微軟正黑體", RGB(255, 255, 255));
+	CTextDraw::ChangeFontLog(pDC,24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 0, 0, std::to_string(pointx));
 	CTextDraw::Print(pDC, 50, 0, std::to_string(pointy));
+
+	if (menu_flag == 1) {
+		CTextDraw::ChangeFontLog(pDC, 30, "微軟正黑體", RGB(0, 0, 0));
+		CTextDraw::Print(pDC, 365, 30, "SELECT");
+	}
+	
 
 	CDDraw::ReleaseBackCDC();
 }
@@ -93,4 +113,15 @@ void CGameStateInit::OnMove() {
 	else {
 		start_button_1.SetFrameIndexOfBitmap(0);
 	}
+
+}
+
+void CGameStateInit::load_level_menu() {
+	level_menu.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/select_level.bmp" }, RGB(255, 255, 255));
+	level_menu.SetTopLeft(0, 0);
+}
+
+void CGameStateInit::load_close_button() {
+	close_button.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/close_0.bmp" ,"Plants_vs_Zombies_Image/Scenes/close_1.bmp" }, RGB(255, 255, 255));
+	close_button.SetTopLeft(675, 530);
 }

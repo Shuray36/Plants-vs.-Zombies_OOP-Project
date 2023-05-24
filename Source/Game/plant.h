@@ -16,7 +16,9 @@ public:
 	int atk_speed = 0;
 	int hp = 100;
 	int cd = 0;
-
+	int coordinate_x = 0;
+	int coordinate_y = 0;
+	int die_flag = 0;
 };
 
 

@@ -57,19 +57,14 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	}
 	if (BG1_flag1 == 2) {        //遊戲跑換地圖後正式開始 
 	
-		for (int i = 0; i < 3; i++){
+		for (int i = 0; i < zombie_max; i++){
 			if (basic_zombie[i].die_flag == 0 && zombie_index >= 0)basic_zombie[zombie_index].speed = -1;
-			
 			basic_zombie[i].SetTopLeft(basic_zombie[i].GetLeft() + basic_zombie[i].speed, basic_zombie[i].GetTop());
-			
 		}
-
-		
-		
 		//------------------------------------------------------
 		//花開始落下--------------------------------------------
 		sun_cooldown += 1;
-		if (sun_cooldown >= 300) {
+		if (sun_cooldown >= 700) {
 			int r = (rand() % 900 + 100);
 			sun.SetTopLeft(r, 0);
 			sun_flag = 0;
@@ -82,7 +77,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				bean_plant[i].pb_flag = 0;
 				bean_plant[i].attack();
 			}
-			for (int j = 0; j < 3; j++) {
+			for (int j = 0; j < zombie_max; j++) {
 				if (bean_plant[i].PBgetleft() <= basic_zombie[j].GetLeft() + 50 && bean_plant[i].PBgetleft() >= basic_zombie[j].GetLeft() + 45 && bean_plant[i].PBgettop() <= basic_zombie[j].GetTop() + 60 && bean_plant[i].PBgettop() >= basic_zombie[j].GetTop() - 0 && basic_zombie[j].die_flag == 0) {
 					bean_plant[i].leave();
 					bean_plant[i].pb_flag = 1;
@@ -103,20 +98,18 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 		//殭屍攻擊---------------
 
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < (zombie_max-1); i++) {
 			for (int j = 0; j < 20; j++) {
 				if (basic_zombie[i].GetLeft() <= bean_plant[j].GetLeft() + 30 && basic_zombie[i].GetLeft() >= bean_plant[j].GetLeft() + 20 && basic_zombie[i].GetTop() <= bean_plant[j].GetTop() + 0 && basic_zombie[i].GetTop() >= bean_plant[j].GetTop() -60 && basic_zombie[i].die_flag == 0) {
 					basic_zombie[i].state = 4;
-					//zombie_atk_time += 1;
 					basic_zombie[i].cd += 1;
 					if (basic_zombie[i].cd >= 100 && bean_plant[j].hp > 0) {
 						basic_zombie[i].cd = 0;
 						bean_plant[j].hp -= 30;
 					}
 					if (bean_plant[j].hp <= 0) {
-						for (int k = 0; k < 3; k++) {
+						for (int k = 0; k < (zombie_max - 1); k++) {
 							if (basic_zombie[k].state == 4) {
-								//zombie_atk_time = 0;
 								basic_zombie[k].cd = 0;
 								basic_zombie[k].state = 0;
 								basic_zombie[k].speed = -1;
@@ -127,14 +120,34 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				//堅果--------------------------------------
 				if (basic_zombie[i].GetLeft() <= nut[j].GetLeft() + 30 && basic_zombie[i].GetLeft() >= nut[j].GetLeft() + 20 && basic_zombie[i].GetTop() <= nut[j].GetTop() + 0 && basic_zombie[i].GetTop() >= nut[j].GetTop() - 60 && basic_zombie[i].die_flag == 0) {
 					basic_zombie[i].state = 4;
-					//zombie_atk_time += 1;
 					basic_zombie[i].cd += 1;
 					if (basic_zombie[i].cd >= 100 && nut[j].hp > 0) {
 						basic_zombie[i].cd = 0;
-						nut[j].hp -= 30;
+						nut[j].hp -= 70;
+
 					}
 					if (nut[j].hp <= 0) {
-						for (int k = 0; k < 3; k++) {
+						for (int k = 0; k < (zombie_max - 1); k++) {
+							if (basic_zombie[k].state == 4) {
+								basic_zombie[k].cd = 0;
+								basic_zombie[k].state = 0;
+								basic_zombie[k].speed = -1;
+							}
+						}
+						clear_seat(nut[j].coordinate_x, nut[j].coordinate_y);
+					}
+				}
+				//太陽花-------------------------------------
+				if (basic_zombie[i].GetLeft() <= sunflower[j].GetLeft() + 30 && basic_zombie[i].GetLeft() >= sunflower[j].GetLeft() + 20 && basic_zombie[i].GetTop() <= sunflower[j].GetTop() + 0 && basic_zombie[i].GetTop() >= sunflower[j].GetTop() - 60 && basic_zombie[i].die_flag == 0) {
+					basic_zombie[i].state = 4;
+					//zombie_atk_time += 1;
+					basic_zombie[i].cd += 1;
+					if (basic_zombie[i].cd >= 100 && sunflower[j].hp > 0) {
+						basic_zombie[i].cd = 0;
+						sunflower[j].hp -= 30;
+					}
+					if (sunflower[j].hp <= 0) {
+						for (int k = 0; k < (zombie_max - 1); k++) {
 							if (basic_zombie[k].state == 4) {
 								//zombie_atk_time = 0;
 								basic_zombie[k].cd = 0;
@@ -150,8 +163,8 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 		//-----------------------
 		sun.SetTopLeft(sun.GetLeft() + 0, sun.GetTop() + 2);
-		for (int i = 0; i < 3; i++) {
-			if (car[2].GetLeft() >= basic_zombie[i].GetLeft() - 100 && car[2].GetLeft() <= basic_zombie[i].GetLeft() + 100 && car[2].GetTop() >= basic_zombie[i].GetTop() + 0 && car[2].GetTop() <= basic_zombie[i].GetTop() + 100) {
+		for (int i = 0; i < (zombie_max - 1); i++) {
+			if (car[2].GetLeft() >= basic_zombie[i].GetLeft() + 0 && car[2].GetLeft() <= basic_zombie[i].GetLeft() + 100 && car[2].GetTop() >= basic_zombie[i].GetTop() + 0 && car[2].GetTop() <= basic_zombie[i].GetTop() + 100) {
 				car_run = 1;
 				basic_zombie[i].state = 3;
 			}
@@ -159,7 +172,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		
 		//------------------------------------------------------
 		if (car_run == 1) { //除草機的細節
-			if(car[2].GetLeft()<=1500) car[2].SetTopLeft(car[2].GetLeft() + 10, car[2].GetTop());
+			if (car[2].GetLeft() <= 1500) car[2].SetTopLeft(car[2].GetLeft() + 10, car[2].GetTop());
 		}
 		
 		//太陽花技能----------------------
@@ -171,7 +184,30 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			}
 		}
 		//--------------------------------
-
+		for (int i = 0; i < (zombie_index - 1); i++) {
+			if (basic_zombie[i].GetLeft() < 500) {
+				end_flag = 1;
+			}
+		}
+		
+		//結束---------------------
+		/*
+		if (basic_zombie[2].die_flag == 1) {
+			overflag = 1;
+			//GotoGameState(GAME_STATE_OVER);
+		}
+		if (overflag == 1) {
+			overtime += 1;
+			if (overtime == 100) {
+				basic_zombie[2].die_flag = 0;
+				overflag = 0;
+				overtime = 0;
+				GotoGameState(GAME_STATE_OVER);
+			}
+		}
+		*/
+		
+		
 	}
 	
 
@@ -181,8 +217,8 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 {
 	fight_background.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/BG1.bmp" });
 	fight_background.SetTopLeft(0, 0);
-	for (int i = 0; i < zombie_max; i++)basic_zombie[i].init();
-	for (int i = 0; i < zombie_max; i++) basic_zombie[i].speed = 0;
+	for (int i = 0; i < 10; i++)basic_zombie[i].init();
+	for (int i = 0; i < 10; i++) basic_zombie[i].speed = 0;
 	for (int i = 0; i < 20; i++) nut[i].init();
 	for (int i = 0; i < 20; i++) bean_plant[i].init();
 	for (int i = 0; i < plant_place_max; i++) sunflower[i].init();
@@ -199,16 +235,13 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	load_peashooter_card();
 	load_nut_card();
 	load_nut_gray_card();
-
+	load_zombie_win_picture();
 	
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if (nChar == VK_DOWN) {
-		car_run = 1;
-	} 
-
+	if (nChar == VK_DOWN) car_run = 1;
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -240,7 +273,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 	}
 	if (CMovingBitmap::IsMouseClick(pointx, pointy, nut_card) && money >= 75) {
 		nut_show_flag = 1;
-		nut_plant_index += 1;
+		//nut_plant_index += 1;
 		item = 2;
 		place_flag = 1;
 		nut_with_mouse_show = 1;
@@ -325,10 +358,10 @@ void CGameStateRun::OnShow()
 		//物件跟隨滑鼠----------------------------------------------------
 	
 		
-		for (int i = 0; i < 3; i++)  basic_zombie[i].show();
+		for (int i = 0; i < (zombie_max - 1); i++)  basic_zombie[i].show();
 		call_time += 1;
 		if (call_time == 200) {
-			if (zombie_index < 3) {
+			if (zombie_index < (zombie_max-1)) {
 				zombie_index += 1; 
 				basic_zombie[zombie_index].SetTopLeft(950, 240);
 			}
@@ -355,6 +388,17 @@ void CGameStateRun::OnShow()
 			bean_plant[bean_plant_index].show();
 		}
 		
+		if (end_flag == 2) {
+			end_time += 1;
+			if (end_time < 200) {
+				zombie_win_picture.ShowBitmap();
+			}
+			else {
+				end_flag = 0;
+				end_time = 0;
+				GotoGameState(GAME_STATE_OVER);
+			}
+		}
 	}
 	sunback.ShowBitmap();
 	sunflower_card.ShowBitmap();
@@ -434,7 +478,6 @@ void CGameStateRun::load_sunflower() {
 	
 
 }
-
 void CGameStateRun::load_sunback() {
 	sunback.LoadBitmapByString({ "Plants_vs_Zombies_Image/SunBack.bmp", }, RGB(255, 255, 255));
 	sunback.SetTopLeft(115, 0);
@@ -551,6 +594,11 @@ void CGameStateRun::load_nut_card() {
 	nut_card.SetTopLeft(460, 0);
 }
 
+void CGameStateRun::load_zombie_win_picture() {
+	zombie_win_picture.LoadBitmapByString({ "Plants_vs_Zombies_Image/end/ZombiesWon.bmp" }, RGB(255, 255, 255));
+	zombie_win_picture.SetTopLeft(350, 100);
+}
+
 
 void CGameStateRun::place_seat(int targetx, int targety,int item){
 	
@@ -583,6 +631,8 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 				else if (item == (int)plant::NUT_PLANT) {
 					nut[nut_plant_index].SetTopLeft(207 + xSize * x, 100 + ySize * y);
 					money -= 75;
+					nut[nut_plant_index].coordinate_x = x;
+					nut[nut_plant_index].coordinate_y = y;
 					nut_plant_index += 1;
 				}
 				place_flag = 0;
@@ -591,6 +641,10 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 			}
 		}
 	}
+}
+
+void  CGameStateRun::clear_seat(int coordinate_x, int coordinate_y) {
+	seat[coordinate_x][coordinate_y] = 0;
 }
 
 void CGameStateRun::draw_text() {
@@ -605,41 +659,45 @@ void CGameStateRun::draw_text() {
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 157, 5, std::to_string(money));
 
-	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 900, 5, std::to_string(sun_cooldown));
-
-	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 900, 80, std::to_string(basic_zombie[0].hp));
-
-	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 900, 105, std::to_string(bean_plant[0].hp));
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 900, 155, std::to_string(call_time));
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 900, 200, std::to_string(basic_zombie[0].speed));
+	CTextDraw::Print(pDC, 900, 200, std::to_string(nut[0].hp));
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 900, 255, std::to_string(basic_zombie[1].speed));
+	CTextDraw::Print(pDC, 900, 255, std::to_string(nut[1].hp));
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 900, 320, std::to_string(basic_zombie[2].speed));
+	CTextDraw::Print(pDC, 900, 320, std::to_string(nut[2].hp));
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 900, 375, std::to_string(bean_plant_index));
+	CTextDraw::Print(pDC, 900, 375, std::to_string(nut_plant_index));
+
+	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
+	CTextDraw::Print(pDC, 900, 485, std::to_string(zombie_index));
+	
+	
+
+	/*
+	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
+	CTextDraw::Print(pDC, 900, 105, std::to_string(bean_plant[0].hp));
+
+	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
+	CTextDraw::Print(pDC, 900, 80, std::to_string(basic_zombie[0].hp));
+
+	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
+	CTextDraw::Print(pDC, 900, 5, std::to_string(sun_cooldown));
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 900, 430, std::to_string(bean_plant[0].GetLeft()));
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 900, 485, std::to_string(zombie_index));
-	
-	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 700, 540, std::to_string(bean_plant[0].GetLeft()));
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 900, 540, std::to_string(bean_plant[0].PBgettop()));
-
+	*/
 	CDDraw::ReleaseBackCDC();
 }

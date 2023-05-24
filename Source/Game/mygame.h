@@ -76,6 +76,14 @@ namespace game_framework {
 		CMovingBitmap start_button_2;
 		int pointx = 0;
 		int pointy = 0;
+
+		CMovingBitmap level_menu;
+		void load_level_menu();
+		int menu_flag = 0;
+
+		CMovingBitmap close_button;
+		void load_close_button();
+
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -109,6 +117,8 @@ namespace game_framework {
 		// BG1的判斷變數
 		int BG1_flag1 = 0;
 		int time = 0;
+		int overflag = 0;
+		int overtime = 0;
 
 		//map-------------------
 		int seat[9][5];
@@ -116,11 +126,12 @@ namespace game_framework {
 		void place_seat(int x,int y,int item);
 		int plant_place_max = 45;
 		int item = -1;
+		void clear_seat(int coordinate_x,int coordinate_y);
 		//----------------------
 		
 		//殭屍---------------
-		Basic_zombie basic_zombie[4];
-		int zombie_max = 4;
+		Basic_zombie basic_zombie[10];
+		int zombie_max = 10;//4
 		int zombie_index = -1;
 		int call_time = 0;
 		int zombie_atk = 0;
@@ -129,7 +140,6 @@ namespace game_framework {
 
 		//太陽花-----------------
 		Sunflower sunflower[45];
-		Sunflower testflower[9];
 		int sunflower_index = 0;
 		//--------------------------
 
@@ -199,6 +209,13 @@ namespace game_framework {
 		int nut_show_flag = 0;
 		//-------------------------------------------------------------------
 		//地圖 位置左上(200,85) 右上(940,85) 左下(200,570) 右下(940,570)
+
+
+		//end--------------------------
+		CMovingBitmap zombie_win_picture;
+		void load_zombie_win_picture();
+		int end_flag = 0;
+		int end_time = 0;
 
 	};
 

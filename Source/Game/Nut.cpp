@@ -11,6 +11,9 @@ void Nut::show() {
 	if (hp > 0) {
 		plant.ShowBitmap();
 	}
+	else {
+		plant.SetTopLeft(999, 999);
+	}
 	
 }
 void Nut::init() {
