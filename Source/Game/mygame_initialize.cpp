@@ -31,7 +31,7 @@ void CGameStateInit::OnInit()
 	load_background();
 	load_level_menu();
 	load_close_button();
-
+	load_level();
 
 	ShowInitProgress(66, "Initialize...");
 	Sleep(200);
@@ -53,8 +53,14 @@ void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	if (pointx >= 476 && pointx <= 797 && pointy >= 80 && pointy <= 188) {
-		GotoGameState(GAME_STATE_RUN);
 		menu_flag = 1;
+	}
+	if (pointx >= 685 && pointx <= 765 && pointy >= 530 && pointy <= 555) {
+		menu_flag = 0;
+	}
+	if (pointx >= 120 && pointx <= 240 && pointy >= 120 && pointy <= 240 && menu_flag==1) {
+		GotoGameState(GAME_STATE_RUN);
+	
 	}
 	//685 765 530 555
 }
@@ -73,6 +79,9 @@ void CGameStateInit::OnShow()
 	if (menu_flag == 1) {
 		level_menu.ShowBitmap();
 		close_button.ShowBitmap();
+		L1.ShowBitmap();
+		L2.ShowBitmap();
+		L3.ShowBitmap();
 	}
 
 
@@ -114,6 +123,12 @@ void CGameStateInit::OnMove() {
 		start_button_1.SetFrameIndexOfBitmap(0);
 	}
 
+	if (pointx >= 685 && pointx <= 765 && pointy >= 530 && pointy <= 555) {
+		close_button.SetFrameIndexOfBitmap(1);
+	}
+	else {
+		close_button.SetFrameIndexOfBitmap(0);
+	}
 }
 
 void CGameStateInit::load_level_menu() {
@@ -124,4 +139,15 @@ void CGameStateInit::load_level_menu() {
 void CGameStateInit::load_close_button() {
 	close_button.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/close_0.bmp" ,"Plants_vs_Zombies_Image/Scenes/close_1.bmp" }, RGB(255, 255, 255));
 	close_button.SetTopLeft(675, 530);
+}
+
+void CGameStateInit::load_level() {
+	L1.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/level_1.bmp" }, RGB(255, 255, 255));
+	L1.SetTopLeft(120, 120);
+
+	L2.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/level_2.bmp" }, RGB(255, 255, 255));
+	L2.SetTopLeft(360, 120);
+
+	L3.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/level_3.bmp" }, RGB(255, 255, 255));
+	L3.SetTopLeft(600, 120);
 }

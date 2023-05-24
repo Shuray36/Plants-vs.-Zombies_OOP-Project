@@ -88,6 +88,11 @@ namespace game_framework {
 		CMovingBitmap close_button;
 		void load_close_button();
 
+		CMovingBitmap L1;
+		CMovingBitmap L2;
+		CMovingBitmap L3;
+		void load_level();
+
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

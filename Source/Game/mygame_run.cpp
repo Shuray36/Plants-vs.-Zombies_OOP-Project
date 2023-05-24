@@ -97,6 +97,8 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			}
 
 		}
+		//fix me 植物應該在殭屍出現才開始射擊 
+
 
 		//-----------------------
 
@@ -120,6 +122,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 							}
 						}
 					}
+					clear_seat(bean_plant[j].coordinate_x, bean_plant[j].coordinate_y);
 				}
 				//堅果--------------------------------------
 				if (basic_zombie[i].GetLeft() <= nut[j].GetLeft() + 30 && basic_zombie[i].GetLeft() >= nut[j].GetLeft() + 20 && basic_zombie[i].GetTop() <= nut[j].GetTop() + 0 && basic_zombie[i].GetTop() >= nut[j].GetTop() - 60 && basic_zombie[i].die_flag == 0) {
@@ -127,7 +130,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					basic_zombie[i].cd += 1;
 					if (basic_zombie[i].cd >= 100 && nut[j].hp > 0) {
 						basic_zombie[i].cd = 0;
-						nut[j].hp -= 70;
+						nut[j].hp -= 30;
 
 					}
 					if (nut[j].hp <= 0) {
@@ -157,10 +160,12 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 								basic_zombie[k].speed = -1;
 							}
 						}
+						clear_seat(sunflower[j].coordinate_x, sunflower[j].coordinate_y);
 					}
 				}
 				//--------------------------------------------
 			}
+			// fix me 不知道為什麼任何植物放在倒數兩排上 殭屍吃植物的時候會變得非常奇怪 並且植物不會扣血
 		}
 
 		//-----------------------
@@ -277,14 +282,12 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 	}
 	if (CMovingBitmap::IsMouseClick(pointx, pointy, sunflower_card)&&money>=50){
 		sunflower_show_flag = 1;
-		sunflower_index += 1;
 		item = 0;
 		place_flag = 1;
 		sunflower_with_mouse_show = 1;
 	}
 	if (CMovingBitmap::IsMouseClick(pointx, pointy, nut_card) && money >= 75) {
 		nut_show_flag = 1;
-		//nut_plant_index += 1;
 		item = 2;
 		place_flag = 1;
 		nut_with_mouse_show = 1;
@@ -595,10 +598,17 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 				if (item == (int)plant::SUN_FLOWER) {
 					sunflower[sunflower_index].SetTopLeft(207+xSize*x, 100+ySize*y);
 					money -= 50;
+					sunflower[sunflower_index].coordinate_x = x;
+					sunflower[sunflower_index].coordinate_y = y;
+					sunflower_index += 1;
+
+					
 				}
 				else if (item == (int)plant::BEAN_PLANT) {
 					bean_plant[bean_plant_index].SetTopLeft(207 + xSize * x, 100 + ySize * y);
 					money -= 100;
+					bean_plant[bean_plant_index].coordinate_x = x;
+					bean_plant[bean_plant_index].coordinate_y = y;
 					bean_plant_index += 1;
 				}
 				else if (item == (int)plant::NUT_PLANT) {
