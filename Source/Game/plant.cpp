@@ -10,7 +10,9 @@
 void Plant::show() {
 }
 void Plant::init() {
-
+    cd = 0;
+    hp = 100;
+    atk_speed = 0;
 }
 
 void Plant::SetCoordinate(int x, int y)

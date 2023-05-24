@@ -10,6 +10,7 @@ class Plant :public PZGameObject{
 protected:
 	int state;
 	Vector2 coordinate;
+	PZGameObject creation;
 	
 public:
 	Plant() = default;
@@ -23,6 +24,8 @@ public:
 	int atk_speed = 0;
 	int hp = 100;
 	int cd = 0;
-	int die_flag = 0;
+	// void Attack(){
+	// 		
+	// }
 };
 #endif 

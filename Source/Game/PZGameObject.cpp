@@ -21,3 +21,23 @@ bool PZGameObject::GetActive()
 {
     return _active; 
 }
+
+void PZGameObject::Init()
+{
+    _active = false;
+    _position = {0,0};
+    _collider = {0,0};
+}
+
+void PZGameObject::Update()
+{
+        
+}
+
+void PZGameObject::Show()
+{
+    if(_active)
+    {
+        ShowBitmap();
+    }
+}
