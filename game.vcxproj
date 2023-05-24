@@ -246,6 +246,7 @@
     <ClCompile Include="Source\Game\basic_zombie.cpp" />
     <ClCompile Include="Source\Game\bean.cpp" />
     <ClCompile Include="Source\Game\Car.cpp" />
+    <ClCompile Include="Source\Game\Counter.cpp" />
     <ClCompile Include="Source\Game\map.cpp" />
     <ClCompile Include="Source\Game\mygame_initialize.cpp" />
     <ClCompile Include="Source\Game\mygame_over.cpp" />
@@ -273,6 +274,7 @@
     <ClInclude Include="Source\Game\Bean.h" />
     <ClInclude Include="Source\Game\Car.h" />
     <ClInclude Include="Source\Game\config.h" />
+    <ClInclude Include="Source\Game\Counter.h" />
     <ClInclude Include="Source\Game\Nut.h" />
     <ClInclude Include="Source\Game\PZGameObject.h" />
     <ClInclude Include="Source\Game\Sun.h" />

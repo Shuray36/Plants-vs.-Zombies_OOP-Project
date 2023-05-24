@@ -1,6 +1,8 @@
 #pragma once
 #include "Vector2.h"
 #include "../Library/gameutil.h"
+#include "Counter.h"
+#define PZTIME 10
 
 class PZGameObject :public game_framework::CMovingBitmap
 {
@@ -14,8 +16,8 @@ public:
     Vector2 GetPosition();
     void SetActive(bool active);
     bool GetActive();
-    void Init();
-    void Update();
+    virtual void Init();
+    virtual void Update();
     void Show();
 
     //todo isOverlap with _collider

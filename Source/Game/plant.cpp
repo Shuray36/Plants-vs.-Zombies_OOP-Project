@@ -7,12 +7,52 @@
 #include "mygame.h"
 #include <string>
 
-void Plant::show() {
+
+bool Plant::CanAttack()
+{
+    return true;
 }
-void Plant::init() {
-    cd = 0;
+
+void Plant::Attack()
+{
+    shared_ptr<PZGameObject>creation;
+    creation->Init();
+    creations.push_back(creation);
+}
+
+void Plant::Init()
+{
+    PZGameObject::Init();
+    attack.Set(100,0);
     hp = 100;
-    atk_speed = 0;
+}
+
+void Plant::Update()
+{
+    if(attack.counter>=attack.cycle)
+    {
+        if(CanAttack())
+        {
+            Attack();
+            attack.counter =0;
+        }
+    }else
+    {
+        attack.counter+=PZTIME;
+    }
+    
+    auto creation = creations.begin();
+    while(creation!= creations.end() )
+    {
+        if((*creation)->GetActive())
+        {
+            (*creation)->Update();
+            ++creation;
+        }else
+        {
+            creations.erase(creation);
+        }
+    }
 }
 
 void Plant::SetCoordinate(int x, int y)

@@ -1,31 +1,36 @@
 #ifndef PLANT_H
 #define PLANT_H
 
-#include <string>
-
 #include "PZGameObject.h"
 
+enum class PlantStatus
+{
+	Normal,
+	Attack,
+};
 
 class Plant :public PZGameObject{
 protected:
 	int state;
 	Vector2 coordinate;
-	PZGameObject creation;
+	vector<shared_ptr<PZGameObject>> creations;
+	Counter attack;
+	bool CanAttack(); //override it to let different plant attack 
+	void Attack(); // override it to make different attack
 	
 public:
 	Plant() = default;
 	~Plant() = default;
-	void show();
-	void init();
+	void Init() override;
+	void Update() override;
 	void SetCoordinate(int x,int y);
 	void SetCoordinate(float x,float y);
 	int GetCoordinateX();
 	int GetCoordinateY();
-	int atk_speed = 0;
-	int hp = 100;
-	int cd = 0;
-	// void Attack(){
-	// 		
-	// }
+	
+	// will remove
+	int cd;
+	int hp;
+	
 };
 #endif 
