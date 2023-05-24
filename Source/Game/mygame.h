@@ -39,6 +39,10 @@
 */
 #include "zombie.h"
 #include "plant.h"
+#include <vector>
+
+#include "Car.h"
+#include "Sun.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -175,14 +179,11 @@ namespace game_framework {
 		//小太陽-----------------------------------------------------------------
 		int sun_flag = 0;
 		int sun_cooldown = 0;
-		CMovingBitmap sun;
-		void load_sun();
+		Sun sun;
 		//-------------------------------------------------------------------
 
 		//車-----------------------------------------------------------------
-		CMovingBitmap car[7];
-		int car_run = 0;
-		void load_car();
+		std::vector<Car> carList;
 		//-------------------------------------------------------------------
 
 		//card------------------------------------------------------------

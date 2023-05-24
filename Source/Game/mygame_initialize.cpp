@@ -53,7 +53,7 @@ void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	if (pointx >= 476 && pointx <= 797 && pointy >= 80 && pointy <= 188) {
-		//GotoGameState(GAME_STATE_RUN);
+		GotoGameState(GAME_STATE_RUN);
 		menu_flag = 1;
 	}
 	//685 765 530 555
