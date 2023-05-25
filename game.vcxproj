@@ -270,10 +270,13 @@
     <ClInclude Include="Source\Core\MainFrm.h" />
     <ClInclude Include="Source\Core\Resource.h" />
     <ClInclude Include="Source\Core\StdAfx.h" />
+    <ClInclude Include="Source\Game\Bean.h" />
     <ClInclude Include="Source\Game\Car.h" />
     <ClInclude Include="Source\Game\config.h" />
+    <ClInclude Include="Source\Game\Nut.h" />
     <ClInclude Include="Source\Game\PZGameObject.h" />
     <ClInclude Include="Source\Game\Sun.h" />
+    <ClInclude Include="Source\Game\SunFlower.h" />
     <ClInclude Include="Source\Game\Vector2.h" />
     <ClInclude Include="Source\Game\zombie.h" />
     <ClInclude Include="Source\Game\mygame.h" />

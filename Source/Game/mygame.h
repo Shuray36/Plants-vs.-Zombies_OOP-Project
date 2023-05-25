@@ -41,8 +41,11 @@
 #include "plant.h"
 #include <vector>
 
+#include "Bean.h"
 #include "Car.h"
+#include "Nut.h"
 #include "Sun.h"
+#include "SunFlower.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
