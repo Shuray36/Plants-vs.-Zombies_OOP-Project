@@ -155,11 +155,7 @@ namespace game_framework {
 		//--------------------------
 
 		//射手-----------------------
-		CMovingBitmap bean_plant_with_mouse;
 		vector<Bean> bean_plant;
-		int bean_plant_index = 0;
-		int bean_plant_with_mouse_show = 0;
-		void load_bean_plant_with_mouse();
 		//---------------------------
 
 		//堅果--------------------------
@@ -198,7 +194,6 @@ namespace game_framework {
 		CMovingBitmap peashooter_gray_card;
 		void load_peashooter_gray_card();
 		int pershooter_flag = 0;
-		int pershooter_show_flag = 0;
 		//堅果----------------------------------------------------
 		CMovingBitmap nut_card;
 		void load_nut_card();
