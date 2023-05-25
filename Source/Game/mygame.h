@@ -152,7 +152,6 @@ namespace game_framework {
 
 		//太陽花-----------------
 		vector<Sunflower> sunflower;
-		int sunflower_index = 0;
 		//--------------------------
 
 		//射手-----------------------
@@ -201,7 +200,6 @@ namespace game_framework {
 		CMovingBitmap sunflower_gray_card;
 		void load_sunflower_gray_card();
 		int sunflower_flag = 0;
-		int sunflower_show_flag = 0;
 		//射手----------------------------------------------------
 		CMovingBitmap peashooter_card;
 		void load_peashooter_card();

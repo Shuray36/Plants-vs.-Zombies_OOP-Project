@@ -212,7 +212,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 {
-	sunflower = InitPlantVector<Sunflower>(45);
 	nut = InitPlantVector<Nut>(20);
 	bean_plant = InitPlantVector<Bean>(20);
 	int roadNum = 5;
@@ -226,9 +225,15 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	fight_background.SetTopLeft(0, 0);
 	for (int i = 0; i < 10; i++)basic_zombie[i].init();
 	for (int i = 0; i < 10; i++) basic_zombie[i].speed = 0;
-	for (int i = 0; i < 20; i++) nut[i].init();
-	for (int i = 0; i < 20; i++) bean_plant[i].init();
-	for (int i = 0; i < plant_place_max; i++) sunflower[i].init();
+
+	for(auto& n:nut)
+	{
+		n.init();
+	}
+	for(auto& b:bean_plant)
+	{
+		b.init();
+	}
 	
 	load_bean_plant_with_mouse();
 	load_nut_with_mouse();
@@ -276,7 +281,6 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 		
 	}
 	if (CMovingBitmap::IsMouseClick(pointx, pointy, sunflower_card)&&money>=50){
-		sunflower_show_flag = 1;
 		item = 0;
 		place_flag = 1;
 		sunflower_with_mouse_show = 1;
@@ -379,12 +383,10 @@ void CGameStateRun::OnShow()
 		//召喚殭屍------------------------------------
 
 
-		if (sunflower_show_flag == 0) {
-			sunflower[sunflower_index].SetTopLeft(999, 999);
-			sunflower[sunflower_index].show();
-		}
-		else if (sunflower_show_flag == 1) {
-			sunflower[sunflower_index].show();
+
+		for(auto &s : sunflower)
+		{
+			s.show();
 		}
 		if(sun_flag==0) sun.ShowBitmap();
 
@@ -591,12 +593,12 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 		for (int x = 0; x < 9; x++){
 			if (seat[x][y] == 1 ) {
 				if (item == (int)plant::SUN_FLOWER) {
-					sunflower[sunflower_index].SetTopLeft(207+xSize*x, 100+ySize*y);
+					Sunflower newflower = Sunflower();
+					newflower.init();
+					newflower.SetTopLeft(207+xSize*x, 100+ySize*y);
+					newflower.SetCoordinate(x,y);
+					sunflower.push_back(newflower);
 					money -= 50;
-					sunflower[sunflower_index].SetCoordinate(x,y);
-					sunflower_index += 1;
-
-					
 				}
 				else if (item == (int)plant::BEAN_PLANT) {
 					bean_plant[bean_plant_index].SetTopLeft(207 + xSize * x, 100 + ySize * y);
