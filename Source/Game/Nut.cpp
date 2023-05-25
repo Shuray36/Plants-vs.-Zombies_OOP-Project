@@ -9,15 +9,15 @@
 
 void Nut::show() {
 	if (hp > 0) {
-		plant.ShowBitmap();
+		ShowBitmap();
 	}
 	else {
-		plant.SetTopLeft(999, 999);
+		SetTopLeft(999, 999);
 	}
 	
 }
 void Nut::init() {
-	plant.LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/nut_one/nut_one_0.bmp",
+	LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/nut_one/nut_one_0.bmp",
 		"Plants_vs_Zombies_Image/plants/nut_one/nut_one_1.bmp",
 		"Plants_vs_Zombies_Image/plants/nut_one/nut_one_2.bmp",
 		"Plants_vs_Zombies_Image/plants/nut_one/nut_one_3.bmp",
@@ -34,16 +34,7 @@ void Nut::init() {
 		"Plants_vs_Zombies_Image/plants/nut_one/nut_one_14.bmp",
 		"Plants_vs_Zombies_Image/plants/nut_one/nut_one_15.bmp",
 		}, RGB(0, 0, 0));
-	plant.SetTopLeft(999, 999);
-	plant.SetAnimation(100, false);
-	plant.ToggleAnimation();
-}
-void Nut::SetTopLeft(int x, int y){
-	plant.SetTopLeft(x, y);
-}
-int Nut::GetLeft() {
-	return plant.GetLeft();
-}
-int Nut::GetTop() {
-	return plant.GetTop();
+	SetTopLeft(999, 999);
+	SetAnimation(100, false);
+	ToggleAnimation();
 }

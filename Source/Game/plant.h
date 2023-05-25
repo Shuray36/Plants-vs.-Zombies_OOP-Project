@@ -3,16 +3,15 @@
 
 #include <string>
 
-class Plant {
+class Plant :public game_framework::CMovingBitmap{
 protected:
 	int state;
 	
-	game_framework::CMovingBitmap plant;
 public:
 	Plant() = default;
 	~Plant() = default;
 	void show();
-	virtual void init();
+	void init();
 	int atk_speed = 0;
 	int hp = 100;
 	int cd = 0;
@@ -30,11 +29,8 @@ public:
 	Sunflower() = default;
 	void init();
 	void show();
-	void SetTopLeft(int x, int y);
 	int state = 0;
 	int getsun_flag = 0;
-	int GetLeft();
-	int GetTop();
 	int sunGetLeft();
 	int sunGetTop();
 	int cd_keep = 0;
@@ -56,9 +52,6 @@ public:
 	int pb_flag = 0;
 	void reload();
 	void leave();
-	void SetTopLeft(int x, int y);
-	int GetLeft();
-	int GetTop();
 	game_framework::CMovingBitmap pb;
 
 };
@@ -67,9 +60,6 @@ public:
 	Nut() :Plant() {}
 	void init();
 	void show();
-	void SetTopLeft(int x, int y);
-	int GetLeft();
-	int GetTop();
 };
 
 #endif 
