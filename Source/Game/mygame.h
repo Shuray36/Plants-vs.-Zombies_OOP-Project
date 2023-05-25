@@ -163,11 +163,7 @@ namespace game_framework {
 		//---------------------------
 
 		//堅果--------------------------
-		CMovingBitmap nut_plant_with_mouse;
 		vector<Nut> nut;
-		int nut_plant_index = 0;
-		int nut_with_mouse_show = 0;
-		void load_nut_with_mouse();
 		//------------------------------
 
 
