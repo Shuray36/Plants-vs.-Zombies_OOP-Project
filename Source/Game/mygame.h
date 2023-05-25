@@ -172,10 +172,6 @@ namespace game_framework {
 
 
 		//太陽花跟隨滑鼠-------------------------------------------------------------
-		CMovingBitmap sunflower_with_mouse;
-		int sunflower_with_mouse_show = 0;
-		bool sunflower_click_show = false;
-		void load_sunflower();//太陽花圖片載入
 		//-------------------------------------------------------------------
 
 		//太陽記分板-----------------------------------------------------------------

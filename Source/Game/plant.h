@@ -17,6 +17,7 @@ protected:
 	Counter attack;
 	bool CanAttack(); //override it to let different plant attack 
 	void Attack(); // override it to make different attack
+	bool _isPlace;
 	
 public:
 	Plant() = default;
@@ -27,7 +28,9 @@ public:
 	void SetCoordinate(float x,float y);
 	int GetCoordinateX();
 	int GetCoordinateY();
-	
+	bool GetIsPlace();
+	void SetIsPlace(bool status);
+
 	// will remove
 	int cd;
 	int hp;
