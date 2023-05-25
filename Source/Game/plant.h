@@ -3,20 +3,26 @@
 
 #include <string>
 
-class Plant :public game_framework::CMovingBitmap{
+#include "PZGameObject.h"
+
+
+class Plant :public PZGameObject{
 protected:
 	int state;
+	Vector2 coordinate;
 	
 public:
 	Plant() = default;
 	~Plant() = default;
 	void show();
 	void init();
+	void SetCoordinate(int x,int y);
+	void SetCoordinate(float x,float y);
+	int GetCoordinateX();
+	int GetCoordinateY();
 	int atk_speed = 0;
 	int hp = 100;
 	int cd = 0;
-	int coordinate_x = 0;
-	int coordinate_y = 0;
 	int die_flag = 0;
 };
 #endif 

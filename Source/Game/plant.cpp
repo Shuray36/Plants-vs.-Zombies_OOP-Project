@@ -12,3 +12,24 @@ void Plant::show() {
 void Plant::init() {
 
 }
+
+void Plant::SetCoordinate(int x, int y)
+{
+    SetCoordinate((float)x,(float)y);	
+}
+
+void Plant::SetCoordinate(float x, float y)
+{
+    coordinate.x = x;
+    coordinate.y = y;
+}
+
+int Plant::GetCoordinateX()
+{
+    return (int)coordinate.x;
+}
+
+int Plant::GetCoordinateY()
+{
+    return (int)coordinate.y;
+}

@@ -122,7 +122,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 							}
 						}
 					}
-					clear_seat(bean_plant[j].coordinate_x, bean_plant[j].coordinate_y);
+					clear_seat((int)bean_plant[j].GetCoordinateX(),(int) bean_plant[j].GetCoordinateY());
 				}
 				//堅果--------------------------------------
 				if (basic_zombie[i].GetLeft() <= nut[j].GetLeft() + 30 && basic_zombie[i].GetLeft() >= nut[j].GetLeft() + 20 && basic_zombie[i].GetTop() <= nut[j].GetTop() + 0 && basic_zombie[i].GetTop() >= nut[j].GetTop() - 60 && basic_zombie[i].die_flag == 0) {
@@ -141,7 +141,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 								basic_zombie[k].speed = -1;
 							}
 						}
-						clear_seat(nut[j].coordinate_x, nut[j].coordinate_y);
+						clear_seat((int)nut[j].GetCoordinateX(), (int)nut[j].GetCoordinateY());
 					}
 				}
 				//太陽花-------------------------------------
@@ -160,7 +160,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 								basic_zombie[k].speed = -1;
 							}
 						}
-						clear_seat(sunflower[j].coordinate_x, sunflower[j].coordinate_y);
+						clear_seat((int)sunflower[j].GetCoordinateX(), (int)sunflower[j].GetCoordinateY());
 					}
 				}
 				//--------------------------------------------
@@ -598,8 +598,7 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 				if (item == (int)plant::SUN_FLOWER) {
 					sunflower[sunflower_index].SetTopLeft(207+xSize*x, 100+ySize*y);
 					money -= 50;
-					sunflower[sunflower_index].coordinate_x = x;
-					sunflower[sunflower_index].coordinate_y = y;
+					sunflower[sunflower_index].SetCoordinate(x,y);
 					sunflower_index += 1;
 
 					
@@ -607,15 +606,13 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 				else if (item == (int)plant::BEAN_PLANT) {
 					bean_plant[bean_plant_index].SetTopLeft(207 + xSize * x, 100 + ySize * y);
 					money -= 100;
-					bean_plant[bean_plant_index].coordinate_x = x;
-					bean_plant[bean_plant_index].coordinate_y = y;
+					bean_plant[bean_plant_index].SetCoordinate(x,y);
 					bean_plant_index += 1;
 				}
 				else if (item == (int)plant::NUT_PLANT) {
 					nut[nut_plant_index].SetTopLeft(207 + xSize * x, 100 + ySize * y);
 					money -= 75;
-					nut[nut_plant_index].coordinate_x = x;
-					nut[nut_plant_index].coordinate_y = y;
+					nut[nut_plant_index].SetCoordinate(x,y);
 					nut_plant_index += 1;
 				}
 				place_flag = 0;
