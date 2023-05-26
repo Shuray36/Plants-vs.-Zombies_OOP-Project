@@ -7,7 +7,7 @@
 class PZGameObject :public game_framework::CMovingBitmap
 {
 private:
-    bool _active;
+    bool _active=true;
     Vector2 _position;
     Vector2 _collider;
     

@@ -3,7 +3,7 @@
 
 class Nut:public Plant {
 public:
-	Nut() :Plant() {}
+	Nut() = default;
 	void init();
 	void show();
 };

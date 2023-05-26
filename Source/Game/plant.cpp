@@ -25,6 +25,7 @@ void Plant::Init()
     PZGameObject::Init();
     attack.Set(100,0);
     hp = 100;
+    _isPlace = false;
 }
 
 void Plant::Update()
@@ -74,4 +75,14 @@ int Plant::GetCoordinateX()
 int Plant::GetCoordinateY()
 {
     return (int)coordinate.y;
+}
+
+bool Plant::GetIsPlace()
+{
+    return _isPlace;
+}
+
+void Plant::SetIsPlace(bool status)
+{
+    _isPlace = status;	
 }

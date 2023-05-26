@@ -24,7 +24,7 @@ bool PZGameObject::GetActive()
 
 void PZGameObject::Init()
 {
-    _active = false;
+    _active = true;
     _position = {0,0};
     _collider = {0,0};
 }
