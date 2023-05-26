@@ -13,7 +13,7 @@ void Car::Init(int line){
     int mapXNum =9;
     speed = 10;
     SetTopLeft(mapLeft,mapTop+line*yDistance);
-    SetGoal(mapLeft+xDistance*mapXNum);
+    SetGoal(1500);//mapLeft+xDistance*mapXNum
 }
 
 void Car::Update(){
@@ -44,4 +44,8 @@ void Car::ShowBitmap()
     {
         CMovingBitmap::ShowBitmap();
     }
+}
+
+void Car::reset() {
+	
 }

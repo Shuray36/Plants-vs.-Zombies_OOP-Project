@@ -6,6 +6,7 @@
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
 #include "mygame.h"
+#include "map.h"
 #include <string>
 
 using namespace game_framework;
@@ -59,6 +60,8 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 		menu_flag = 0;
 	}
 	if (pointx >= 120 && pointx <= 240 && pointy >= 120 && pointy <= 240 && menu_flag==1) {
+		menu_flag = 0;
+		Map::level = 1;
 		GotoGameState(GAME_STATE_RUN);
 	
 	}

@@ -8,6 +8,7 @@
 #include "mygame.h"
 //#include "zombie.h"
 //#include "plant.h"
+//#include "map.h"
 #include <string>
 #include <random>
 
@@ -98,7 +99,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					b.leave();
 					b.pb_flag = 1;
 					b.cd = 0;
-					basic_zombie[j].hp -= 10;
+					basic_zombie[j].hp -= 30;
 					if (basic_zombie[j].hp <= 0) {
 						basic_zombie[j].state = 1;
 						basic_zombie[j].die_flag = 1;
@@ -143,7 +144,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			for (auto &s : sunflower) {
 				if (basic_zombie[i].GetLeft() <= s.GetLeft() + 30 && basic_zombie[i].GetLeft() >= s.GetLeft() + 20 && basic_zombie[i].GetTop() <= s.GetTop() + 0 && basic_zombie[i].GetTop() >= s.GetTop() - 60 && basic_zombie[i].die_flag == 0) {
 					basic_zombie[i].state = 4;
-					basic_zombie[i].cd += 50;
+					basic_zombie[i].cd += 1;
 					if (basic_zombie[i].cd >= 100 && s.hp > 0) {
 						basic_zombie[i].cd = 0;
 						s.hp -= 30;
@@ -165,7 +166,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			for (auto &n : nut) {
 				if (basic_zombie[i].GetLeft() <= n.GetLeft() + 30 && basic_zombie[i].GetLeft() >= n.GetLeft() + 20 && basic_zombie[i].GetTop() <= n.GetTop() + 0 && basic_zombie[i].GetTop() >= n.GetTop() - 60 && basic_zombie[i].die_flag == 0) {
 					basic_zombie[i].state = 4;
-					basic_zombie[i].cd += 50;
+					basic_zombie[i].cd += 1;
 					if (basic_zombie[i].cd >= 100 && n.hp > 0) {
 						basic_zombie[i].cd = 0;
 						n.hp -= 30;
@@ -230,7 +231,18 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			}
 		}
 		*/
-		
+		for (auto &car : carList) {
+			for (int i = 0; i < 9; i++) {
+				if (car.GetLeft() >= basic_zombie[i].GetLeft() + 0 && car.GetLeft() <= basic_zombie[i].GetLeft() + 100 && car.GetTop() >= basic_zombie[i].GetTop() + 0 && car.GetTop() <= basic_zombie[i].GetTop() + 100) {
+					car.Trigger();
+					basic_zombie[i].state = 3;
+				}
+			}
+		}
+
+		if (basic_zombie[8].die_flag == 1) {
+			overflag = 1;
+		}
 		
 	}
 	
@@ -269,17 +281,24 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	load_nut_card();
 	load_nut_gray_card();
 	load_zombie_win_picture();
+	load_plant_win_picture();
 	
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	if (nChar == VK_DOWN) {
-		for(auto & car :carList)
+		for (auto & car : carList)
 		{
 			car.Trigger();
 		}
-	} 
+	}
+	if (nChar == VK_UP) {
+		GotoGameState(GAME_STATE_INIT);
+	}
+	if (nChar == 0x52) {
+		reset();
+	}
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -294,21 +313,21 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 		money += 300;
 		sun_flag = 1;
 	}
-	if (CMovingBitmap::IsMouseClick(pointx, pointy, peashooter_card)&&money>=100) {
+	if (CMovingBitmap::IsCardClick(pointx, pointy, peashooter_card)&&money>=100) { //245 15  330 50
 		item = 1;
 		place_flag = 1;
 		Bean newflower = Bean();
 		newflower.init();
 		bean_plant.push_back(newflower);
 	}
-	if (CMovingBitmap::IsMouseClick(pointx, pointy, sunflower_card)&&money>=50){
+	if (CMovingBitmap::IsCardClick(pointx, pointy, sunflower_card)&&money>=50){
 		item = 0;
 		place_flag = 1;
 		Sunflower newflower = Sunflower();
 		newflower.init();
 		sunflower.push_back(newflower);
 	}
-	if (CMovingBitmap::IsMouseClick(pointx, pointy, nut_card) && money >= 75) {
+	if (CMovingBitmap::IsCardClick(pointx, pointy, nut_card) && money >= 75) {
 		item = 2;
 		place_flag = 1;
 		Nut n = Nut();
@@ -321,6 +340,12 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 		if (pointx >= s.sunGetLeft() - 50 && pointx <= s.sunGetLeft() + 50 && pointy >= s.sunGetTop() - 50 && pointy <= s.sunGetTop() + 50) {
 			s.getsun_flag = 0;
 			money += 50;
+		}
+	}
+
+	if (pointx >= plant_win_picture.GetLeft() + 0 && pointx <= plant_win_picture.GetLeft() + 50 && pointy >= plant_win_picture.GetTop() + 0 && pointy <= plant_win_picture.GetTop() + 75) {
+		if (overflag == 1) {
+			GotoGameState(GAME_STATE_INIT);
 		}
 	}
 
@@ -450,6 +475,10 @@ void CGameStateRun::OnShow()
 		nut_card.ShowBitmap();
 	}
 
+	if (overflag == 1) {
+		plant_win_picture.SetTopLeft(733, 313);
+		plant_win_picture.ShowBitmap();
+	}
 
 	draw_text();
 	
@@ -495,6 +524,11 @@ void CGameStateRun::load_nut_card() {
 void CGameStateRun::load_zombie_win_picture() {
 	zombie_win_picture.LoadBitmapByString({ "Plants_vs_Zombies_Image/end/ZombiesWon.bmp" }, RGB(255, 255, 255));
 	zombie_win_picture.SetTopLeft(350, 100);
+}
+
+void CGameStateRun::load_plant_win_picture() {
+	plant_win_picture.LoadBitmapByString({ "Plants_vs_Zombies_Image/end/plantWon.bmp" }, RGB(255, 255, 255));
+	plant_win_picture.SetTopLeft(0, 0);
 }
 
 
@@ -549,6 +583,38 @@ void  CGameStateRun::clear_seat(int coordinate_x, int coordinate_y) {
 	seat[coordinate_x][coordinate_y] = 0;
 }
 
+void CGameStateRun::reset() {
+	money = 0;
+	BG1_flag1 = 0;
+	time = 0;
+	overflag = 0;
+	overtime = 0;
+	//---------------
+	//map-------------
+	place_flag = 0;
+	for (unsigned int i = 0; i < nut.size(); i++) {
+		//nut.erase(i);
+	}
+	/*
+	for (int x = 0; x < 10; x++) {
+		for (int y = 0; y < 5; y++) {
+			seat[x][y] = 0;
+		}
+	}
+	//這行加入後太陽花的放置會變得很奇怪
+	*/
+	//---------------
+	//殭屍-----------
+	zombie_index = -1;
+	call_time = 0;
+	//---------------
+
+	//小太陽-----------
+	sun_cooldown = 0;
+	//-----------------
+}
+
+
 void CGameStateRun::draw_text() {
 	CDC *pDC = CDDraw::GetBackCDC();
 	//CDC *number = CDDraw::GetBackCDC();
@@ -568,6 +634,8 @@ void CGameStateRun::draw_text() {
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 900, 485, std::to_string(zombie_index));
 	
+	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
+	CTextDraw::Print(pDC, 50, 50, std::to_string(Map::level));
 	
 
 	/*

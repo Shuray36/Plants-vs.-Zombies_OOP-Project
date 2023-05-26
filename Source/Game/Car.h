@@ -15,5 +15,5 @@ public:
     void Trigger();
     void SetGoal(int Goal);
     void ShowBitmap();
-
+	void reset();
 };

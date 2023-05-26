@@ -40,7 +40,7 @@
 #include "zombie.h"
 #include "plant.h"
 #include <vector>
-
+#include "map.h"
 #include "Bean.h"
 #include "Car.h"
 #include "Nut.h"
@@ -162,10 +162,6 @@ namespace game_framework {
 		vector<Nut> nut;
 		//------------------------------
 
-
-		//太陽花跟隨滑鼠-------------------------------------------------------------
-		//-------------------------------------------------------------------
-
 		//太陽記分板-----------------------------------------------------------------
 		CMovingBitmap sunback;
 		void load_sunback();
@@ -211,6 +207,14 @@ namespace game_framework {
 		int end_flag = 0;
 		int end_time = 0;
 
+		CMovingBitmap plant_win_picture;
+		void load_plant_win_picture();
+		//--------------------------
+		//reset--------------------
+		void reset();
+
+		//-------------------------
+		
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

@@ -75,6 +75,11 @@
     <ClCompile Include="Source\Game\Nut.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\Car.cpp" />
+    <ClCompile Include="Source\Game\Counter.cpp" />
+    <ClCompile Include="Source\Game\PZGameObject.cpp" />
+    <ClCompile Include="Source\Game\Sun.cpp" />
+    <ClCompile Include="Source\Game\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Library\audio.h">
@@ -116,6 +121,15 @@
     <ClInclude Include="Source\Game\zombie.h">
       <Filter>MyGame</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Bean.h" />
+    <ClInclude Include="Source\Game\Car.h" />
+    <ClInclude Include="Source\Game\Counter.h" />
+    <ClInclude Include="Source\Game\Nut.h" />
+    <ClInclude Include="Source\Game\PZGameObject.h" />
+    <ClInclude Include="Source\Game\Sun.h" />
+    <ClInclude Include="Source\Game\SunFlower.h" />
+    <ClInclude Include="Source\Game\Vector2.h" />
+    <ClInclude Include="Source\Game\map.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Source\Core\game.rc">

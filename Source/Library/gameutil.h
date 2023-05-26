@@ -120,6 +120,7 @@ namespace game_framework {
 		static bool IsOverlap(CMovingBitmap bmp1, CMovingBitmap bmp2);
 		static bool IsOverlap_new(CMovingBitmap bmp1, CMovingBitmap bmp2);
 		static bool IsMouseClick(int x, int y, CMovingBitmap bmp1);
+		static bool IsCardClick(int x, int y, CMovingBitmap bmp1);
 		
 		/* Toggle function */
 		void  ToggleAnimation();

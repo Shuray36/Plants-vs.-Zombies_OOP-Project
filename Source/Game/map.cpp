@@ -10,6 +10,8 @@
 //#include "plant.h"
 #include <string>
 #include <random>
+#include "map.h"
 
 using namespace game_framework;
 
+int Map::level = 0;

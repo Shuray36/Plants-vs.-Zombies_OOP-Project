@@ -275,6 +275,7 @@
     <ClInclude Include="Source\Game\Car.h" />
     <ClInclude Include="Source\Game\config.h" />
     <ClInclude Include="Source\Game\Counter.h" />
+    <ClInclude Include="Source\Game\map.h" />
     <ClInclude Include="Source\Game\Nut.h" />
     <ClInclude Include="Source\Game\PZGameObject.h" />
     <ClInclude Include="Source\Game\Sun.h" />
