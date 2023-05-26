@@ -25,6 +25,17 @@ using namespace game_framework;
 // 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
 /////////////////////////////////////////////////////////////////////////////
 
+template<class Plant>
+vector<Plant> InitPlantVector(int n)
+{
+	vector<Plant> plantVector;
+	for(int i =0;i<n;i++)
+	{
+		Plant newFlower = Plant();
+		plantVector.push_back(newFlower);
+	}
+	return plantVector;
+}
 
 
 CGameStateRun::CGameStateRun(CGame *g) : CGameState(g)
@@ -124,26 +135,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					}
 					clear_seat((int)bean_plant[j].GetCoordinateX(),(int) bean_plant[j].GetCoordinateY());
 				}
-				//堅果--------------------------------------
-				if (basic_zombie[i].GetLeft() <= nut[j].GetLeft() + 30 && basic_zombie[i].GetLeft() >= nut[j].GetLeft() + 20 && basic_zombie[i].GetTop() <= nut[j].GetTop() + 0 && basic_zombie[i].GetTop() >= nut[j].GetTop() - 60 && basic_zombie[i].die_flag == 0) {
-					basic_zombie[i].state = 4;
-					basic_zombie[i].cd += 1;
-					if (basic_zombie[i].cd >= 100 && nut[j].hp > 0) {
-						basic_zombie[i].cd = 0;
-						nut[j].hp -= 30;
 
-					}
-					if (nut[j].hp <= 0) {
-						for (int k = 0; k < (zombie_max - 1); k++) {
-							if (basic_zombie[k].state == 4) {
-								basic_zombie[k].cd = 0;
-								basic_zombie[k].state = 0;
-								basic_zombie[k].speed = -1;
-							}
-						}
-						clear_seat((int)nut[j].GetCoordinateX(), (int)nut[j].GetCoordinateY());
-					}
-				}
 				//太陽花-------------------------------------
 				if (basic_zombie[i].GetLeft() <= sunflower[j].GetLeft() + 30 && basic_zombie[i].GetLeft() >= sunflower[j].GetLeft() + 20 && basic_zombie[i].GetTop() <= sunflower[j].GetTop() + 0 && basic_zombie[i].GetTop() >= sunflower[j].GetTop() - 60 && basic_zombie[i].die_flag == 0) {
 					basic_zombie[i].state = 4;
@@ -220,6 +212,9 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 {
+	sunflower = InitPlantVector<Sunflower>(45);
+	nut = InitPlantVector<Nut>(45);
+	bean_plant = InitPlantVector<Bean>(45);
 	int roadNum = 5;
 	for(int i = 0 ;i< roadNum;i++)
 	{
