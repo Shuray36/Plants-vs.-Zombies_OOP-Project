@@ -49,6 +49,10 @@ CGameStateRun::~CGameStateRun()
 
 void CGameStateRun::OnBeginState()
 {
+	if (Map::level == 1) {
+		reset();
+	}
+	
 }
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
@@ -298,6 +302,9 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 	if (nChar == 0x52) {
 		reset();
+	}
+	if (nChar == 0x4D) {
+		money += 1000;
 	}
 }
 
@@ -589,20 +596,34 @@ void CGameStateRun::reset() {
 	time = 0;
 	overflag = 0;
 	overtime = 0;
-	//---------------
+	//車車-------------------
+	carList.clear();
+	for (int i = 0; i < 5; i++)
+	{
+		Car newcar = Car();
+		newcar.Init(i);
+		carList.push_back(newcar);
+	}
+	//-----------------------------
+	//太陽花-----------------------
+	sunflower.clear();
+	//-----------------------------
+
+	//豌豆-----------------------
+	bean_plant.clear();
+	//-----------------------------
+
+	//堅果-----------------------
+	nut.clear();
+	//-----------------------------
+
 	//map-------------
 	place_flag = 0;
-	for (unsigned int i = 0; i < nut.size(); i++) {
-		//nut.erase(i);
-	}
-	/*
 	for (int x = 0; x < 10; x++) {
 		for (int y = 0; y < 5; y++) {
 			seat[x][y] = 0;
 		}
 	}
-	//這行加入後太陽花的放置會變得很奇怪
-	*/
 	//---------------
 	//殭屍-----------
 	zombie_index = -1;
