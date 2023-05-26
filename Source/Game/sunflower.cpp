@@ -81,6 +81,7 @@ void Sunflower::init() {
 	getsun.SetTopLeft(GetLeft(), GetTop());
 	getsun.SetAnimation(120, false);
 	getsun.ToggleAnimation();
+	hp=100;
 }
 
 void Sunflower::show() {

@@ -213,8 +213,8 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 {
 	sunflower = InitPlantVector<Sunflower>(45);
-	nut = InitPlantVector<Nut>(45);
-	bean_plant = InitPlantVector<Bean>(45);
+	nut = InitPlantVector<Nut>(20);
+	bean_plant = InitPlantVector<Bean>(20);
 	int roadNum = 5;
 	for(int i = 0 ;i< roadNum;i++)
 	{
