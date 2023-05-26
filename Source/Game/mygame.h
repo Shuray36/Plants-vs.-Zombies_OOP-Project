@@ -151,13 +151,13 @@ namespace game_framework {
 		//-------------------
 
 		//太陽花-----------------
-		Sunflower sunflower[45];
+		vector<Sunflower> sunflower;
 		int sunflower_index = 0;
 		//--------------------------
 
 		//射手-----------------------
 		CMovingBitmap bean_plant_with_mouse;
-		Bean bean_plant[20];
+		vector<Bean> bean_plant;
 		int bean_plant_index = 0;
 		int bean_plant_with_mouse_show = 0;
 		void load_bean_plant_with_mouse();
@@ -165,7 +165,7 @@ namespace game_framework {
 
 		//堅果--------------------------
 		CMovingBitmap nut_plant_with_mouse;
-		Nut nut[20];
+		vector<Nut> nut;
 		int nut_plant_index = 0;
 		int nut_with_mouse_show = 0;
 		void load_nut_with_mouse();

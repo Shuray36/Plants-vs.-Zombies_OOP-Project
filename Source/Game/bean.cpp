@@ -25,6 +25,7 @@ void Bean::init() {
 	
 	pb.LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/PB.bmp" }, RGB(255, 255, 255));//440 285
 	pb.SetTopLeft(GetLeft() + 65, GetTop());
+	hp=100;
 }
 void Bean::show() {
 	if (hp > 0) {

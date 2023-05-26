@@ -37,4 +37,5 @@ void Nut::init() {
 	SetTopLeft(999, 999);
 	SetAnimation(100, false);
 	ToggleAnimation();
+	hp = 200;
 }
