@@ -8,8 +8,9 @@
 #include <string>
 
 
+
 void Sunflower::init() {
-	plant.LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_0.bmp",
+	LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_0.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_1.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_2.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_3.bmp",
@@ -28,9 +29,9 @@ void Sunflower::init() {
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_16.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_17.bmp",
 		}, RGB(255, 255, 255)); //315 310}, RGB(255, 255, 255);
-	plant.SetTopLeft(999, 999); //283 285
-	plant.SetAnimation(100, false);
-	plant.ToggleAnimation();
+	SetTopLeft(999, 999); //283 285
+	SetAnimation(100, false);
+	ToggleAnimation();
 
 	sunflower_getsun.LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/sunflower_getsun/sunflower_getsun_0.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_getsun/sunflower_getsun_1.bmp",
@@ -50,7 +51,7 @@ void Sunflower::init() {
 		"Plants_vs_Zombies_Image/plants/sunflower_getsun/sunflower_getsun_15.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_getsun/sunflower_getsun_16.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_getsun/sunflower_getsun_17.bmp", }, RGB(255, 255, 255));
-	sunflower_getsun.SetTopLeft(plant.GetLeft(), plant.GetTop());
+	sunflower_getsun.SetTopLeft(GetLeft(), GetTop());
 	sunflower_getsun.SetAnimation(120, false);
 	sunflower_getsun.ToggleAnimation();
 
@@ -77,24 +78,24 @@ void Sunflower::init() {
 		"Plants_vs_Zombies_Image/plants/sun/sun_20.bmp",
 		"Plants_vs_Zombies_Image/plants/sun/sun_21.bmp", }, RGB(255, 255, 255));
 
-	getsun.SetTopLeft(plant.GetLeft(), plant.GetTop());
+	getsun.SetTopLeft(GetLeft(), GetTop());
 	getsun.SetAnimation(120, false);
 	getsun.ToggleAnimation();
 }
 
 void Sunflower::show() {
 	if (hp > 0 && state == 0) {
-		plant.ShowBitmap();
+		ShowBitmap();
 	}
 	else if (hp > 0 && state == 1) {
-		sunflower_getsun.SetTopLeft(plant.GetLeft(), plant.GetTop());
+		sunflower_getsun.SetTopLeft(GetLeft(), GetTop());
 		sunflower_getsun.ShowBitmap();
 
 		if (cd_keep >= 120) {
 			cd = 0;
 			cd_keep = 0;
 			getsun_flag = 1;
-			getsun.SetTopLeft(plant.GetLeft() + 65, plant.GetTop());
+			getsun.SetTopLeft(GetLeft() + 65, GetTop());
 			state = 0;
 		}
 
@@ -104,15 +105,6 @@ void Sunflower::show() {
 	}
 }
 
-void Sunflower::SetTopLeft(int x, int y) {
-	plant.SetTopLeft(x, y);
-}
-int Sunflower::GetLeft() {
-	return plant.GetLeft();
-}
-int Sunflower::GetTop() {
-	return plant.GetTop();
-}
 int Sunflower::sunGetLeft() {
 	return getsun.GetLeft();
 }

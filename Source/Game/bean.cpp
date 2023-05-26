@@ -8,7 +8,7 @@
 #include <string>
 
 void Bean::init() {
-	plant.LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/bean/bean_0.bmp",
+	LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/bean/bean_0.bmp",
 		"Plants_vs_Zombies_Image/plants/bean/bean_1.bmp", 
 		"Plants_vs_Zombies_Image/plants/bean/bean_2.bmp", 
 		"Plants_vs_Zombies_Image/plants/bean/bean_3.bmp", 
@@ -19,19 +19,19 @@ void Bean::init() {
 		"Plants_vs_Zombies_Image/plants/bean/bean_9.bmp", 
 		"Plants_vs_Zombies_Image/plants/bean/bean_10.bmp", 
 		"Plants_vs_Zombies_Image/plants/bean/bean_11.bmp", }, RGB(255,255,255));
-	plant.SetTopLeft(999, 999);
-	plant.SetAnimation(240, false);
-	plant.ToggleAnimation();
+	SetTopLeft(999, 999);
+	SetAnimation(240, false);
+	ToggleAnimation();
 	
 	pb.LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/PB.bmp" }, RGB(255, 255, 255));//440 285
-	pb.SetTopLeft(plant.GetLeft() + 65, plant.GetTop());
+	pb.SetTopLeft(GetLeft() + 65, GetTop());
 }
 void Bean::show() {
 	if (hp > 0) {
-		plant.ShowBitmap();
+		ShowBitmap();
 	}
 	else {
-		plant.SetTopLeft(999, 999);
+		SetTopLeft(999, 999);
 	}
 	if (pb_flag == 0)pb.ShowBitmap();
 
@@ -53,20 +53,10 @@ void Bean::attack(){
 }
 
 void Bean::reload() {
-	pb.SetTopLeft(plant.GetLeft() + 65, plant.GetTop());
+	pb.SetTopLeft(GetLeft() + 65, GetTop());
 }
 
 void Bean::leave() {
 	pb.SetTopLeft(999, 999);
 }
 	
-void Bean::SetTopLeft(int x, int y) {
-	plant.SetTopLeft(x, y);
-}
-int Bean::GetLeft() {
-	return plant.GetLeft();
-}
-
-int Bean::GetTop() {
-	return plant.GetTop();
-}
