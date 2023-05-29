@@ -17,7 +17,8 @@
 enum class plant {
 	SUN_FLOWER=0,
 	BEAN_PLANT=1,
-	NUT_PLANT=2
+	NUT_PLANT=2,
+	DOUBLE_BEAN=3
 };
 
 using namespace game_framework;
@@ -91,31 +92,67 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			sun_cooldown = 0;
 		}
 		//植物攻擊-----------
+		//bean射擊
 		for(auto &b:bean_plant)
 		{
 			b.cd+=1;
 			if (b.cd >= 50) {
-				b.pb_flag = 0;
-				b.attack();
+				b.pb.show_flag = 0;
 			}
+			b.attack();
 			for (int j = 0; j < zombie_max; j++) {
-				if (b.PBgetleft() <= basic_zombie[j].GetLeft() + 50 && b.PBgetleft() >= basic_zombie[j].GetLeft() + 45 && b.PBgettop() <= basic_zombie[j].GetTop() + 60 && b.PBgettop() >= basic_zombie[j].GetTop() - 0 && basic_zombie[j].die_flag == 0) {
+				if (b.pb.GetLeft() <= basic_zombie[j].GetLeft() + 50 && b.pb.GetLeft() >= basic_zombie[j].GetLeft() + 45 && b.pb.GetTop() <= basic_zombie[j].GetTop() + 60 && b.pb.GetTop() >= basic_zombie[j].GetTop() - 0 && basic_zombie[j].die_flag == 0) {
 					b.leave();
-					b.pb_flag = 1;
-					b.cd = 0;
+					b.pb.show_flag = 1;
 					basic_zombie[j].hp -= 30;
 					if (basic_zombie[j].hp <= 0) {
 						basic_zombie[j].state = 1;
 						basic_zombie[j].die_flag = 1;
 					}
-
-					b.reload();
 				}
 			}
+			if (b.cd >= 250) {
+				b.reload();
+				b.cd = 0;
+			}
+		}
+		//double_bean 射擊
+		for (auto &db : double_bean) {
+			db.cd += 1;
+			if (db.cd >= 50) {
+				db.pb1.show_flag = 0;
+				if (db.cd >= 60) db.pb2.show_flag = 0;
+				
+			}
+			db.attack();
+			for (int j = 0; j < zombie_max; j++) {
+				if (db.pb1.GetLeft() <= basic_zombie[j].GetLeft() + 50 && db.pb1.GetLeft() >= basic_zombie[j].GetLeft() + 45 && db.pb1.GetTop() <= basic_zombie[j].GetTop() + 60 && db.pb1.GetTop() >= basic_zombie[j].GetTop() - 0 && basic_zombie[j].die_flag == 0) {
+					db.pb1.leave();
+					db.pb1.show_flag = 1;
+					basic_zombie[j].hp -= 30;
+					if (basic_zombie[j].hp <= 0) {
+						basic_zombie[j].state = 1;
+						basic_zombie[j].die_flag = 1;
+					}
+				}
+				if (db.pb2.GetLeft() <= basic_zombie[j].GetLeft() + 50 && db.pb2.GetLeft() >= basic_zombie[j].GetLeft() + 45 && db.pb2.GetTop() <= basic_zombie[j].GetTop() + 60 && db.pb2.GetTop() >= basic_zombie[j].GetTop() - 0 && basic_zombie[j].die_flag == 0) {
+					db.pb2.leave();
+					db.pb2.show_flag = 1;
+					basic_zombie[j].hp -= 30;
+					if (basic_zombie[j].hp <= 0) {
+						basic_zombie[j].state = 1;
+						basic_zombie[j].die_flag = 1;
+					}
+				}
+				
+			}
+			if (db.cd >= 200) {
+				db.reload();
+				db.cd = 0;
+			}
+
 		}
 		//fix me 植物應該在殭屍出現才開始射擊 
-
-
 		//-----------------------
 
 		//殭屍攻擊---------------
@@ -275,7 +312,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	{
 		b.init();
 	}
-	
+	for (auto& db : double_bean) db.init();
 	load_sunback();
 	sun.LoadSun();
 	load_sunflower_card();
@@ -284,6 +321,10 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	load_peashooter_card();
 	load_nut_card();
 	load_nut_gray_card();
+
+	load_db_card();
+	load_db_gray_card();
+
 	load_zombie_win_picture();
 	load_plant_win_picture();
 	
@@ -299,6 +340,11 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 	if (nChar == VK_UP) {
 		GotoGameState(GAME_STATE_INIT);
+	}
+	if (nChar == VK_RIGHT) {
+		Double_bean newflower = Double_bean();
+		newflower.init();
+		double_bean.push_back(newflower);
 	}
 	if (nChar == 0x52) {
 		reset();
@@ -320,6 +366,15 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 		money += 300;
 		sun_flag = 1;
 	}
+
+	if (CMovingBitmap::IsCardClick(pointx, pointy, sunflower_card) && money >= 50) {
+		item = 0;
+		place_flag = 1;
+		Sunflower newflower = Sunflower();
+		newflower.init();
+		sunflower.push_back(newflower);
+	}
+
 	if (CMovingBitmap::IsCardClick(pointx, pointy, peashooter_card)&&money>=100) { //245 15  330 50
 		item = 1;
 		place_flag = 1;
@@ -327,19 +382,21 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 		newflower.init();
 		bean_plant.push_back(newflower);
 	}
-	if (CMovingBitmap::IsCardClick(pointx, pointy, sunflower_card)&&money>=50){
-		item = 0;
-		place_flag = 1;
-		Sunflower newflower = Sunflower();
-		newflower.init();
-		sunflower.push_back(newflower);
-	}
+	
 	if (CMovingBitmap::IsCardClick(pointx, pointy, nut_card) && money >= 75) {
 		item = 2;
 		place_flag = 1;
 		Nut n = Nut();
 		n.init();
 		nut.push_back(n);
+	}
+
+	if (CMovingBitmap::IsCardClick(pointx, pointy, db_card) && money >= 100) {
+		item = 3;
+		place_flag = 1;
+		Double_bean d = Double_bean();
+		d.init();
+		double_bean.push_back(d);
 	}
 
 	for(auto &s :sunflower)
@@ -380,6 +437,9 @@ void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動
 	if (!nut.empty()&&!nut.back().GetIsPlace()) {
 		nut.back().SetTopLeft(pointx - 32, pointy - 25);
 	}
+	if (!double_bean.empty() && !double_bean.back().GetIsPlace()) {
+		double_bean.back().SetTopLeft(pointx - 32, pointy - 25);
+	}
 	
 }
 
@@ -406,7 +466,7 @@ void CGameStateRun::OnShow()
 	{
 		b.show();
 	}
-
+	for (auto &db : double_bean) db.show();
 
 	if (BG1_flag1 == 2) {
 		
@@ -461,6 +521,8 @@ void CGameStateRun::OnShow()
 	else if (money < 75) {
 		nut_flag = 0;
 	}
+	if (money >= 200) db_flag = 1;
+	else if (money < 200) db_flag = 0;
 
 
 	if (pershooter_flag == 0) {
@@ -481,6 +543,14 @@ void CGameStateRun::OnShow()
 	else if (nut_flag == 1) {
 		nut_card.ShowBitmap();
 	}
+	if (db_flag == 0) {
+		db_gray_card.ShowBitmap();
+	}
+	else if (db_flag == 1) {
+		db_card.ShowBitmap();
+	}
+	
+
 
 	if (overflag == 1) {
 		plant_win_picture.SetTopLeft(733, 313);
@@ -538,6 +608,16 @@ void CGameStateRun::load_plant_win_picture() {
 	plant_win_picture.SetTopLeft(0, 0);
 }
 
+void CGameStateRun::load_db_card() {
+	db_card.LoadBitmapByString({ "Plants_vs_Zombies_Image/card/double_bean_card/db_card.bmp" }, RGB(255, 255, 255));
+	db_card.SetTopLeft(570, 0);
+}
+
+void CGameStateRun::load_db_gray_card() {
+	db_gray_card.LoadBitmapByString({ "Plants_vs_Zombies_Image/card/double_bean_card/db_gray_card.bmp" }, RGB(255, 255, 255));
+	db_gray_card.SetTopLeft(570, 0);
+}
+
 
 void CGameStateRun::place_seat(int targetx, int targety,int item){
 	
@@ -566,11 +646,11 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 					money -= 50;
 				}
 				else if (item == (int)plant::BEAN_PLANT) {
-					money -= 100;
 					auto &newflower = bean_plant.back();
 					newflower.SetTopLeft(207+xSize*x, 100+ySize*y);
 					newflower.SetCoordinate(x,y);
 					newflower.SetIsPlace(true);
+					money -= 100;
 				}
 				else if (item == (int)plant::NUT_PLANT) {
 					auto &newnut = nut.back();
@@ -578,6 +658,13 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 					newnut.SetCoordinate(x,y);
 					newnut.SetIsPlace(true);
 					money -= 75;
+				}
+				else if (item == (int)plant::DOUBLE_BEAN) {
+					auto &newdb = double_bean.back();
+					newdb.SetTopLeft(207 + xSize * x, 100 + ySize * y);
+					newdb.SetCoordinate(x, y);
+					newdb.SetIsPlace(true);
+					money -= 200;
 				}
 				place_flag = 0;
 				seat[x][y] = 2;
@@ -615,6 +702,10 @@ void CGameStateRun::reset() {
 
 	//堅果-----------------------
 	nut.clear();
+	//-----------------------------
+
+	//雙豌豆-----------------------
+	double_bean.clear();
 	//-----------------------------
 
 	//map-------------

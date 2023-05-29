@@ -247,11 +247,13 @@
     <ClCompile Include="Source\Game\bean.cpp" />
     <ClCompile Include="Source\Game\Car.cpp" />
     <ClCompile Include="Source\Game\Counter.cpp" />
+    <ClCompile Include="Source\Game\double_bean.cpp" />
     <ClCompile Include="Source\Game\map.cpp" />
     <ClCompile Include="Source\Game\mygame_initialize.cpp" />
     <ClCompile Include="Source\Game\mygame_over.cpp" />
     <ClCompile Include="Source\Game\mygame_run.cpp" />
     <ClCompile Include="Source\Game\Nut.cpp" />
+    <ClCompile Include="Source\Game\pb.cpp" />
     <ClCompile Include="Source\Game\plant.cpp" />
     <ClCompile Include="Source\Game\PZGameObject.cpp" />
     <ClCompile Include="Source\Game\Sun.cpp" />
@@ -275,8 +277,10 @@
     <ClInclude Include="Source\Game\Car.h" />
     <ClInclude Include="Source\Game\config.h" />
     <ClInclude Include="Source\Game\Counter.h" />
+    <ClInclude Include="Source\Game\double_bean.h" />
     <ClInclude Include="Source\Game\map.h" />
     <ClInclude Include="Source\Game\Nut.h" />
+    <ClInclude Include="Source\Game\pb.h" />
     <ClInclude Include="Source\Game\PZGameObject.h" />
     <ClInclude Include="Source\Game\Sun.h" />
     <ClInclude Include="Source\Game\SunFlower.h" />
