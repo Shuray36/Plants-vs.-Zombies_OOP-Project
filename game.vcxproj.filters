@@ -80,6 +80,8 @@
     <ClCompile Include="Source\Game\PZGameObject.cpp" />
     <ClCompile Include="Source\Game\Sun.cpp" />
     <ClCompile Include="Source\Game\Vector2.cpp" />
+    <ClCompile Include="Source\Game\double_bean.cpp" />
+    <ClCompile Include="Source\Game\pb.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Library\audio.h">
@@ -130,6 +132,8 @@
     <ClInclude Include="Source\Game\SunFlower.h" />
     <ClInclude Include="Source\Game\Vector2.h" />
     <ClInclude Include="Source\Game\map.h" />
+    <ClInclude Include="Source\Game\double_bean.h" />
+    <ClInclude Include="Source\Game\pb.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Source\Core\game.rc">

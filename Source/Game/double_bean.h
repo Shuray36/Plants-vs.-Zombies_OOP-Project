@@ -3,16 +3,16 @@
 #include "../Library/gameutil.h"
 #include "pb.h"
 
-class Bean:public Plant {
+class Double_bean :public Plant {
 public:
-	Bean() = default;
+	Double_bean() = default;
+
+	int pb_x = 0;
+	int pb_y = 0;
 	void init();
 	void show();
 	void attack();
 	void reload();
-	void leave();
-	
-	Pb pb;
-	//game_framework::CMovingBitmap pb;
-
+	Pb pb1;
+	Pb pb2;
 };

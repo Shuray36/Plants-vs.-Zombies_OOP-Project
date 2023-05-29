@@ -42,6 +42,7 @@
 #include <vector>
 #include "map.h"
 #include "Bean.h"
+#include "double_bean.h"
 #include "Car.h"
 #include "Nut.h"
 #include "Sun.h"
@@ -162,6 +163,8 @@ namespace game_framework {
 		vector<Nut> nut;
 		//------------------------------
 
+		vector<Double_bean> double_bean;
+
 		//太陽記分板-----------------------------------------------------------------
 		CMovingBitmap sunback;
 		void load_sunback();
@@ -196,7 +199,13 @@ namespace game_framework {
 		CMovingBitmap nut_gray_card;
 		void load_nut_gray_card();
 		int nut_flag = 0;
-		int nut_show_flag = 0;
+		//雙重豌豆射手---------------------------------------------
+		CMovingBitmap db_card;
+		void load_db_card();
+		CMovingBitmap db_gray_card;
+		void load_db_gray_card();
+		int db_flag = 0;
+
 		//-------------------------------------------------------------------
 		//地圖 位置左上(200,85) 右上(940,85) 左下(200,570) 右下(940,570)
 
