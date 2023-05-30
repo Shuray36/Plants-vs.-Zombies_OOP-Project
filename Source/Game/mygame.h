@@ -143,12 +143,9 @@ namespace game_framework {
 		//----------------------
 		
 		//殭屍---------------
-		Basic_zombie basic_zombie[10];
-		int zombie_max = 10;//4
+		vector<Basic_zombie> basic_zombie;
 		int zombie_index = -1;
 		int call_time = 0;
-		int zombie_atk = 0;
-		int zombie_atk_time = 0;
 		//-------------------
 
 		//太陽花-----------------
