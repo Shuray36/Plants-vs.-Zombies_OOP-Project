@@ -105,27 +105,27 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			}
 		}
 		//double_bean 射擊
-		for (auto &db : double_bean) {
-			db.cd += 1;
-			if (db.cd >= 50) {
-				db.pb1.show_flag = 0;
-				if (db.cd >= 60) db.pb2.show_flag = 0;
+		for (auto &🥒🥒 : double_bean) {
+			🥒🥒.cd += 1;
+			if (🥒🥒.cd >= 50) {
+				🥒🥒.pb1.show_flag = 0;
+				if (🥒🥒.cd >= 60) 🥒🥒.pb2.show_flag = 0;
 				
 			}
-			db.attack();
+			🥒🥒.attack();
 			for(auto& z : basic_zombie){
-				if (db.pb1.GetLeft() <= z.GetLeft() + 50 && db.pb1.GetLeft() >= z.GetLeft() + 45 && db.pb1.GetTop() <= z.GetTop() + 60 && db.pb1.GetTop() >= z.GetTop() - 0 && z.die_flag == 0) {
-					db.pb1.leave();
-					db.pb1.show_flag = 1;
+				if (🥒🥒.pb1.GetLeft() <= z.GetLeft() + 50 && 🥒🥒.pb1.GetLeft() >= z.GetLeft() + 45 && 🥒🥒.pb1.GetTop() <= z.GetTop() + 60 && 🥒🥒.pb1.GetTop() >= z.GetTop() - 0 && z.die_flag == 0) {
+					🥒🥒.pb1.leave();
+					🥒🥒.pb1.show_flag = 1;
 					z.hp -= 30;
 					if (z.hp <= 0) {
 						z.state = 1;
 						z.die_flag = 1;
 					}
 				}
-				if (db.pb2.GetLeft() <= z.GetLeft() + 50 && db.pb2.GetLeft() >= z.GetLeft() + 45 && db.pb2.GetTop() <= z.GetTop() + 60 && db.pb2.GetTop() >= z.GetTop() - 0 && z.die_flag == 0) {
-					db.pb2.leave();
-					db.pb2.show_flag = 1;
+				if (🥒🥒.pb2.GetLeft() <= z.GetLeft() + 50 && 🥒🥒.pb2.GetLeft() >= z.GetLeft() + 45 && 🥒🥒.pb2.GetTop() <= z.GetTop() + 60 && 🥒🥒.pb2.GetTop() >= z.GetTop() - 0 && z.die_flag == 0) {
+					🥒🥒.pb2.leave();
+					🥒🥒.pb2.show_flag = 1;
 					z.hp -= 30;
 					if (z.hp <= 0) {
 						z.state = 1;
@@ -134,9 +134,9 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				}
 				
 			}
-			if (db.cd >= 200) {
-				db.reload();
-				db.cd = 0;
+			if (🥒🥒.cd >= 200) {
+				🥒🥒.reload();
+				🥒🥒.cd = 0;
 			}
 
 		}
@@ -158,16 +158,13 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 						b.hp -= 30;
 					}
 					if (b.hp <= 0) {
-						for(auto& zomb:basic_zombie)
-						{
-							if (zomb.state == 4) {
-								zomb.cd = 0;
-								zomb.state = 0;
-								zomb.speed = -1;
-							}
+						if (z.state == 4) {
+							z.cd = 0;
+							z.state = 0;
+							z.speed = -1;
 						}
+						clear_seat((int)b.GetCoordinateX(),(int) b.GetCoordinateY());
 					}
-					clear_seat((int)b.GetCoordinateX(),(int) b.GetCoordinateY());
 				}
 			}
 			//太陽花-------------------------------------
@@ -180,12 +177,10 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 						s.hp -= 30;
 					}
 					if (s.hp <= 0) {
-						for(auto& zombie : basic_zombie){
-							if (zombie.state == 4) {
-								zombie.cd = 0;
-								zombie.state = 0;
-								zombie.speed = -1;
-							}
+						if (z.state == 4) {
+							z.cd = 0;
+							z.state = 0;
+							z.speed = -1;
 						}
 						clear_seat((int)s.GetCoordinateX(), (int)s.GetCoordinateY());
 					}
@@ -202,13 +197,10 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 						n.hp -= 30;
 					}
 					if (n.hp <= 0) {
-						for(auto& zomb : basic_zombie)
-						{
-							if (zomb.state == 4) {
-								zomb.cd = 0;
-								zomb.state = 0;
-								zomb.speed = -1;
-							}
+						if (z.state == 4) {
+							z.cd = 0;
+							z.state = 0;
+							z.speed = -1;
 						}
 						clear_seat((int)n.GetCoordinateX(), (int)n.GetCoordinateY());
 					}
