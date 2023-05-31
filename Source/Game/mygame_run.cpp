@@ -690,7 +690,7 @@ void CGameStateRun::reset() {
 
 	//map-------------
 	place_flag = 0;
-	for (int x = 0; x < 10; x++) {
+	for (int x = 0; x < 9; x++) {
 		for (int y = 0; y < 5; y++) {
 			seat[x][y] = 0;
 		}
