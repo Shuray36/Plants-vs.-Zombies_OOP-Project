@@ -54,33 +54,6 @@ void Sunflower::init() {
 	sunflower_getsun.SetTopLeft(GetLeft(), GetTop());
 	sunflower_getsun.SetAnimation(120, false);
 	sunflower_getsun.ToggleAnimation();
-
-	getsun.LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/sun/sun_0.bmp",
-		"Plants_vs_Zombies_Image/plants/sun/sun_1.bmp",
-		"Plants_vs_Zombies_Image/plants/sun/sun_2.bmp",
-		"Plants_vs_Zombies_Image/plants/sun/sun_3.bmp",
-		"Plants_vs_Zombies_Image/plants/sun/sun_4.bmp",
-		"Plants_vs_Zombies_Image/plants/sun/sun_5.bmp",
-		"Plants_vs_Zombies_Image/plants/sun/sun_6.bmp",
-		"Plants_vs_Zombies_Image/plants/sun/sun_7.bmp",
-		"Plants_vs_Zombies_Image/plants/sun/sun_8.bmp",
-		"Plants_vs_Zombies_Image/plants/sun/sun_9.bmp",
-		"Plants_vs_Zombies_Image/plants/sun/sun_10.bmp",
-		"Plants_vs_Zombies_Image/plants/sun/sun_11.bmp",
-		"Plants_vs_Zombies_Image/plants/sun/sun_12.bmp",
-		"Plants_vs_Zombies_Image/plants/sun/sun_13.bmp",
-		"Plants_vs_Zombies_Image/plants/sun/sun_14.bmp",
-		"Plants_vs_Zombies_Image/plants/sun/sun_15.bmp",
-		"Plants_vs_Zombies_Image/plants/sun/sun_16.bmp",
-		"Plants_vs_Zombies_Image/plants/sun/sun_17.bmp",
-		"Plants_vs_Zombies_Image/plants/sun/sun_18.bmp",
-		"Plants_vs_Zombies_Image/plants/sun/sun_19.bmp",
-		"Plants_vs_Zombies_Image/plants/sun/sun_20.bmp",
-		"Plants_vs_Zombies_Image/plants/sun/sun_21.bmp", }, RGB(255, 255, 255));
-
-	getsun.SetTopLeft(GetLeft(), GetTop());
-	getsun.SetAnimation(120, false);
-	getsun.ToggleAnimation();
 	hp=100;
 }
 
@@ -92,17 +65,14 @@ void Sunflower::show() {
 		sunflower_getsun.SetTopLeft(GetLeft(), GetTop());
 		sunflower_getsun.ShowBitmap();
 
-		if (cd_keep >= 120) {
+		if (cd_keep >= 120)
+		{
 			cd = 0;
 			cd_keep = 0;
 			getsun_flag = 1;
-			getsun.SetTopLeft(GetLeft() + 65, GetTop());
+			sun_manager->makeSun({(float)GetLeft() + 65, (float)GetTop() });
 			state = 0;
 		}
-
-	}
-	if (getsun_flag == 1) {
-		getsun.ShowBitmap();
 	}
 }
 
@@ -115,9 +85,8 @@ void Sunflower::skillUpdate()
 	}
 }
 
-int Sunflower::sunGetLeft() {
-	return getsun.GetLeft();
-}
-int Sunflower::sunGetTop() {
-	return getsun.GetTop();
+
+void Sunflower::setSunmanager(shared_ptr<SunManager> sm)
+{
+	sun_manager = sm;
 }

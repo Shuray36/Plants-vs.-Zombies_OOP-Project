@@ -41,7 +41,7 @@ public:
     void Update() override
     {
         PZGameObject::Update();
-        if(!GetActive()||Vector2::distance(GetPosition(),goal)<(float)1)
+        if(!GetActive()||Vector2::distance(GetPosition(),goal)<=(float)1.1)
         {
             SetSpeed({0,0});
         }

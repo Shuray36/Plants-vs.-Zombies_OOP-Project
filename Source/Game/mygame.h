@@ -126,7 +126,7 @@ namespace game_framework {
 		//main
 		int pointx = 0;
 		int pointy = 0;
-		int money = 0;
+		int money = 1000;
 		CMovingBitmap fight_background;
 		// BG1的判斷變數
 		int BG1_flag1 = 0;
@@ -138,7 +138,6 @@ namespace game_framework {
 		int seat[9][5];
 		int place_flag = 0;
 		void place_seat(int x,int y,int item);
-		int plant_place_max = 45;
 		int item = -1;
 		void clear_seat(int coordinate_x,int coordinate_y);
 		//----------------------

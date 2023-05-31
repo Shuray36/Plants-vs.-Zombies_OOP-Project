@@ -74,7 +74,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		//------------------------------------------------------
 		//花開始落下--------------------------------------------
 		sun_cooldown += 1;
-		if (sun_cooldown >= 10) {
+		if (sun_cooldown >= 200) {
 			int r = (rand() % 900 + 100);
 			int y = (rand() % 700 + 100);
 			sun_manager->makeSun({(float)r,0},{(float)r,(float)y});
@@ -358,6 +358,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 		place_flag = 1;
 		Sunflower newflower = Sunflower();
 		newflower.init();
+		newflower.setSunmanager(sun_manager);
 		sunflower.push_back(newflower);
 	}
 
@@ -383,14 +384,6 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 		Double_bean d = Double_bean();
 		d.init();
 		double_bean.push_back(d);
-	}
-
-	for(auto &s :sunflower)
-	{
-		if (pointx >= s.sunGetLeft() - 50 && pointx <= s.sunGetLeft() + 50 && pointy >= s.sunGetTop() - 50 && pointy <= s.sunGetTop() + 50) {
-			s.getsun_flag = 0;
-			money += 50;
-		}
 	}
 
 	if (pointx >= plant_win_picture.GetLeft() + 0 && pointx <= plant_win_picture.GetLeft() + 50 && pointy >= plant_win_picture.GetTop() + 0 && pointy <= plant_win_picture.GetTop() + 75) {
