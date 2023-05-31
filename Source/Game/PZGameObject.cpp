@@ -27,11 +27,15 @@ void PZGameObject::Init()
     _active = true;
     _position = {0,0};
     _collider = {0,0};
+    _speed = {0,0};
 }
 
 void PZGameObject::Update()
 {
-        
+    if(_active)
+    {
+       SetPosition(Vector2::add(GetPosition(),_speed));
+    } 
 }
 
 void PZGameObject::Show()
@@ -40,4 +44,18 @@ void PZGameObject::Show()
     {
         ShowBitmap();
     }
+}
+
+void PZGameObject::SetSpeed(Vector2 s)
+{
+    _speed = s;
+}
+
+bool PZGameObject::IsPoint(Vector2 p)
+{
+    return 
+        p.x>_position.x &&
+        p.x<_position.x+(float)GetWidth()&&
+        p.y>_position.y &&
+        p.y<_position.y+(float)GetHeight();
 }
