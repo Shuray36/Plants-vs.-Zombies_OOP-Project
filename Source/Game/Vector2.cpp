@@ -14,7 +14,13 @@ Vector2 Vector2::sub(Vector2 a, Vector2 b)
 Vector2 Vector2::normal(Vector2 a)
 {
     auto length = distance(a,{0,0});
-    return {a.x/length,a.y/length};
+    if(length==0)
+    {
+        return {0,0};
+    }else
+    {
+        return {a.x/length,a.y/length};
+    }
 }
 
 bool Vector2::equal(Vector2 a, Vector2 b)
