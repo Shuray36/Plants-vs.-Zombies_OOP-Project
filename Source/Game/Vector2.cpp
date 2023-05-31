@@ -6,6 +6,17 @@ Vector2 Vector2::add(Vector2 a, Vector2 b)
     return {a.x+b.x,a.y+b.y}; 
 }
 
+Vector2 Vector2::sub(Vector2 a, Vector2 b)
+{
+    return {a.x-b.x,a.y-b.y};
+}
+
+Vector2 Vector2::normal(Vector2 a)
+{
+    auto length = distance(a,{0,0});
+    return {a.x/length,a.y/length};
+}
+
 bool Vector2::equal(Vector2 a, Vector2 b)
 {
     return a.x==b.x&&a.y==b.y;
