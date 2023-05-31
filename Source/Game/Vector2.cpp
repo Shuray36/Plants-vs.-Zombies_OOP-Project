@@ -8,7 +8,7 @@ Vector2 Vector2::add(Vector2 a, Vector2 b)
 
 bool Vector2::equal(Vector2 a, Vector2 b)
 {
-    return a.x==b.x&&b.x==b.y;
+    return a.x==b.x&&a.y==b.y;
 }
 
 float Vector2::distance(Vector2 a, Vector2 b)
