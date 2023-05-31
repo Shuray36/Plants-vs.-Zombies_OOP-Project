@@ -106,6 +106,15 @@ void Sunflower::show() {
 	}
 }
 
+void Sunflower::skillUpdate()
+{
+	cd += 1;
+	if (cd >= 245) {
+		cd_keep += 1;
+		state = 1;
+	}
+}
+
 int Sunflower::sunGetLeft() {
 	return getsun.GetLeft();
 }

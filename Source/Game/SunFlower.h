@@ -10,6 +10,7 @@ public:
 	Sunflower() = default;
 	void init();
 	void show();
+	void skillUpdate();
 	int state = 0;
 	int getsun_flag = 0;
 	int sunGetLeft();

@@ -27,18 +27,6 @@ using namespace game_framework;
 // 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
 /////////////////////////////////////////////////////////////////////////////
 
-template<class Plant>
-vector<Plant> InitPlantVector(int n)
-{
-	vector<Plant> plantVector;
-	for(int i =0;i<n;i++)
-	{
-		Plant newFlower = Plant();
-		plantVector.push_back(newFlower);
-	}
-	return plantVector;
-}
-
 
 CGameStateRun::CGameStateRun(CGame *g) : CGameState(g)
 {
@@ -245,11 +233,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		//太陽花技能----------------------
 		for(auto&s :sunflower)
 		{
-			s.cd += 1;
-			if (s.cd >= 245) {
-				s.cd_keep += 1;
-				s.state = 1;
-			}
+			s.skillUpdate();
 		}
 		//--------------------------------
 		for(auto &z : basic_zombie)
