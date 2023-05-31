@@ -78,9 +78,9 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	}
 	if (BG1_flag1 == 2) {        //遊戲跑換地圖後正式開始 
 	
-		for (int i = 0; i < zombie_max; i++){
-			if (basic_zombie[i].die_flag == 0 && zombie_index >= 0)basic_zombie[zombie_index].speed = -1;
-			basic_zombie[i].SetTopLeft(basic_zombie[i].GetLeft() + basic_zombie[i].speed, basic_zombie[i].GetTop());
+		for(auto& z : basic_zombie){
+			if (z.die_flag == 0 && zombie_index >= 0)basic_zombie[zombie_index].speed = -1;
+			z.SetTopLeft(z.GetLeft() + z.speed, z.GetTop());
 		}
 		//------------------------------------------------------
 		//花開始落下--------------------------------------------
@@ -100,14 +100,14 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				b.pb.show_flag = 0;
 			}
 			b.attack();
-			for (int j = 0; j < zombie_max; j++) {
-				if (b.pb.GetLeft() <= basic_zombie[j].GetLeft() + 50 && b.pb.GetLeft() >= basic_zombie[j].GetLeft() + 45 && b.pb.GetTop() <= basic_zombie[j].GetTop() + 60 && b.pb.GetTop() >= basic_zombie[j].GetTop() - 0 && basic_zombie[j].die_flag == 0) {
+			for(auto& z : basic_zombie){
+				if (b.pb.GetLeft() <= z.GetLeft() + 50 && b.pb.GetLeft() >= z.GetLeft() + 45 && b.pb.GetTop() <= z.GetTop() + 60 && b.pb.GetTop() >= z.GetTop() - 0 && z.die_flag == 0) {
 					b.leave();
 					b.pb.show_flag = 1;
-					basic_zombie[j].hp -= 30;
-					if (basic_zombie[j].hp <= 0) {
-						basic_zombie[j].state = 1;
-						basic_zombie[j].die_flag = 1;
+					z.hp -= 30;
+					if (z.hp <= 0) {
+						z.state = 1;
+						z.die_flag = 1;
 					}
 				}
 			}
@@ -125,23 +125,23 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				
 			}
 			db.attack();
-			for (int j = 0; j < zombie_max; j++) {
-				if (db.pb1.GetLeft() <= basic_zombie[j].GetLeft() + 50 && db.pb1.GetLeft() >= basic_zombie[j].GetLeft() + 45 && db.pb1.GetTop() <= basic_zombie[j].GetTop() + 60 && db.pb1.GetTop() >= basic_zombie[j].GetTop() - 0 && basic_zombie[j].die_flag == 0) {
+			for(auto& z : basic_zombie){
+				if (db.pb1.GetLeft() <= z.GetLeft() + 50 && db.pb1.GetLeft() >= z.GetLeft() + 45 && db.pb1.GetTop() <= z.GetTop() + 60 && db.pb1.GetTop() >= z.GetTop() - 0 && z.die_flag == 0) {
 					db.pb1.leave();
 					db.pb1.show_flag = 1;
-					basic_zombie[j].hp -= 30;
-					if (basic_zombie[j].hp <= 0) {
-						basic_zombie[j].state = 1;
-						basic_zombie[j].die_flag = 1;
+					z.hp -= 30;
+					if (z.hp <= 0) {
+						z.state = 1;
+						z.die_flag = 1;
 					}
 				}
-				if (db.pb2.GetLeft() <= basic_zombie[j].GetLeft() + 50 && db.pb2.GetLeft() >= basic_zombie[j].GetLeft() + 45 && db.pb2.GetTop() <= basic_zombie[j].GetTop() + 60 && db.pb2.GetTop() >= basic_zombie[j].GetTop() - 0 && basic_zombie[j].die_flag == 0) {
+				if (db.pb2.GetLeft() <= z.GetLeft() + 50 && db.pb2.GetLeft() >= z.GetLeft() + 45 && db.pb2.GetTop() <= z.GetTop() + 60 && db.pb2.GetTop() >= z.GetTop() - 0 && z.die_flag == 0) {
 					db.pb2.leave();
 					db.pb2.show_flag = 1;
-					basic_zombie[j].hp -= 30;
-					if (basic_zombie[j].hp <= 0) {
-						basic_zombie[j].state = 1;
-						basic_zombie[j].die_flag = 1;
+					z.hp -= 30;
+					if (z.hp <= 0) {
+						z.state = 1;
+						z.die_flag = 1;
 					}
 				}
 				
@@ -157,24 +157,25 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 		//殭屍攻擊---------------
 
-		for (int i = 0; i < (zombie_max-1); i++) {
+		for(auto &z : basic_zombie){
 			//bean-------------------------------------
 			for(auto &b:bean_plant)
 			{
-				if (basic_zombie[i].GetLeft() <= b.GetLeft() + 30 && basic_zombie[i].GetLeft() >= b.GetLeft() + 20 && basic_zombie[i].GetTop() <= b.GetTop() + 0 && basic_zombie[i].GetTop() >= b.GetTop() -60 && basic_zombie[i].die_flag == 0)
+				if (z.GetLeft() <= b.GetLeft() + 30 && z.GetLeft() >= b.GetLeft() + 20 && z.GetTop() <= b.GetTop() + 0 && z.GetTop() >= b.GetTop() -60 && z.die_flag == 0)
 				{
-					basic_zombie[i].state = 4;
-					basic_zombie[i].cd += 1;
-					if (basic_zombie[i].cd >= 100 && b.hp > 0) {
-						basic_zombie[i].cd = 0;
+					z.state = 4;
+					z.cd += 1;
+					if (z.cd >= 100 && b.hp > 0) {
+						z.cd = 0;
 						b.hp -= 30;
 					}
 					if (b.hp <= 0) {
-						for (int k = 0; k < (zombie_max - 1); k++) {
-							if (basic_zombie[k].state == 4) {
-								basic_zombie[k].cd = 0;
-								basic_zombie[k].state = 0;
-								basic_zombie[k].speed = -1;
+						for(auto& zomb:basic_zombie)
+						{
+							if (zomb.state == 4) {
+								zomb.cd = 0;
+								zomb.state = 0;
+								zomb.speed = -1;
 							}
 						}
 					}
@@ -183,19 +184,19 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			}
 			//太陽花-------------------------------------
 			for (auto &s : sunflower) {
-				if (basic_zombie[i].GetLeft() <= s.GetLeft() + 30 && basic_zombie[i].GetLeft() >= s.GetLeft() + 20 && basic_zombie[i].GetTop() <= s.GetTop() + 0 && basic_zombie[i].GetTop() >= s.GetTop() - 60 && basic_zombie[i].die_flag == 0) {
-					basic_zombie[i].state = 4;
-					basic_zombie[i].cd += 1;
-					if (basic_zombie[i].cd >= 100 && s.hp > 0) {
-						basic_zombie[i].cd = 0;
+				if (z.GetLeft() <= s.GetLeft() + 30 && z.GetLeft() >= s.GetLeft() + 20 && z.GetTop() <= s.GetTop() + 0 && z.GetTop() >= s.GetTop() - 60 && z.die_flag == 0) {
+					z.state = 4;
+					z.cd += 1;
+					if (z.cd >= 100 && s.hp > 0) {
+						z.cd = 0;
 						s.hp -= 30;
 					}
 					if (s.hp <= 0) {
-						for (int k = 0; k < (zombie_max - 1); k++) {
-							if (basic_zombie[k].state == 4) {
-								basic_zombie[k].cd = 0;
-								basic_zombie[k].state = 0;
-								basic_zombie[k].speed = -1;
+						for(auto& zombie : basic_zombie){
+							if (zombie.state == 4) {
+								zombie.cd = 0;
+								zombie.state = 0;
+								zombie.speed = -1;
 							}
 						}
 						clear_seat((int)s.GetCoordinateX(), (int)s.GetCoordinateY());
@@ -205,19 +206,20 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			}
 			//nut-------------------------------------
 			for (auto &n : nut) {
-				if (basic_zombie[i].GetLeft() <= n.GetLeft() + 30 && basic_zombie[i].GetLeft() >= n.GetLeft() + 20 && basic_zombie[i].GetTop() <= n.GetTop() + 0 && basic_zombie[i].GetTop() >= n.GetTop() - 60 && basic_zombie[i].die_flag == 0) {
-					basic_zombie[i].state = 4;
-					basic_zombie[i].cd += 1;
-					if (basic_zombie[i].cd >= 100 && n.hp > 0) {
-						basic_zombie[i].cd = 0;
+				if (z.GetLeft() <= n.GetLeft() + 30 && z.GetLeft() >= n.GetLeft() + 20 && z.GetTop() <= n.GetTop() + 0 && z.GetTop() >= n.GetTop() - 60 && z.die_flag == 0) {
+					z.state = 4;
+					z.cd += 1;
+					if (z.cd >= 100 && n.hp > 0) {
+						z.cd = 0;
 						n.hp -= 30;
 					}
 					if (n.hp <= 0) {
-						for (int k = 0; k < (zombie_max - 1); k++) {
-							if (basic_zombie[k].state == 4) {
-								basic_zombie[k].cd = 0;
-								basic_zombie[k].state = 0;
-								basic_zombie[k].speed = -1;
+						for(auto& zomb : basic_zombie)
+						{
+							if (zomb.state == 4) {
+								zomb.cd = 0;
+								zomb.state = 0;
+								zomb.speed = -1;
 							}
 						}
 						clear_seat((int)n.GetCoordinateX(), (int)n.GetCoordinateY());
@@ -250,8 +252,9 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			}
 		}
 		//--------------------------------
-		for (int i = 0; i < (zombie_index - 1); i++) {
-			if (basic_zombie[i].GetLeft() < 500) {
+		for(auto &z : basic_zombie)
+		{
+			if (z.GetLeft() < 500) {
 				end_flag = 1;
 			}
 		}
@@ -273,16 +276,27 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 		*/
 		for (auto &car : carList) {
-			for (int i = 0; i < 9; i++) {
-				if (car.GetLeft() >= basic_zombie[i].GetLeft() + 0 && car.GetLeft() <= basic_zombie[i].GetLeft() + 100 && car.GetTop() >= basic_zombie[i].GetTop() + 0 && car.GetTop() <= basic_zombie[i].GetTop() + 100) {
+			for(auto&z : basic_zombie)
+			{
+				if (car.GetLeft() >= z.GetLeft() + 0 && car.GetLeft() <= z.GetLeft() + 100 && car.GetTop() >= z.GetTop() + 0 && car.GetTop() <= z.GetTop() + 100)
+				{
 					car.Trigger();
-					basic_zombie[i].state = 3;
+					z.state=3;
 				}
 			}
 		}
 
-		if (basic_zombie[8].die_flag == 1) {
-			overflag = 1;
+		bool over = true;
+		for(auto&z : basic_zombie)
+		{
+			if(z.die_flag!=1)
+			{
+				over = false;
+			}
+		}
+		if(over&&basic_zombie.size()==3)
+		{
+			overflag=1;
 		}
 		
 	}
@@ -301,8 +315,6 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	}
 	fight_background.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/BG1.bmp" });
 	fight_background.SetTopLeft(0, 0);
-	for (int i = 0; i < 10; i++)basic_zombie[i].init();
-	for (int i = 0; i < 10; i++) basic_zombie[i].speed = 0;
 
 	for(auto& n:nut)
 	{
@@ -470,13 +482,16 @@ void CGameStateRun::OnShow()
 
 	if (BG1_flag1 == 2) {
 		
-		for (int i = 0; i < (zombie_max - 1); i++)  basic_zombie[i].show();
+		for(auto &z : basic_zombie)
+		{
+			z.show();
+		}
 		call_time += 1;
 		if (call_time == 200) {
-			if (zombie_index < (zombie_max-1)) {
-				zombie_index += 1; 
-				basic_zombie[zombie_index].SetTopLeft(950, 240);
-			}
+			auto z = Basic_zombie();
+			z.init();
+			z.SetTopLeft(950,240);
+			basic_zombie.push_back(z);
 			call_time = 0;
 		}
 		//召喚殭屍------------------------------------
