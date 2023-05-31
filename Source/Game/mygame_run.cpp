@@ -46,7 +46,7 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {
-	sun_manager.Update();
+	sun_manager->Update();
 	for(auto&car :carList)
 	{
 		car.Update();
@@ -77,7 +77,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		if (sun_cooldown >= 10) {
 			int r = (rand() % 900 + 100);
 			int y = (rand() % 700 + 100);
-			sun_manager.makeSun({(float)r,0},{(float)r,(float)y});
+			sun_manager->makeSun({(float)r,0},{(float)r,(float)y});
 			sun_flag = 0;
 			sun_cooldown = 0;
 		}
@@ -350,7 +350,7 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 {
 	
-	money+=sun_manager.Lbutton({(float)pointx,(float)pointy});
+	money+=sun_manager->Lbutton({(float)pointx,(float)pointy});
 	// sun_flag=1;
 
 	if (CMovingBitmap::IsCardClick(pointx, pointy, sunflower_card) && money >= 50) {
@@ -470,7 +470,7 @@ void CGameStateRun::OnShow()
 		}
 		//召喚殭屍------------------------------------
 
-		sun_manager.ShowSun();
+		sun_manager->ShowSun();
 		
 
 

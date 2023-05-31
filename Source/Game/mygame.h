@@ -171,7 +171,7 @@ namespace game_framework {
 		//小太陽-----------------------------------------------------------------
 		int sun_flag = 0;
 		int sun_cooldown = 0;
-		SunManager sun_manager;
+		shared_ptr<SunManager> sun_manager = make_shared<SunManager>();
 		//-------------------------------------------------------------------
 
 		//車-----------------------------------------------------------------
