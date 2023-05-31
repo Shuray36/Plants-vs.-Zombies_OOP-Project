@@ -46,6 +46,7 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {
+	sun_manager.Update();
 	for(auto&car :carList)
 	{
 		car.Update();
@@ -73,9 +74,10 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		//------------------------------------------------------
 		//花開始落下--------------------------------------------
 		sun_cooldown += 1;
-		if (sun_cooldown >= 700) {
+		if (sun_cooldown >= 10) {
 			int r = (rand() % 900 + 100);
-			sun.SetTopLeft(r, 0);
+			int y = (rand() % 700 + 100);
+			sun_manager.makeSun({(float)r,0},{(float)r,(float)y});
 			sun_flag = 0;
 			sun_cooldown = 0;
 		}
@@ -211,7 +213,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 
 		//-----------------------
-		sun.SetTopLeft(sun.GetLeft() + 0, sun.GetTop() + 2);
 
 		//todo car :zombie list done can kill zombie
 		// for(auto &car : carList)
@@ -302,7 +303,6 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	}
 	for (auto& db : double_bean) db.init();
 	load_sunback();
-	sun.LoadSun();
 	load_sunflower_card();
 	load_sunflower_gray_card();
 	load_peashooter_gray_card();
@@ -350,10 +350,8 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 {
 	
-	if(CMovingBitmap::IsMouseClick(pointx,pointy,sun)){
-		money += 300;
-		sun_flag = 1;
-	}
+	money+=sun_manager.Lbutton({(float)pointx,(float)pointy});
+	// sun_flag=1;
 
 	if (CMovingBitmap::IsCardClick(pointx, pointy, sunflower_card) && money >= 50) {
 		item = 0;
@@ -472,9 +470,9 @@ void CGameStateRun::OnShow()
 		}
 		//召喚殭屍------------------------------------
 
+		sun_manager.ShowSun();
+		
 
-
-		if(sun_flag==0) sun.ShowBitmap();
 
 		for(auto&car:carList){
 			car.ShowBitmap();

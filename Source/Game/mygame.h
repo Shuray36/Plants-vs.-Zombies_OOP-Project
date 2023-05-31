@@ -47,6 +47,7 @@
 #include "Nut.h"
 #include "Sun.h"
 #include "SunFlower.h"
+#include "SunManager.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -170,7 +171,7 @@ namespace game_framework {
 		//小太陽-----------------------------------------------------------------
 		int sun_flag = 0;
 		int sun_cooldown = 0;
-		Sun sun;
+		SunManager sun_manager;
 		//-------------------------------------------------------------------
 
 		//車-----------------------------------------------------------------
