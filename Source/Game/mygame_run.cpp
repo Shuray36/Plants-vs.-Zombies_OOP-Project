@@ -607,11 +607,9 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 	int map_topleftX = 200;
 	int map_topleftY =  90;
 
-	const int xSize = 82;
-	const int ySize = 96;
 	for (int y = 0; y < 5; y++){
 		for (int x = 0; x < 9; x++){
-			if (targetx >= map_topleftX +x*xSize && targetx < map_topleftX+(x+1)*(xSize) && targety > map_topleftY + y * ySize && targety < map_topleftY + (y + 1) * ySize  && seat[x][y] != 2){
+			if (targetx >= map_topleftX +x*BLOCK_WIDTH && targetx < map_topleftX+(x+1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT  && seat[x][y] != 2){
 				seat[x][y] = 1;
 			}
 		}
@@ -622,28 +620,28 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 			if (seat[x][y] == 1 ) {
 				if (item == (int)plant::SUN_FLOWER) {
 					auto &newflower = sunflower.back();
-					newflower.SetTopLeft(207+xSize*x, 100+ySize*y);
+					newflower.SetTopLeft(207+BLOCK_WIDTH*x, 100+BLOCK_HEIGHT*y);
 					newflower.SetCoordinate(x,y);
 					newflower.SetIsPlace(true);
 					money -= 50;
 				}
 				else if (item == (int)plant::BEAN_PLANT) {
 					auto &newflower = bean_plant.back();
-					newflower.SetTopLeft(207+xSize*x, 100+ySize*y);
+					newflower.SetTopLeft(207+BLOCK_WIDTH*x, 100+BLOCK_HEIGHT*y);
 					newflower.SetCoordinate(x,y);
 					newflower.SetIsPlace(true);
 					money -= 100;
 				}
 				else if (item == (int)plant::NUT_PLANT) {
 					auto &newnut = nut.back();
-					newnut.SetTopLeft(207+xSize*x, 100+ySize*y);
+					newnut.SetTopLeft(207+BLOCK_WIDTH*x, 100+BLOCK_HEIGHT*y);
 					newnut.SetCoordinate(x,y);
 					newnut.SetIsPlace(true);
 					money -= 75;
 				}
 				else if (item == (int)plant::DOUBLE_BEAN) {
 					auto &newdb = double_bean.back();
-					newdb.SetTopLeft(207 + xSize * x, 100 + ySize * y);
+					newdb.SetTopLeft(207 + BLOCK_WIDTH * x, 100 + BLOCK_HEIGHT * y);
 					newdb.SetCoordinate(x, y);
 					newdb.SetIsPlace(true);
 					money -= 200;

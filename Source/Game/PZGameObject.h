@@ -3,6 +3,8 @@
 #include "../Library/gameutil.h"
 #include "Counter.h"
 #define PZTIME 10
+#define BLOCK_WIDTH  82
+#define BLOCK_HEIGHT  96
 
 class PZGameObject :public game_framework::CMovingBitmap
 {
