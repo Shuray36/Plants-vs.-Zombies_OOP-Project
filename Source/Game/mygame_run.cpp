@@ -330,9 +330,10 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		GotoGameState(GAME_STATE_INIT);
 	}
 	if (nChar == VK_RIGHT) {
-		Double_bean newflower = Double_bean();
-		newflower.init();
-		double_bean.push_back(newflower);
+		auto z = Basic_zombie();
+		z.init();
+		z.SetTopLeft(950, 240);
+		basic_zombie.push_back(z);
 	}
 	if (nChar == 0x52) {
 		reset();
@@ -692,7 +693,7 @@ void CGameStateRun::reset() {
 
 	//map-------------
 	place_flag = 0;
-	for (int x = 0; x < 10; x++) {
+	for (int x = 0; x < 9; x++) {
 		for (int y = 0; y < 5; y++) {
 			seat[x][y] = 0;
 		}
