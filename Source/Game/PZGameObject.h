@@ -21,7 +21,7 @@ public:
     bool GetActive();
     virtual void Init();
     virtual void Update();
-    void Show();
+    virtual void Show();
     void SetSpeed(Vector2 s);
 
     //todo isOverlap with _collider

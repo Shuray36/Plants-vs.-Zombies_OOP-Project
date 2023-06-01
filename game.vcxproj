@@ -255,6 +255,7 @@
     <ClCompile Include="Source\Game\Nut.cpp" />
     <ClCompile Include="Source\Game\pb.cpp" />
     <ClCompile Include="Source\Game\plant.cpp" />
+    <ClCompile Include="Source\Game\PlantManager.cpp" />
     <ClCompile Include="Source\Game\PZGameObject.cpp" />
     <ClCompile Include="Source\Game\Sun.cpp" />
     <ClCompile Include="Source\Game\sunflower.cpp" />
@@ -282,6 +283,7 @@
     <ClInclude Include="Source\Game\map.h" />
     <ClInclude Include="Source\Game\Nut.h" />
     <ClInclude Include="Source\Game\pb.h" />
+    <ClInclude Include="Source\Game\PlantManager.h" />
     <ClInclude Include="Source\Game\PZGameObject.h" />
     <ClInclude Include="Source\Game\Sun.h" />
     <ClInclude Include="Source\Game\SunFlower.h" />

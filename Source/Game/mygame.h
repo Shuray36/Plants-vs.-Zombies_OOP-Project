@@ -45,6 +45,7 @@
 #include "double_bean.h"
 #include "Car.h"
 #include "Nut.h"
+#include "PlantManager.h"
 #include "Sun.h"
 #include "SunFlower.h"
 #include "SunManager.h"
@@ -124,6 +125,7 @@ namespace game_framework {
 		void draw_text();
 	private:
 		//main
+		PlantManager plantManager;
 		int pointx = 0;
 		int pointy = 0;
 		int money = 1000;

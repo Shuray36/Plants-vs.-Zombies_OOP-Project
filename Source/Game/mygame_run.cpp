@@ -14,12 +14,6 @@
 
 
 
-enum class plant {
-	SUN_FLOWER=0,
-	BEAN_PLANT=1,
-	NUT_PLANT=2,
-	DOUBLE_BEAN=3
-};
 
 using namespace game_framework;
 
@@ -46,6 +40,7 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {
+	plantManager.Update();
 	sun_manager->Update();
 	for(auto&car :carList)
 	{
@@ -315,7 +310,8 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 
 	load_zombie_win_picture();
 	load_plant_win_picture();
-	
+
+	plantManager.setSunmanager(sun_manager);
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -344,7 +340,7 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-
+	plantManager.MakePlant(PlantType::SUN_FLOWER);
 }
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
@@ -357,7 +353,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 		item = 0;
 		place_flag = 1;
 		Sunflower newflower = Sunflower();
-		newflower.init();
+		newflower.Init();
 		newflower.setSunmanager(sun_manager);
 		sunflower.push_back(newflower);
 	}
@@ -482,6 +478,7 @@ void CGameStateRun::OnShow()
 				GotoGameState(GAME_STATE_OVER);
 			}
 		}
+		plantManager.Show();
 	}
 	sunback.ShowBitmap();
 	sunflower_card.ShowBitmap();
@@ -618,28 +615,28 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 	for (int y = 0; y < 5; y++){
 		for (int x = 0; x < 9; x++){
 			if (seat[x][y] == 1 ) {
-				if (item == (int)plant::SUN_FLOWER) {
+				if (item == (int)PlantType::SUN_FLOWER) {
 					auto &newflower = sunflower.back();
 					newflower.SetTopLeft(207+BLOCK_WIDTH*x, 100+BLOCK_HEIGHT*y);
 					newflower.SetCoordinate(x,y);
 					newflower.SetIsPlace(true);
 					money -= 50;
 				}
-				else if (item == (int)plant::BEAN_PLANT) {
+				else if (item == (int)PlantType::BEAN_PLANT) {
 					auto &newflower = bean_plant.back();
 					newflower.SetTopLeft(207+BLOCK_WIDTH*x, 100+BLOCK_HEIGHT*y);
 					newflower.SetCoordinate(x,y);
 					newflower.SetIsPlace(true);
 					money -= 100;
 				}
-				else if (item == (int)plant::NUT_PLANT) {
+				else if (item == (int)PlantType::NUT_PLANT) {
 					auto &newnut = nut.back();
 					newnut.SetTopLeft(207+BLOCK_WIDTH*x, 100+BLOCK_HEIGHT*y);
 					newnut.SetCoordinate(x,y);
 					newnut.SetIsPlace(true);
 					money -= 75;
 				}
-				else if (item == (int)plant::DOUBLE_BEAN) {
+				else if (item == (int)PlantType::DOUBLE_BEAN) {
 					auto &newdb = double_bean.back();
 					newdb.SetTopLeft(207 + BLOCK_WIDTH * x, 100 + BLOCK_HEIGHT * y);
 					newdb.SetCoordinate(x, y);

@@ -9,7 +9,8 @@ protected:
 	shared_ptr<SunManager> sun_manager;
 public:
 	Sunflower() = default;
-	void init();
+	void Init() override;
+	void Attack() override;
 	void show();
 	void skillUpdate();
 	int getsun_flag = 0;
