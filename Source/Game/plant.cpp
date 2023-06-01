@@ -38,6 +38,10 @@ void Plant::Update()
     {
         attack.counter+=PZTIME;
     }
+    if(hp<=0)
+    {
+        SetActive(false);
+    }
 }
 
 void Plant::SetCoordinate(int x, int y)

@@ -173,7 +173,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					z.cd += 1;
 					if (z.cd >= 100 && s->hp > 0) {
 						z.cd = 0;
-						s->hp -= 30;
+						s->hp -= 50;
 					}
 					if (s->hp <= 0) {
 						for (auto& zz : basic_zombie) {
@@ -189,27 +189,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				//--------------------------------------------
 			}
 			//nut-------------------------------------
-			for (auto &n : nut) {
-				if (z.GetLeft() <= n.GetLeft() + 30 && z.GetLeft() >= n.GetLeft() + 20 && z.GetTop() <= n.GetTop() + 0 && z.GetTop() >= n.GetTop() - 60 && z.die_flag == 0) {
-					z.state = 4;
-					z.cd += 1;
-					if (z.cd >= 100 && n.hp > 0) {
-						z.cd = 0;
-						n.hp -= 30;
-					}
-					if (n.hp <= 0) {
-						for (auto& zz : basic_zombie) {
-							if (zz.state == 4) {
-								zz.cd = 0;
-								zz.state = 0;
-								zz.speed = -1;
-							}
-						}
-						clear_seat((int)n.GetCoordinateX(), (int)n.GetCoordinateY());
-					}
-				}
 				//--------------------------------------------
-			}
 			//double_bean-------------------------------------
 			for (auto &db : double_bean) {
 				if (z.GetLeft() <= db.GetLeft() + 30 && z.GetLeft() >= db.GetLeft() + 20 && z.GetTop() <= db.GetTop() + 0 && z.GetTop() >= db.GetTop() - 60 && z.die_flag == 0) {
@@ -300,10 +280,6 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	fight_background.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/BG1.bmp" });
 	fight_background.SetTopLeft(0, 0);
 
-	for(auto& n:nut)
-	{
-		n.init();
-	}
 	for(auto& b:bean_plant)
 	{
 		b.init();
@@ -378,9 +354,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 	if (CMovingBitmap::IsCardClick(pointx, pointy, nut_card) && money >= 75) {
 		item = 2;
 		place_flag = 1;
-		Nut n = Nut();
-		n.init();
-		nut.push_back(n);
+		plantManager.MakePlant(PlantType::NUT_PLANT,mousePosition);
 	}
 
 	if (CMovingBitmap::IsCardClick(pointx, pointy, db_card) && money >= 100) {
@@ -416,9 +390,6 @@ void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動
 	if (!bean_plant.empty()&&!bean_plant.back().GetIsPlace()) {
 		bean_plant.back().SetTopLeft(pointx - 32, pointy - 25);
 	}
-	if (!nut.empty()&&!nut.back().GetIsPlace()) {
-		nut.back().SetTopLeft(pointx - 32, pointy - 25);
-	}
 	if (!double_bean.empty() && !double_bean.back().GetIsPlace()) {
 		double_bean.back().SetTopLeft(pointx - 32, pointy - 25);
 	}
@@ -436,10 +407,6 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動
 void CGameStateRun::OnShow()
 {
 	fight_background.ShowBitmap();
-	for(auto &n : nut)
-	{
-		n.show();
-	}
 	for(auto &b : bean_plant)
 	{
 		b.show();
@@ -630,10 +597,7 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 					money -= 100;
 				}
 				else if (item == (int)PlantType::NUT_PLANT) {
-					auto &newnut = nut.back();
-					newnut.SetTopLeft(207+BLOCK_WIDTH*x, 100+BLOCK_HEIGHT*y);
-					newnut.SetCoordinate(x,y);
-					newnut.SetIsPlace(true);
+					plantManager.OnLButtonDown({(float)x,(float)y});
 					money -= 75;
 				}
 				else if (item == (int)PlantType::DOUBLE_BEAN) {
@@ -677,7 +641,6 @@ void CGameStateRun::reset() {
 	//-----------------------------
 
 	//堅果-----------------------
-	nut.clear();
 	//-----------------------------
 
 	//雙豌豆-----------------------

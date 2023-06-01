@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 
+#include "Nut.h"
 #include "plant.h"
 #include "SunFlower.h"
 
@@ -25,9 +26,20 @@ public:
 	}
 	void Update()
 	{
+		int index=0;
+		vector<int> removeIndex;
 		for(auto& p:plants)
 		{
 			p->Update();
+			if(!p->GetActive())
+			{
+				removeIndex.insert(removeIndex.begin(),index);
+			}
+			index+=1;
+		}
+		for(auto& p:removeIndex)
+		{
+			plants.erase(plants.begin()+p);
 		}
 	}
 	void Show()
@@ -71,15 +83,21 @@ public:
 				s->Init();
 				s->setSunmanager(sun_manager);
 				s->SetAttackCounter(1000);
-				s->SetPositionByCenter(position);
 				p=s;
 			}
 			break;
 		case PlantType::BEAN_PLANT: break;
-		case PlantType::NUT_PLANT: break;
+		case PlantType::NUT_PLANT: 
+			{
+				auto nut=make_shared<Nut>();
+				nut->Init();
+				p=nut;
+			}
+			break;
 		case PlantType::DOUBLE_BEAN: break;
 		default: ;
 		}
+		p->SetPositionByCenter(position);
 		plants.push_back(p);
     }
 };

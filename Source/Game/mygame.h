@@ -161,7 +161,6 @@ namespace game_framework {
 		//---------------------------
 
 		//堅果--------------------------
-		vector<Nut> nut;
 		//------------------------------
 
 		vector<Double_bean> double_bean;
