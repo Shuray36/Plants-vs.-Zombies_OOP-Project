@@ -29,6 +29,7 @@ public:
 	int GetCoordinateY();
 	bool GetIsPlace();
 	void SetIsPlace(bool status);
+	void SetAttackCounter(float cycle);;
 
 	// will remove
 	int cd;

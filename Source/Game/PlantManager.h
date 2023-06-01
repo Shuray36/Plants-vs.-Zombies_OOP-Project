@@ -40,18 +40,19 @@ public:
 		switch (type)
 		{
 		case PlantType::SUN_FLOWER:
-		{
-			auto s=make_shared<Sunflower>();
-			s->setSunmanager(sun_manager);
-			p=s;
-		}
+			{
+				auto s=make_shared<Sunflower>();
+				s->Init();
+				s->setSunmanager(sun_manager);
+				s->SetAttackCounter(1000);
+				p=s;
+			}
 			break;
 		case PlantType::BEAN_PLANT: break;
 		case PlantType::NUT_PLANT: break;
 		case PlantType::DOUBLE_BEAN: break;
 		default: ;
 		}
-		p->Init();
 		plants.push_back(p);
     }
 };
