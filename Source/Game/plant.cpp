@@ -75,3 +75,8 @@ void Plant::SetIsPlace(bool status)
 {
     _isPlace = status;	
 }
+
+void Plant::SetAttackCounter(float cycle)
+{
+    attack.Set(cycle,0);
+}
