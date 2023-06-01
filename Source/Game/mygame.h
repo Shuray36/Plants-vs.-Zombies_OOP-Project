@@ -216,12 +216,15 @@ namespace game_framework {
 		int end_flag = 0;
 		int end_time = 0;
 
+		void judge_plant_victory();
+		void judge_zombie_victory();
+		int zombie_end = 6;
+
 		CMovingBitmap plant_win_picture;
 		void load_plant_win_picture();
 		//--------------------------
 		//reset--------------------
 		void reset();
-		
 		//-------------------------
 		
 	};

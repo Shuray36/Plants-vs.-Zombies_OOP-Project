@@ -6,9 +6,6 @@
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
 #include "mygame.h"
-//#include "zombie.h"
-//#include "plant.h"
-//#include "map.h"
 #include <string>
 #include <random>
 
@@ -245,29 +242,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			s.skillUpdate();
 		}
 		//--------------------------------
-		for(auto &z : basic_zombie)
-		{
-			if (z.GetLeft() < 500) {
-				end_flag = 1;
-			}
-		}
 		
-		//結束---------------------
-		/*
-		if (basic_zombie[2].die_flag == 1) {
-			overflag = 1;
-			//GotoGameState(GAME_STATE_OVER);
-		}
-		if (overflag == 1) {
-			overtime += 1;
-			if (overtime == 100) {
-				basic_zombie[2].die_flag = 0;
-				overflag = 0;
-				overtime = 0;
-				GotoGameState(GAME_STATE_OVER);
-			}
-		}
-		*/
 		for (auto &car : carList) {
 			for(auto&z : basic_zombie)
 			{
@@ -277,24 +252,10 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					z.state=3;
 				}
 			}
-		}
-
-		bool over = true;
-		for(auto&z : basic_zombie)
-		{
-			if(z.die_flag!=1)
-			{
-				over = false;
-			}
-		}
-		if(over&&basic_zombie.size()==3)
-		{
-			overflag=1;
-		}
-		
+		}		
 	}
-	
-
+	judge_plant_victory();
+	judge_zombie_victory();
 }
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -309,15 +270,10 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	fight_background.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/BG1.bmp" });
 	fight_background.SetTopLeft(0, 0);
 
-	for(auto& n:nut)
-	{
-		n.init();
-	}
-	for(auto& b:bean_plant)
-	{
-		b.init();
-	}
+	for(auto& n:nut) n.init();
+	for(auto& b:bean_plant) b.init();
 	for (auto& db : double_bean) db.init();
+
 	load_sunback();
 	load_sunflower_card();
 	load_sunflower_gray_card();
@@ -325,10 +281,8 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	load_peashooter_card();
 	load_nut_card();
 	load_nut_gray_card();
-
 	load_db_card();
 	load_db_gray_card();
-
 	load_zombie_win_picture();
 	load_plant_win_picture();
 	
@@ -450,27 +404,16 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動
 void CGameStateRun::OnShow()
 {
 	fight_background.ShowBitmap();
-	for(auto &s : sunflower)
-	{
-		s.show();
-	}
-	for(auto &n : nut)
-	{
-		n.show();
-	}
-	for(auto &b : bean_plant)
-	{
-		b.show();
-	}
+	for(auto &s : sunflower) s.show();
+	for(auto &n : nut) n.show();
+	for(auto &b : bean_plant) b.show();
 	for (auto &db : double_bean) db.show();
 
 	if (BG1_flag1 == 2) {
 		
-		for(auto &z : basic_zombie)
-		{
-			z.show();
-		}
-		call_time += 1;
+		for(auto &z : basic_zombie) z.show();
+	
+		if ((int)basic_zombie.size() < zombie_end) call_time += 1;
 		if (call_time == 200) {
 			auto z = Basic_zombie();
 			z.init();
@@ -482,22 +425,8 @@ void CGameStateRun::OnShow()
 
 		sun_manager->ShowSun();
 		
-
-
 		for(auto&car:carList){
 			car.ShowBitmap();
-		}
-		
-		if (end_flag == 2) {
-			end_time += 1;
-			if (end_time < 200) {
-				zombie_win_picture.ShowBitmap();
-			}
-			else {
-				end_flag = 0;
-				end_time = 0;
-				GotoGameState(GAME_STATE_OVER);
-			}
 		}
 	}
 	sunback.ShowBitmap();
@@ -556,11 +485,47 @@ void CGameStateRun::OnShow()
 		plant_win_picture.ShowBitmap();
 	}
 
+	if (end_flag == 1) zombie_win_picture.ShowBitmap();
 	draw_text();
 	
 }
 //-------------------------------------------------------------------------------------------
+void CGameStateRun::judge_plant_victory() {
+	bool overr = true;
+	for (auto&z : basic_zombie)
+	{
+		if (z.die_flag != 1)
+		{
+			overr = false;
+		}
+		
+	}
+	if (overr && ((int)basic_zombie.size() >= zombie_end )) overflag = 1;
 
+}
+
+void CGameStateRun::judge_zombie_victory() {
+	//結束---------------------
+	bool over = false;
+	for (auto &z : basic_zombie) {
+		if (z.GetLeft() <= 100) {
+			over = true;
+		}
+	}
+	if (over == true) {
+		end_flag = 1;
+	}
+
+	if (end_flag == 1) {
+		end_time += 1;
+		if (end_time >= 300) {
+			end_flag = 0;
+			end_time = 0;
+			GotoGameState(GAME_STATE_OVER);
+		}
+	}
+	
+}
 
 
 void CGameStateRun::load_sunback() {
@@ -727,6 +692,7 @@ void CGameStateRun::reset() {
 }
 
 
+
 void CGameStateRun::draw_text() {
 	CDC *pDC = CDDraw::GetBackCDC();
 	//CDC *number = CDDraw::GetBackCDC();
@@ -745,6 +711,9 @@ void CGameStateRun::draw_text() {
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 900, 485, std::to_string(basic_zombie.size()));
+
+	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
+	//CTextDraw::Print(pDC, 900, 515, std::to_string(over));
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 50, 50, std::to_string(Map::level));
