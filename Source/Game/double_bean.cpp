@@ -38,7 +38,7 @@ void Double_bean::show() {
 		ShowBitmap();
 	}
 	else {
-		SetTopLeft(300, 300);
+		SetTopLeft(999, 999);
 	}
 	//if (pb_flag == 0)pb.ShowBitmap();
 	if (pb1.show_flag == 0) pb1.ShowBitmap();

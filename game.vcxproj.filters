@@ -82,6 +82,7 @@
     <ClCompile Include="Source\Game\Vector2.cpp" />
     <ClCompile Include="Source\Game\double_bean.cpp" />
     <ClCompile Include="Source\Game\pb.cpp" />
+    <ClCompile Include="Source\Game\SunManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Library\audio.h">
@@ -134,6 +135,8 @@
     <ClInclude Include="Source\Game\map.h" />
     <ClInclude Include="Source\Game\double_bean.h" />
     <ClInclude Include="Source\Game\pb.h" />
+    <ClInclude Include="Source\Game\SunManager.h" />
+    <ClInclude Include="Source\Game\basic_zombie.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Source\Core\game.rc">

@@ -25,21 +25,7 @@ public:
 	void SetTopLeft(int x,int y);
 	int speed = -1;
 };
-class Basic_zombie:public Zombie {
-protected:
-private:
-public:
-	Basic_zombie():Zombie() {}
-	void init() override;
-	void show();
-	int GetLeft();
-	int GetTop();
-	int state = 0;
-	int die_flag = 0;
-	int cd = 0;
-	void loadstate(int state);
-	void attack();
-};
+
 #endif // ZOMBIE_H
 
 
