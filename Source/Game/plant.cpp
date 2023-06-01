@@ -50,6 +50,10 @@ void Plant::SetCoordinate(float x, float y)
     coordinate.x = x;
     coordinate.y = y;
 }
+void Plant::SetCoordinate(Vector2 v)
+{
+    coordinate = v;
+}
 
 void Plant::Show()
 {

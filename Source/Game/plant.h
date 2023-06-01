@@ -24,6 +24,7 @@ public:
 	void Update() override;
 	void SetCoordinate(int x,int y);
 	void SetCoordinate(float x,float y);
+	void SetCoordinate(Vector2 v);
 	void Show() override;
 	int GetCoordinateX();
 	int GetCoordinateY();

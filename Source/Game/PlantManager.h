@@ -15,6 +15,10 @@ class PlantManager
 	vector<shared_ptr<Plant>> plants;
 	shared_ptr<SunManager> sun_manager;
 public:
+	vector<shared_ptr<Plant>>& GetPlants()
+	{
+		return plants;
+	}
 	void setSunmanager(shared_ptr<SunManager> sm)
 	{
 		sun_manager = sm;
@@ -33,8 +37,30 @@ public:
 			p->Show();
 		}
 	}
-    void MakePlant(PlantType type)
+	void OnMouseMove(Vector2 point)
+	{
+		if(!plants.empty() && !plants.back()->GetIsPlace())
+		{
+			plants.back()->SetPositionByCenter(point);
+		}
+	}
+	void OnLButtonDown(Vector2 coordinate)
+	{
+		if(!plants.empty() && !plants.back()->GetIsPlace())
+		{
+			plants.back()->SetCoordinate(coordinate);
+			plants.back()->SetTopLeft(
+				BoardLeft +BLOCK_WIDTH*static_cast<int>(coordinate.x),
+				BoardTop +BLOCK_HEIGHT*static_cast<int>(coordinate.y));
+			plants.back()->SetIsPlace(true);
+		}
+	}
+    void MakePlant(PlantType type, Vector2 position)
     {
+		if(!plants.empty()&&!plants.back()->GetIsPlace())
+		{
+			return;
+		}
     	//todo
     	std::shared_ptr<Plant> p;
 		switch (type)
@@ -45,6 +71,7 @@ public:
 				s->Init();
 				s->setSunmanager(sun_manager);
 				s->SetAttackCounter(1000);
+				s->SetPositionByCenter(position);
 				p=s;
 			}
 			break;
