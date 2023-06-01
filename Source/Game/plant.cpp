@@ -15,9 +15,6 @@ bool Plant::CanAttack()
 
 void Plant::Attack()
 {
-    shared_ptr<PZGameObject>creation;
-    creation->Init();
-    creations.push_back(creation);
 }
 
 void Plant::Init()
@@ -41,19 +38,6 @@ void Plant::Update()
     {
         attack.counter+=PZTIME;
     }
-    
-    auto creation = creations.begin();
-    while(creation!= creations.end() )
-    {
-        if((*creation)->GetActive())
-        {
-            (*creation)->Update();
-            ++creation;
-        }else
-        {
-            creations.erase(creation);
-        }
-    }
 }
 
 void Plant::SetCoordinate(int x, int y)
@@ -65,6 +49,11 @@ void Plant::SetCoordinate(float x, float y)
 {
     coordinate.x = x;
     coordinate.y = y;
+}
+
+void Plant::Show()
+{
+    PZGameObject::Show();
 }
 
 int Plant::GetCoordinateX()
