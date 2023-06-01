@@ -48,6 +48,9 @@
 #include "Sun.h"
 #include "SunFlower.h"
 #include "SunManager.h"
+#include "basic_zombie.h"
+
+
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -218,7 +221,7 @@ namespace game_framework {
 		//--------------------------
 		//reset--------------------
 		void reset();
-
+		
 		//-------------------------
 		
 	};

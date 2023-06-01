@@ -160,10 +160,12 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 						b.hp -= 30;
 					}
 					if (b.hp <= 0) {
-						if (z.state == 4) {
-							z.cd = 0;
-							z.state = 0;
-							z.speed = -1;
+						for (auto& zz : basic_zombie) {
+							if (zz.state == 4) {
+								zz.cd = 0;
+								zz.state = 0;
+								zz.speed = -1;
+							}
 						}
 						clear_seat((int)b.GetCoordinateX(),(int) b.GetCoordinateY());
 					}
@@ -179,10 +181,12 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 						s.hp -= 30;
 					}
 					if (s.hp <= 0) {
-						if (z.state == 4) {
-							z.cd = 0;
-							z.state = 0;
-							z.speed = -1;
+						for (auto& zz : basic_zombie) {
+							if (zz.state == 4) {
+								zz.cd = 0;
+								zz.state = 0;
+								zz.speed = -1;
+							}
 						}
 						clear_seat((int)s.GetCoordinateX(), (int)s.GetCoordinateY());
 					}
@@ -199,30 +203,42 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 						n.hp -= 30;
 					}
 					if (n.hp <= 0) {
-						if (z.state == 4) {
-							z.cd = 0;
-							z.state = 0;
-							z.speed = -1;
+						for (auto& zz : basic_zombie) {
+							if (zz.state == 4) {
+								zz.cd = 0;
+								zz.state = 0;
+								zz.speed = -1;
+							}
 						}
 						clear_seat((int)n.GetCoordinateX(), (int)n.GetCoordinateY());
 					}
 				}
 				//--------------------------------------------
 			}
-			// fix me 不知道為什麼任何植物放在倒數兩排上 殭屍吃植物的時候會變得非常奇怪 並且植物不會扣血
+			//double_bean-------------------------------------
+			for (auto &db : double_bean) {
+				if (z.GetLeft() <= db.GetLeft() + 30 && z.GetLeft() >= db.GetLeft() + 20 && z.GetTop() <= db.GetTop() + 0 && z.GetTop() >= db.GetTop() - 60 && z.die_flag == 0) {
+					z.state = 4;
+					z.cd += 1;
+					if (z.cd >= 100 && db.hp > 0) {
+						z.cd = 0;
+						db.hp -= 30;
+					}
+					if (db.hp <= 0) {
+						for (auto& zz : basic_zombie) {
+							if (zz.state == 4) {
+								zz.cd = 0;
+								zz.state = 0;
+								zz.speed = -1;
+							}
+						}
+						clear_seat((int)db.GetCoordinateX(), (int)db.GetCoordinateY());
+					}
+				}
+				//--------------------------------------------
+			}
 		}
 
-		//-----------------------
-
-		//todo car :zombie list done can kill zombie
-		// for(auto &car : carList)
-		// {
-		// 	for(auto &zombie:zombieList)
-		// 	{
-		// 		if(CMovingBitmap::IsOverlap((CMovingBitmap)car,zombie))	;
-		// 	}
-		// }
-		
 		//太陽花技能----------------------
 		for(auto&s :sunflower)
 		{
@@ -330,9 +346,10 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		GotoGameState(GAME_STATE_INIT);
 	}
 	if (nChar == VK_RIGHT) {
-		Double_bean newflower = Double_bean();
-		newflower.init();
-		double_bean.push_back(newflower);
+		auto z = Basic_zombie();
+		z.init();
+		z.SetTopLeft(950, 240);
+		basic_zombie.push_back(z);
 	}
 	if (nChar == 0x52) {
 		reset();
@@ -692,7 +709,7 @@ void CGameStateRun::reset() {
 
 	//map-------------
 	place_flag = 0;
-	for (int x = 0; x < 10; x++) {
+	for (int x = 0; x < 9; x++) {
 		for (int y = 0; y < 5; y++) {
 			seat[x][y] = 0;
 		}
@@ -700,6 +717,7 @@ void CGameStateRun::reset() {
 	//---------------
 	//殭屍-----------
 	zombie_index = -1;
+	basic_zombie.clear();
 	call_time = 0;
 	//---------------
 
@@ -726,8 +744,8 @@ void CGameStateRun::draw_text() {
 	CTextDraw::Print(pDC, 900, 155, std::to_string(call_time));
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 900, 485, std::to_string(zombie_index));
-	
+	CTextDraw::Print(pDC, 900, 485, std::to_string(basic_zombie.size()));
+
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 50, 50, std::to_string(Map::level));
 	

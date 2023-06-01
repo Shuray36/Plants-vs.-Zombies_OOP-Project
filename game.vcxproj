@@ -274,6 +274,7 @@
     <ClInclude Include="Source\Core\MainFrm.h" />
     <ClInclude Include="Source\Core\Resource.h" />
     <ClInclude Include="Source\Core\StdAfx.h" />
+    <ClInclude Include="Source\Game\basic_zombie.h" />
     <ClInclude Include="Source\Game\Bean.h" />
     <ClInclude Include="Source\Game\Car.h" />
     <ClInclude Include="Source\Game\config.h" />
