@@ -126,17 +126,20 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 		void draw_text();
 	private:
+		int test = 0;
 		//main
 		int pointx = 0;
 		int pointy = 0;
 		int money = 1000;
 		CMovingBitmap fight_background;
+		CMovingBitmap L1_map;
+		CMovingBitmap L2_map;
 		// BG1的判斷變數
 		int BG1_flag1 = 0;
 		int time = 0;
 		int overflag = 0;
 		int overtime = 0;
-
+		
 		//map-------------------
 		int seat[9][5];
 		int place_flag = 0;
@@ -216,13 +219,19 @@ namespace game_framework {
 		int end_flag = 0;
 		int end_time = 0;
 
+		void judge_plant_victory();
+		void judge_zombie_victory();
+		//int zombie_end = 6;
+
 		CMovingBitmap plant_win_picture;
 		void load_plant_win_picture();
 		//--------------------------
 		//reset--------------------
 		void reset();
-		
 		//-------------------------
+		//隨機---------------------
+		int zb_y_random();
+		//------------------------
 		
 	};
 

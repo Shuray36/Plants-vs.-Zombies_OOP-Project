@@ -52,3 +52,7 @@ void SunManager::ShowSun()
         s.Show();
     }
 }
+
+void SunManager::clear_sun() {
+	suns.clear();
+}
