@@ -12,4 +12,5 @@ public:
     void Update();
     int Lbutton(Vector2 point);
     void ShowSun();
+	void clear_sun();
 };

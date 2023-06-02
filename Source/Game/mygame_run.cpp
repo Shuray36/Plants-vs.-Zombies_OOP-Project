@@ -6,12 +6,9 @@
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
 #include "mygame.h"
-//#include "zombie.h"
-//#include "plant.h"
-//#include "map.h"
 #include <string>
 #include <random>
-
+#define ZOMBIE_END 6
 
 
 
@@ -216,29 +213,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 		//太陽花技能----------------------
 		//--------------------------------
-		for(auto &z : basic_zombie)
-		{
-			if (z.GetLeft() < 500) {
-				end_flag = 1;
-			}
-		}
 		
-		//結束---------------------
-		/*
-		if (basic_zombie[2].die_flag == 1) {
-			overflag = 1;
-			//GotoGameState(GAME_STATE_OVER);
-		}
-		if (overflag == 1) {
-			overtime += 1;
-			if (overtime == 100) {
-				basic_zombie[2].die_flag = 0;
-				overflag = 0;
-				overtime = 0;
-				GotoGameState(GAME_STATE_OVER);
-			}
-		}
-		*/
 		for (auto &car : carList) {
 			for(auto&z : basic_zombie)
 			{
@@ -248,24 +223,10 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					z.state=3;
 				}
 			}
-		}
-
-		bool over = true;
-		for(auto&z : basic_zombie)
-		{
-			if(z.die_flag!=1)
-			{
-				over = false;
-			}
-		}
-		if(over&&basic_zombie.size()==3)
-		{
-			overflag=1;
-		}
-		
+		}		
 	}
-	
-
+	judge_plant_victory();
+	judge_zombie_victory();
 }
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -277,14 +238,26 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		newcar.Init(i);
 		carList.push_back(newcar);
 	}
+
+
+
+	L1_map.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/level1_map.bmp" });
+	L1_map.SetTopLeft(0, 0);
+	L2_map.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/level2_map.bmp" });
+	L2_map.SetTopLeft(0, 0);
 	fight_background.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/BG1.bmp" });
 	fight_background.SetTopLeft(0, 0);
+	
+	
+	
 
 	for(auto& b:bean_plant)
 	{
 		b.init();
 	}
+  
 	for (auto& db : double_bean) db.init();
+
 	load_sunback();
 	load_sunflower_card();
 	load_sunflower_gray_card();
@@ -292,10 +265,8 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	load_peashooter_card();
 	load_nut_card();
 	load_nut_gray_card();
-
 	load_db_card();
 	load_db_gray_card();
-
 	load_zombie_win_picture();
 	load_plant_win_picture();
 
@@ -316,7 +287,7 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (nChar == VK_RIGHT) {
 		auto z = Basic_zombie();
 		z.init();
-		z.SetTopLeft(950, 240);
+		z.SetTopLeft(950, zb_y_random());
 		basic_zombie.push_back(z);
 	}
 	if (nChar == 0x52) {
@@ -324,6 +295,36 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 	if (nChar == 0x4D) {
 		money += 1000;
+	}
+	if (nChar == 0x31) {
+		auto z = Basic_zombie();
+		z.init();
+		z.SetTopLeft(950, 40);
+		basic_zombie.push_back(z);
+	}
+	if (nChar == 0x32) {
+		auto z = Basic_zombie();
+		z.init();
+		z.SetTopLeft(950, 140);
+		basic_zombie.push_back(z);
+	}
+	if (nChar == 0x33) {
+		auto z = Basic_zombie();
+		z.init();
+		z.SetTopLeft(950, 240);
+		basic_zombie.push_back(z);
+	}
+	if (nChar == 0x34) {
+		auto z = Basic_zombie();
+		z.init();
+		z.SetTopLeft(950, 340);
+		basic_zombie.push_back(z);
+	}
+	if (nChar == 0x35) {
+		auto z = Basic_zombie();
+		z.init();
+		z.SetTopLeft(950, 440);
+		basic_zombie.push_back(z);
 	}
 }
 
@@ -415,28 +416,26 @@ void CGameStateRun::OnShow()
 
 	if (BG1_flag1 == 2) {
 		
-		for(auto &z : basic_zombie)
-		{
-			z.show();
-		}
-		call_time += 1;
+		for(auto &z : basic_zombie) z.show();
+	
+		if ((int)basic_zombie.size() < ZOMBIE_END) call_time += 1;
 		if (call_time == 200) {
+			
 			auto z = Basic_zombie();
 			z.init();
-			z.SetTopLeft(950,240);
+			z.SetTopLeft(950,zb_y_random());
 			basic_zombie.push_back(z);
 			call_time = 0;
+			
+			
 		}
 		//召喚殭屍------------------------------------
 
 		sun_manager->ShowSun();
 		
-
-
 		for(auto&car:carList){
 			car.ShowBitmap();
 		}
-		
 		if (end_flag == 2) {
 			end_time += 1;
 			if (end_time < 200) {
@@ -450,6 +449,7 @@ void CGameStateRun::OnShow()
 		}
 		plantManager.Show();
 	}
+  
 	sunback.ShowBitmap();
 	sunflower_card.ShowBitmap();
 	if (money >= 100) {
@@ -506,11 +506,47 @@ void CGameStateRun::OnShow()
 		plant_win_picture.ShowBitmap();
 	}
 
+	if (end_flag == 1) zombie_win_picture.ShowBitmap();
 	draw_text();
 	
 }
 //-------------------------------------------------------------------------------------------
+void CGameStateRun::judge_plant_victory() {
+	bool overr = true;
+	for (auto&z : basic_zombie)
+	{
+		if (z.die_flag != 1)
+		{
+			overr = false;
+		}
+		
+	}
+	if (overr && ((int)basic_zombie.size() >= ZOMBIE_END)) overflag = 1;
 
+}
+
+void CGameStateRun::judge_zombie_victory() {
+	//結束---------------------
+	bool over = false;
+	for (auto &z : basic_zombie) {
+		if (z.GetLeft() <= 100) {
+			over = true;
+		}
+	}
+	if (over == true) {
+		end_flag = 1;
+	}
+
+	if (end_flag == 1) {
+		end_time += 1;
+		if (end_time >= 300) {
+			end_flag = 0;
+			end_time = 0;
+			GotoGameState(GAME_STATE_OVER);
+		}
+	}
+	
+}
 
 
 void CGameStateRun::load_sunback() {
@@ -662,9 +698,11 @@ void CGameStateRun::reset() {
 	//---------------
 
 	//小太陽-----------
+	sun_manager->clear_sun();
 	sun_cooldown = 0;
 	//-----------------
 }
+
 
 
 void CGameStateRun::draw_text() {
@@ -685,6 +723,9 @@ void CGameStateRun::draw_text() {
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 900, 485, std::to_string(basic_zombie.size()));
+
+	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
+	//CTextDraw::Print(pDC, 900, 515, std::to_string(zb_y[2]));
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 50, 50, std::to_string(Map::level));
@@ -710,4 +751,12 @@ void CGameStateRun::draw_text() {
 	CTextDraw::Print(pDC, 900, 540, std::to_string(bean_plant[0].PBgettop()));
 	*/
 	CDDraw::ReleaseBackCDC();
+}
+
+int CGameStateRun::zb_y_random() {
+	//[40, 140, 240, 340, 440] 殭屍的道路
+	int zb_y[5];
+	for (int i = 0; i < 5; i++) zb_y[i] = 40 + 100 * i;
+	int ry = rand() % 5;
+	return zb_y[ry];
 }
