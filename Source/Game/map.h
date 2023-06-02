@@ -4,4 +4,5 @@
 class Map {
 public :
 	static int level;
+	int getLevel();
 };

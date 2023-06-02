@@ -14,4 +14,7 @@
 
 using namespace game_framework;
 
+int Map::getLevel() {
+	return Map::level;
+}
 int Map::level = 0;
