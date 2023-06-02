@@ -100,4 +100,7 @@ public:
 		p->SetPositionByCenter(position);
 		plants.push_back(p);
     }
+	void clear_plant() {
+		plants.clear();
+	}
 };

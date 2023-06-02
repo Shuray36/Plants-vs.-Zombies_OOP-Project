@@ -8,6 +8,7 @@
 #include "mygame.h"
 #include <string>
 #include <random>
+
 #define ZOMBIE_END 6
 
 
@@ -701,6 +702,8 @@ void CGameStateRun::reset() {
 	sun_manager->clear_sun();
 	sun_cooldown = 0;
 	//-----------------
+	
+	plantManager.clear_plant();
 }
 
 
