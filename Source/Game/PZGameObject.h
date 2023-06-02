@@ -3,6 +3,10 @@
 #include "../Library/gameutil.h"
 #include "Counter.h"
 #define PZTIME 10
+#define BLOCK_WIDTH  82
+#define BLOCK_HEIGHT  96
+#define  BoardTop 100
+#define  BoardLeft 207
 
 class PZGameObject :public game_framework::CMovingBitmap
 {
@@ -14,12 +18,13 @@ private:
     
 public:
     void SetPosition(Vector2 position);
+    void SetPositionByCenter(Vector2 position);
     Vector2 GetPosition();
     void SetActive(bool active);
     bool GetActive();
     virtual void Init();
     virtual void Update();
-    void Show();
+    virtual void Show();
     void SetSpeed(Vector2 s);
 
     //todo isOverlap with _collider

@@ -11,12 +11,6 @@
 #define ZOMBIE_END 6
 
 
-enum class plant {
-	SUN_FLOWER=0,
-	BEAN_PLANT=1,
-	NUT_PLANT=2,
-	DOUBLE_BEAN=3
-};
 
 using namespace game_framework;
 
@@ -43,6 +37,7 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {
+	plantManager.Update();
 	sun_manager->Update();
 	for(auto&car :carList)
 	{
@@ -169,15 +164,15 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				}
 			}
 			//太陽花-------------------------------------
-			for (auto &s : sunflower) {
-				if (z.GetLeft() <= s.GetLeft() + 30 && z.GetLeft() >= s.GetLeft() + 20 && z.GetTop() <= s.GetTop() + 0 && z.GetTop() >= s.GetTop() - 60 && z.die_flag == 0) {
+			for (auto &s : plantManager.GetPlants()) {
+				if (z.GetLeft() <= s->GetLeft() + 30 && z.GetLeft() >= s->GetLeft() + 20 && z.GetTop() <= s->GetTop() + 0 && z.GetTop() >= s->GetTop() - 60 && z.die_flag == 0) {
 					z.state = 4;
 					z.cd += 1;
-					if (z.cd >= 100 && s.hp > 0) {
+					if (z.cd >= 100 && s->hp > 0) {
 						z.cd = 0;
-						s.hp -= 30;
+						s->hp -= 50;
 					}
-					if (s.hp <= 0) {
+					if (s->hp <= 0) {
 						for (auto& zz : basic_zombie) {
 							if (zz.state == 4) {
 								zz.cd = 0;
@@ -185,33 +180,13 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 								zz.speed = -1;
 							}
 						}
-						clear_seat((int)s.GetCoordinateX(), (int)s.GetCoordinateY());
+						clear_seat((int)s->GetCoordinateX(), (int)s->GetCoordinateY());
 					}
 				}
 				//--------------------------------------------
 			}
 			//nut-------------------------------------
-			for (auto &n : nut) {
-				if (z.GetLeft() <= n.GetLeft() + 30 && z.GetLeft() >= n.GetLeft() + 20 && z.GetTop() <= n.GetTop() + 0 && z.GetTop() >= n.GetTop() - 60 && z.die_flag == 0) {
-					z.state = 4;
-					z.cd += 1;
-					if (z.cd >= 100 && n.hp > 0) {
-						z.cd = 0;
-						n.hp -= 30;
-					}
-					if (n.hp <= 0) {
-						for (auto& zz : basic_zombie) {
-							if (zz.state == 4) {
-								zz.cd = 0;
-								zz.state = 0;
-								zz.speed = -1;
-							}
-						}
-						clear_seat((int)n.GetCoordinateX(), (int)n.GetCoordinateY());
-					}
-				}
 				//--------------------------------------------
-			}
 			//double_bean-------------------------------------
 			for (auto &db : double_bean) {
 				if (z.GetLeft() <= db.GetLeft() + 30 && z.GetLeft() >= db.GetLeft() + 20 && z.GetTop() <= db.GetTop() + 0 && z.GetTop() >= db.GetTop() - 60 && z.die_flag == 0) {
@@ -237,10 +212,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 
 		//太陽花技能----------------------
-		for(auto&s :sunflower)
-		{
-			s.skillUpdate();
-		}
 		//--------------------------------
 		
 		for (auto &car : carList) {
@@ -280,8 +251,11 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	
 	
 
-	for(auto& n:nut) n.init();
-	for(auto& b:bean_plant) b.init();
+	for(auto& b:bean_plant)
+	{
+		b.init();
+	}
+  
 	for (auto& db : double_bean) db.init();
 
 	load_sunback();
@@ -295,7 +269,8 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	load_db_gray_card();
 	load_zombie_win_picture();
 	load_plant_win_picture();
-	
+
+	plantManager.setSunmanager(sun_manager);
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -355,22 +330,18 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-
 }
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 {
-	
-	money+=sun_manager->Lbutton({(float)pointx,(float)pointy});
+	Vector2 mousePosition = {(float)pointx,(float)pointy};
+	money+=sun_manager->Lbutton(mousePosition);
 	// sun_flag=1;
 
 	if (CMovingBitmap::IsCardClick(pointx, pointy, sunflower_card) && money >= 50) {
 		item = 0;
 		place_flag = 1;
-		Sunflower newflower = Sunflower();
-		newflower.init();
-		newflower.setSunmanager(sun_manager);
-		sunflower.push_back(newflower);
+		plantManager.MakePlant(PlantType::SUN_FLOWER,mousePosition);
 	}
 
 	if (CMovingBitmap::IsCardClick(pointx, pointy, peashooter_card)&&money>=100) { //245 15  330 50
@@ -384,9 +355,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 	if (CMovingBitmap::IsCardClick(pointx, pointy, nut_card) && money >= 75) {
 		item = 2;
 		place_flag = 1;
-		Nut n = Nut();
-		n.init();
-		nut.push_back(n);
+		plantManager.MakePlant(PlantType::NUT_PLANT,mousePosition);
 	}
 
 	if (CMovingBitmap::IsCardClick(pointx, pointy, db_card) && money >= 100) {
@@ -418,14 +387,9 @@ void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動
 {
 	pointx = point.x;
 	pointy = point.y;
-	if (!sunflower.empty()&&!sunflower.back().GetIsPlace()) {
-		sunflower.back().SetTopLeft(pointx - 32, pointy - 25);
-	}
+	plantManager.OnMouseMove({ static_cast<float>(point.x),static_cast<float>(point.y)});
 	if (!bean_plant.empty()&&!bean_plant.back().GetIsPlace()) {
 		bean_plant.back().SetTopLeft(pointx - 32, pointy - 25);
-	}
-	if (!nut.empty()&&!nut.back().GetIsPlace()) {
-		nut.back().SetTopLeft(pointx - 32, pointy - 25);
 	}
 	if (!double_bean.empty() && !double_bean.back().GetIsPlace()) {
 		double_bean.back().SetTopLeft(pointx - 32, pointy - 25);
@@ -444,9 +408,10 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動
 void CGameStateRun::OnShow()
 {
 	fight_background.ShowBitmap();
-	for(auto &s : sunflower) s.show();
-	for(auto &n : nut) n.show();
-	for(auto &b : bean_plant) b.show();
+	for(auto &b : bean_plant)
+	{
+		b.show();
+	}
 	for (auto &db : double_bean) db.show();
 
 	if (BG1_flag1 == 2) {
@@ -471,7 +436,20 @@ void CGameStateRun::OnShow()
 		for(auto&car:carList){
 			car.ShowBitmap();
 		}
+		if (end_flag == 2) {
+			end_time += 1;
+			if (end_time < 200) {
+				zombie_win_picture.ShowBitmap();
+			}
+			else {
+				end_flag = 0;
+				end_time = 0;
+				GotoGameState(GAME_STATE_OVER);
+			}
+		}
+		plantManager.Show();
 	}
+  
 	sunback.ShowBitmap();
 	sunflower_card.ShowBitmap();
 	if (money >= 100) {
@@ -632,11 +610,9 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 	int map_topleftX = 200;
 	int map_topleftY =  90;
 
-	const int xSize = 82;
-	const int ySize = 96;
 	for (int y = 0; y < 5; y++){
 		for (int x = 0; x < 9; x++){
-			if (targetx >= map_topleftX +x*xSize && targetx < map_topleftX+(x+1)*(xSize) && targety > map_topleftY + y * ySize && targety < map_topleftY + (y + 1) * ySize  && seat[x][y] != 2){
+			if (targetx >= map_topleftX +x*BLOCK_WIDTH && targetx < map_topleftX+(x+1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT  && seat[x][y] != 2){
 				seat[x][y] = 1;
 			}
 		}
@@ -645,30 +621,24 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 	for (int y = 0; y < 5; y++){
 		for (int x = 0; x < 9; x++){
 			if (seat[x][y] == 1 ) {
-				if (item == (int)plant::SUN_FLOWER) {
-					auto &newflower = sunflower.back();
-					newflower.SetTopLeft(207+xSize*x, 100+ySize*y);
-					newflower.SetCoordinate(x,y);
-					newflower.SetIsPlace(true);
+				if (item == (int)PlantType::SUN_FLOWER) {
+					plantManager.OnLButtonDown({(float)x,(float)y});
 					money -= 50;
 				}
-				else if (item == (int)plant::BEAN_PLANT) {
+				else if (item == (int)PlantType::BEAN_PLANT) {
 					auto &newflower = bean_plant.back();
-					newflower.SetTopLeft(207+xSize*x, 100+ySize*y);
+					newflower.SetTopLeft(207+BLOCK_WIDTH*x, 100+BLOCK_HEIGHT*y);
 					newflower.SetCoordinate(x,y);
 					newflower.SetIsPlace(true);
 					money -= 100;
 				}
-				else if (item == (int)plant::NUT_PLANT) {
-					auto &newnut = nut.back();
-					newnut.SetTopLeft(207+xSize*x, 100+ySize*y);
-					newnut.SetCoordinate(x,y);
-					newnut.SetIsPlace(true);
+				else if (item == (int)PlantType::NUT_PLANT) {
+					plantManager.OnLButtonDown({(float)x,(float)y});
 					money -= 75;
 				}
-				else if (item == (int)plant::DOUBLE_BEAN) {
+				else if (item == (int)PlantType::DOUBLE_BEAN) {
 					auto &newdb = double_bean.back();
-					newdb.SetTopLeft(207 + xSize * x, 100 + ySize * y);
+					newdb.SetTopLeft(207 + BLOCK_WIDTH * x, 100 + BLOCK_HEIGHT * y);
 					newdb.SetCoordinate(x, y);
 					newdb.SetIsPlace(true);
 					money -= 200;
@@ -700,7 +670,6 @@ void CGameStateRun::reset() {
 	}
 	//-----------------------------
 	//太陽花-----------------------
-	sunflower.clear();
 	//-----------------------------
 
 	//豌豆-----------------------
@@ -708,7 +677,6 @@ void CGameStateRun::reset() {
 	//-----------------------------
 
 	//堅果-----------------------
-	nut.clear();
 	//-----------------------------
 
 	//雙豌豆-----------------------

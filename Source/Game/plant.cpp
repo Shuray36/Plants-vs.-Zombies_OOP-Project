@@ -15,9 +15,6 @@ bool Plant::CanAttack()
 
 void Plant::Attack()
 {
-    shared_ptr<PZGameObject>creation;
-    creation->Init();
-    creations.push_back(creation);
 }
 
 void Plant::Init()
@@ -41,18 +38,9 @@ void Plant::Update()
     {
         attack.counter+=PZTIME;
     }
-    
-    auto creation = creations.begin();
-    while(creation!= creations.end() )
+    if(hp<=0)
     {
-        if((*creation)->GetActive())
-        {
-            (*creation)->Update();
-            ++creation;
-        }else
-        {
-            creations.erase(creation);
-        }
+        SetActive(false);
     }
 }
 
@@ -65,6 +53,15 @@ void Plant::SetCoordinate(float x, float y)
 {
     coordinate.x = x;
     coordinate.y = y;
+}
+void Plant::SetCoordinate(Vector2 v)
+{
+    coordinate = v;
+}
+
+void Plant::Show()
+{
+    PZGameObject::Show();
 }
 
 int Plant::GetCoordinateX()
@@ -85,4 +82,9 @@ bool Plant::GetIsPlace()
 void Plant::SetIsPlace(bool status)
 {
     _isPlace = status;	
+}
+
+void Plant::SetAttackCounter(float cycle)
+{
+    attack.Set(cycle,0);
 }

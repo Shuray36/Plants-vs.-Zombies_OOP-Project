@@ -8,8 +8,10 @@
 #include <string>
 
 
-
-void Sunflower::init() {
+void Sunflower::Init()
+{
+	Plant::Init();
+	{
 	LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_0.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_1.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_2.bmp",
@@ -29,10 +31,10 @@ void Sunflower::init() {
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_16.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_17.bmp",
 		}, RGB(255, 255, 255)); //315 310}, RGB(255, 255, 255);
-	SetTopLeft(999, 999); //283 285
+	}
 	SetAnimation(100, false);
 	ToggleAnimation();
-
+#pragma region 
 	sunflower_getsun.LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/sunflower_getsun/sunflower_getsun_0.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_getsun/sunflower_getsun_1.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_getsun/sunflower_getsun_2.bmp",
@@ -51,11 +53,18 @@ void Sunflower::init() {
 		"Plants_vs_Zombies_Image/plants/sunflower_getsun/sunflower_getsun_15.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_getsun/sunflower_getsun_16.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_getsun/sunflower_getsun_17.bmp", }, RGB(255, 255, 255));
+#pragma endregion 
 	sunflower_getsun.SetTopLeft(GetLeft(), GetTop());
 	sunflower_getsun.SetAnimation(120, false);
 	sunflower_getsun.ToggleAnimation();
-	hp=100;
 }
+
+void Sunflower::Attack()
+{
+	sun_manager->makeSun({(float)GetLeft() + 65, (float)GetTop() });
+}
+
+
 
 void Sunflower::show() {
 	if (hp > 0 && state == 0) {
@@ -64,7 +73,6 @@ void Sunflower::show() {
 	else if (hp > 0 && state == 1) {
 		sunflower_getsun.SetTopLeft(GetLeft(), GetTop());
 		sunflower_getsun.ShowBitmap();
-
 		if (cd_keep >= 120)
 		{
 			cd = 0;
