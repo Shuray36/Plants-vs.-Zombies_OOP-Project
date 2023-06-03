@@ -465,8 +465,6 @@ void CGameStateRun::OnShow()
 			z.SetTopLeft(950,zb_y_random());
 			basic_zombie.push_back(z);
 			call_time = 0;
-			
-			
 		}
 		//召喚殭屍------------------------------------
 
@@ -546,7 +544,41 @@ void CGameStateRun::OnShow()
 
 	if (end_flag == 1) zombie_win_picture.ShowBitmap();
 	draw_text();
+	/*
+	if (BG1_flag1 == 2) {
+		
+		for(auto &z : basic_zombie) z.show();
 	
+		if ((int)basic_zombie.size() < ZOMBIE_END) call_time += 1;
+		if (call_time == 200) {
+			
+			auto z = Basic_zombie();
+			z.init();
+			z.SetTopLeft(950,zb_y_random());
+			basic_zombie.push_back(z);
+			call_time = 0;
+		}
+		//召喚殭屍------------------------------------
+
+		sun_manager->ShowSun();
+		
+		for(auto&car:carList){
+			car.ShowBitmap();
+		}
+		if (end_flag == 2) {
+			end_time += 1;
+			if (end_time < 200) {
+				zombie_win_picture.ShowBitmap();
+			}
+			else {
+				end_flag = 0;
+				end_time = 0;
+				GotoGameState(GAME_STATE_OVER);
+			}
+		}
+		plantManager.Show();
+	}
+	*/
 }
 //-------------------------------------------------------------------------------------------
 void CGameStateRun::judge_plant_victory() {
