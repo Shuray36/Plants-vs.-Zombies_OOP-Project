@@ -45,19 +45,53 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		car.Update();
 	}
 	//遊戲剛開始的移動 往右到一定程度後 往回到原本樣式
-	if (fight_background.GetLeft() >= (-350) && BG1_flag1 == 0) {
-		fight_background.SetTopLeft(fight_background.GetLeft() - 10, 0);
-		if (fight_background.GetLeft() <= (-350)) {
-			BG1_flag1 = 1;
+	if (Map::level == 1) {
+		if (L1_map.GetLeft() >= (-350) && BG1_flag1 == 0) {
+			L1_map.SetTopLeft(L1_map.GetLeft() - 10, 0);
+			if (L1_map.GetLeft() <= (-350)) {
+				BG1_flag1 = 1;
+			}
+		}
+		else if (L1_map.GetLeft() <= (350) && BG1_flag1 == 1) {
+			time += 1;
+			if (time >= 20) {
+				L1_map.SetTopLeft(L1_map.GetLeft() + 10, 0);
+				if (L1_map.GetLeft() >= (-50)) BG1_flag1 = 2;
+			}
 		}
 	}
-	else if (fight_background.GetLeft() <= (350) && BG1_flag1 == 1) {
-		time += 1;
-		if (time >= 20) {
-			fight_background.SetTopLeft(fight_background.GetLeft() + 10, 0);
-			if (fight_background.GetLeft() >= (-50)) BG1_flag1 = 2;
+	else if (Map::level == 2) {
+		if (L2_map.GetLeft() >= (-350) && BG1_flag1 == 0) {
+			L2_map.SetTopLeft(L2_map.GetLeft() - 10, 0);
+			if (L2_map.GetLeft() <= (-350)) {
+				BG1_flag1 = 1;
+			}
+		}
+		else if (L2_map.GetLeft() <= (350) && BG1_flag1 == 1) {
+			time += 1;
+			if (time >= 20) {
+				L2_map.SetTopLeft(L2_map.GetLeft() + 10, 0);
+				if (L2_map.GetLeft() >= (-50)) BG1_flag1 = 2;
+			}
 		}
 	}
+	else if (Map::level == 3) {
+		if (fight_background.GetLeft() >= (-350) && BG1_flag1 == 0) {
+			fight_background.SetTopLeft(fight_background.GetLeft() - 10, 0);
+			if (fight_background.GetLeft() <= (-350)) {
+				BG1_flag1 = 1;
+			}
+		}
+		else if (fight_background.GetLeft() <= (350) && BG1_flag1 == 1) {
+			time += 1;
+			if (time >= 20) {
+				fight_background.SetTopLeft(fight_background.GetLeft() + 10, 0);
+				if (fight_background.GetLeft() >= (-50)) BG1_flag1 = 2;
+			}
+		}
+	}
+	
+
 	if (BG1_flag1 == 2) {        //遊戲跑換地圖後正式開始 
 	
 		for(auto& z : basic_zombie){
@@ -408,13 +442,17 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動
 
 void CGameStateRun::OnShow()
 {
-	fight_background.ShowBitmap();
-	for(auto &b : bean_plant)
-	{
-		b.show();
+	if (Map::level == 1) {
+		L1_map.ShowBitmap();
 	}
+	else if (Map::level == 2) {
+		L2_map.ShowBitmap();
+	}
+	else if (Map::level == 3) {
+		fight_background.ShowBitmap();
+	}
+	for(auto &b : bean_plant) b.show();
 	for (auto &db : double_bean) db.show();
-
 	if (BG1_flag1 == 2) {
 		
 		for(auto &z : basic_zombie) z.show();
@@ -450,7 +488,6 @@ void CGameStateRun::OnShow()
 		}
 		plantManager.Show();
 	}
-  
 	sunback.ShowBitmap();
 	sunflower_card.ShowBitmap();
 	if (money >= 100) {
