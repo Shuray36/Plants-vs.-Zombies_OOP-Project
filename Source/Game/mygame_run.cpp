@@ -30,9 +30,7 @@ CGameStateRun::~CGameStateRun()
 
 void CGameStateRun::OnBeginState()
 {
-	if (Map::level == 1) {
-		reset();
-	}
+	reset();
 	
 }
 
@@ -45,25 +43,59 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		car.Update();
 	}
 	//遊戲剛開始的移動 往右到一定程度後 往回到原本樣式
-	if (fight_background.GetLeft() >= (-350) && BG1_flag1 == 0) {
-		fight_background.SetTopLeft(fight_background.GetLeft() - 10, 0);
-		if (fight_background.GetLeft() <= (-350)) {
-			BG1_flag1 = 1;
+	if (Map::level == 1) {
+		if (L1_map.GetLeft() >= (-350) && BG1_flag1 == 0) {
+			L1_map.SetTopLeft(L1_map.GetLeft() - 10, 0);
+			if (L1_map.GetLeft() <= (-350)) {
+				BG1_flag1 = 1;
+			}
+		}
+		else if (L1_map.GetLeft() <= (350) && BG1_flag1 == 1) {
+			time += 1;
+			if (time >= 20) {
+				L1_map.SetTopLeft(L1_map.GetLeft() + 10, 0);
+				if (L1_map.GetLeft() >= (-50)) BG1_flag1 = 2;
+			}
 		}
 	}
-	else if (fight_background.GetLeft() <= (350) && BG1_flag1 == 1) {
-		time += 1;
-		if (time >= 20) {
-			fight_background.SetTopLeft(fight_background.GetLeft() + 10, 0);
-			if (fight_background.GetLeft() >= (-50)) BG1_flag1 = 2;
+	else if (Map::level == 2) {
+		if (L2_map.GetLeft() >= (-350) && BG1_flag1 == 0) {
+			L2_map.SetTopLeft(L2_map.GetLeft() - 10, 0);
+			if (L2_map.GetLeft() <= (-350)) {
+				BG1_flag1 = 1;
+			}
+		}
+		else if (L2_map.GetLeft() <= (350) && BG1_flag1 == 1) {
+			time += 1;
+			if (time >= 20) {
+				L2_map.SetTopLeft(L2_map.GetLeft() + 10, 0);
+				if (L2_map.GetLeft() >= (-50)) BG1_flag1 = 2;
+			}
 		}
 	}
+	else if (Map::level == 3) {
+		if (fight_background.GetLeft() >= (-350) && BG1_flag1 == 0) {
+			fight_background.SetTopLeft(fight_background.GetLeft() - 10, 0);
+			if (fight_background.GetLeft() <= (-350)) {
+				BG1_flag1 = 1;
+			}
+		}
+		else if (fight_background.GetLeft() <= (350) && BG1_flag1 == 1) {
+			time += 1;
+			if (time >= 20) {
+				fight_background.SetTopLeft(fight_background.GetLeft() + 10, 0);
+				if (fight_background.GetLeft() >= (-50)) BG1_flag1 = 2;
+			}
+		}
+	}
+	
+
 	if (BG1_flag1 == 2) {        //遊戲跑換地圖後正式開始 
 	
 		for(auto& z : basic_zombie){
-			if (z.die_flag == 0 && zombie_index >= 0)basic_zombie[zombie_index].speed = -1;
 			z.SetTopLeft(z.GetLeft() + z.speed, z.GetTop());
 		}
+		for (auto&t : tri_zombie) t.SetTopLeft(t.GetLeft() + t.speed, t.GetTop());
 		//------------------------------------------------------
 		//花開始落下--------------------------------------------
 		sun_cooldown += 1;
@@ -91,6 +123,18 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					if (z.hp <= 0) {
 						z.state = 1;
 						z.die_flag = 1;
+					}
+				}
+			}
+			//triangle_zombie------------------------
+			for (auto& t : tri_zombie) {
+				if (b.pb.GetLeft() <= t.GetLeft() + 50 && b.pb.GetLeft() >= t.GetLeft() + 45 && b.pb.GetTop() <= t.GetTop() + 60 && b.pb.GetTop() >= t.GetTop() - 0 && t.die_flag == 0) {
+					b.leave();
+					b.pb.show_flag = 1;
+					t.hp -= 30;
+					if (t.hp <= 0) {
+						t.state = 1;
+						t.die_flag = 1;
 					}
 				}
 			}
@@ -128,6 +172,28 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					}
 				}
 				
+			}
+			//triangle_zombie----------------------
+			for (auto& t : tri_zombie) {
+				if (🥒🥒.pb1.GetLeft() <= t.GetLeft() + 50 && 🥒🥒.pb1.GetLeft() >= t.GetLeft() + 45 && 🥒🥒.pb1.GetTop() <= t.GetTop() + 60 && 🥒🥒.pb1.GetTop() >= t.GetTop() - 0 && t.die_flag == 0) {
+					🥒🥒.pb1.leave();
+					🥒🥒.pb1.show_flag = 1;
+					t.hp -= 30;
+					if (t.hp <= 0) {
+						t.state = 1;
+						t.die_flag = 1;
+					}
+				}
+				if (🥒🥒.pb2.GetLeft() <= t.GetLeft() + 50 && 🥒🥒.pb2.GetLeft() >= t.GetLeft() + 45 && 🥒🥒.pb2.GetTop() <= t.GetTop() + 60 && 🥒🥒.pb2.GetTop() >= t.GetTop() - 0 && t.die_flag == 0) {
+					🥒🥒.pb2.leave();
+					🥒🥒.pb2.show_flag = 1;
+					t.hp -= 30;
+					if (t.hp <= 0) {
+						t.state = 1;
+						t.die_flag = 1;
+					}
+				}
+
 			}
 			if (🥒🥒.cd >= 200) {
 				🥒🥒.reload();
@@ -224,6 +290,14 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					z.state=3;
 				}
 			}
+			for (auto&t : tri_zombie)
+			{
+				if (car.GetLeft() >= t.GetLeft() + 0 && car.GetLeft() <= t.GetLeft() + 100 && car.GetTop() >= t.GetTop() + 0 && car.GetTop() <= t.GetTop() + 100)
+				{
+					car.Trigger();
+					t.state = 3;
+				}
+			}
 		}		
 	}
 	judge_plant_victory();
@@ -240,8 +314,6 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		carList.push_back(newcar);
 	}
 
-
-
 	L1_map.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/level1_map.bmp" });
 	L1_map.SetTopLeft(0, 0);
 	L2_map.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/level2_map.bmp" });
@@ -250,15 +322,8 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	fight_background.SetTopLeft(0, 0);
 	
 	
-	
-
-	for(auto& b:bean_plant)
-	{
-		b.init();
-	}
-  
+	for(auto& b:bean_plant) b.init();
 	for (auto& db : double_bean) db.init();
-
 	load_sunback();
 	load_sunflower_card();
 	load_sunflower_gray_card();
@@ -286,10 +351,18 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		GotoGameState(GAME_STATE_INIT);
 	}
 	if (nChar == VK_RIGHT) {
+		/*
 		auto z = Basic_zombie();
 		z.init();
 		z.SetTopLeft(950, zb_y_random());
 		basic_zombie.push_back(z);
+		*/
+		
+
+		auto t = Triangle_zombie();
+		t.init();
+		t.SetTopLeft(950, 240);
+		tri_zombie.push_back(t);
 	}
 	if (nChar == 0x52) {
 		reset();
@@ -359,7 +432,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 		plantManager.MakePlant(PlantType::NUT_PLANT,mousePosition);
 	}
 
-	if (CMovingBitmap::IsCardClick(pointx, pointy, db_card) && money >= 100) {
+	if (CMovingBitmap::IsCardClick(pointx, pointy, db_card) && money >= 100 && Map::level != 1) {
 		item = 3;
 		place_flag = 1;
 		Double_bean d = Double_bean();
@@ -408,51 +481,75 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動
 
 void CGameStateRun::OnShow()
 {
-	fight_background.ShowBitmap();
-	for(auto &b : bean_plant)
-	{
-		b.show();
+	if (Map::level == 1) {
+		L1_map.ShowBitmap();
+		if (BG1_flag1 == 2) {
+			for (auto &z : basic_zombie) z.show();
+			for (auto &t : tri_zombie) t.show();
+			if ((int)basic_zombie.size() < ZOMBIE_END) call_time += 1;
+			if (call_time == 200) {
+				auto z = Basic_zombie();
+				z.init();
+				z.SetTopLeft(950, 240);
+				basic_zombie.push_back(z);
+				call_time = 0;
+			}
+			//召喚殭屍------------------------------------
+			sun_manager->ShowSun();
+			for (auto&car : carList) {
+				car.ShowBitmap();
+			}
+			if (end_flag == 2) {
+				end_time += 1;
+				if (end_time < 200) {
+					zombie_win_picture.ShowBitmap();
+				}
+				else {
+					end_flag = 0;
+					end_time = 0;
+					GotoGameState(GAME_STATE_OVER);
+				}
+			}
+			plantManager.Show();
+		}
 	}
+	else if (Map::level == 2) {
+		L2_map.ShowBitmap();
+		if (BG1_flag1 == 2) {
+			for (auto &z : basic_zombie) z.show();
+			if ((int)basic_zombie.size() < ZOMBIE_END) call_time += 1;
+			if (call_time == 200) {
+				auto z = Basic_zombie();
+				z.init();
+				z.SetTopLeft(950, 240);
+				basic_zombie.push_back(z);
+				call_time = 0;
+			}
+			//召喚殭屍------------------------------------
+			sun_manager->ShowSun();
+			for (auto&car : carList) {
+				car.ShowBitmap();
+			}
+			if (end_flag == 2) {
+				end_time += 1;
+				if (end_time < 200) {
+					zombie_win_picture.ShowBitmap();
+				}
+				else {
+					end_flag = 0;
+					end_time = 0;
+					GotoGameState(GAME_STATE_OVER);
+				}
+			}
+			plantManager.Show();
+		}
+	}
+	else if (Map::level == 3) {
+		fight_background.ShowBitmap();
+	}
+	for(auto &b : bean_plant) b.show();
 	for (auto &db : double_bean) db.show();
-
-	if (BG1_flag1 == 2) {
-		
-		for(auto &z : basic_zombie) z.show();
-	
-		if ((int)basic_zombie.size() < ZOMBIE_END) call_time += 1;
-		if (call_time == 200) {
-			
-			auto z = Basic_zombie();
-			z.init();
-			z.SetTopLeft(950,zb_y_random());
-			basic_zombie.push_back(z);
-			call_time = 0;
-			
-			
-		}
-		//召喚殭屍------------------------------------
-
-		sun_manager->ShowSun();
-		
-		for(auto&car:carList){
-			car.ShowBitmap();
-		}
-		if (end_flag == 2) {
-			end_time += 1;
-			if (end_time < 200) {
-				zombie_win_picture.ShowBitmap();
-			}
-			else {
-				end_flag = 0;
-				end_time = 0;
-				GotoGameState(GAME_STATE_OVER);
-			}
-		}
-		plantManager.Show();
-	}
-  
 	sunback.ShowBitmap();
-	sunflower_card.ShowBitmap();
 	if (money >= 100) {
 		pershooter_flag = 1;
 	}
@@ -481,27 +578,28 @@ void CGameStateRun::OnShow()
 	else if (pershooter_flag == 1) {
 		peashooter_card.ShowBitmap();
 	}
+
 	if (sunflower_flag == 0) {
 		sunflower_gray_card.ShowBitmap();
 	}
 	else if (sunflower_flag == 1) {
 		sunflower_card.ShowBitmap();
 	}
+
 	if (nut_flag == 0) {
 		nut_gray_card.ShowBitmap();
 	}
 	else if (nut_flag == 1) {
 		nut_card.ShowBitmap();
 	}
-	if (db_flag == 0) {
+
+	if (db_flag == 0 && Map::level != 1) {
 		db_gray_card.ShowBitmap();
 	}
-	else if (db_flag == 1) {
+	else if (db_flag == 1 && Map::level != 1) {
 		db_card.ShowBitmap();
 	}
 	
-
-
 	if (overflag == 1) {
 		plant_win_picture.SetTopLeft(733, 313);
 		plant_win_picture.ShowBitmap();
@@ -509,7 +607,41 @@ void CGameStateRun::OnShow()
 
 	if (end_flag == 1) zombie_win_picture.ShowBitmap();
 	draw_text();
+	/*
+	if (BG1_flag1 == 2) {
+		
+		for(auto &z : basic_zombie) z.show();
 	
+		if ((int)basic_zombie.size() < ZOMBIE_END) call_time += 1;
+		if (call_time == 200) {
+			
+			auto z = Basic_zombie();
+			z.init();
+			z.SetTopLeft(950,zb_y_random());
+			basic_zombie.push_back(z);
+			call_time = 0;
+		}
+		//召喚殭屍------------------------------------
+
+		sun_manager->ShowSun();
+		
+		for(auto&car:carList){
+			car.ShowBitmap();
+		}
+		if (end_flag == 2) {
+			end_time += 1;
+			if (end_time < 200) {
+				zombie_win_picture.ShowBitmap();
+			}
+			else {
+				end_flag = 0;
+				end_time = 0;
+				GotoGameState(GAME_STATE_OVER);
+			}
+		}
+		plantManager.Show();
+	}
+	*/
 }
 //-------------------------------------------------------------------------------------------
 void CGameStateRun::judge_plant_victory() {
@@ -672,18 +804,14 @@ void CGameStateRun::reset() {
 	//-----------------------------
 	//太陽花-----------------------
 	//-----------------------------
-
 	//豌豆-----------------------
 	bean_plant.clear();
 	//-----------------------------
-
 	//堅果-----------------------
 	//-----------------------------
-
 	//雙豌豆-----------------------
 	double_bean.clear();
 	//-----------------------------
-
 	//map-------------
 	place_flag = 0;
 	for (int x = 0; x < 9; x++) {
@@ -696,6 +824,7 @@ void CGameStateRun::reset() {
 	zombie_index = -1;
 	basic_zombie.clear();
 	call_time = 0;
+	tri_zombie.clear();
 	//---------------
 
 	//小太陽-----------

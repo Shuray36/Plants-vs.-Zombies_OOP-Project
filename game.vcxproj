@@ -260,6 +260,7 @@
     <ClCompile Include="Source\Game\Sun.cpp" />
     <ClCompile Include="Source\Game\sunflower.cpp" />
     <ClCompile Include="Source\Game\SunManager.cpp" />
+    <ClCompile Include="Source\Game\triangle_zombie.cpp" />
     <ClCompile Include="Source\Game\Vector2.cpp" />
     <ClCompile Include="Source\Game\zombie.cpp" />
     <ClCompile Include="Source\Library\audio.cpp" />
@@ -289,6 +290,7 @@
     <ClInclude Include="Source\Game\Sun.h" />
     <ClInclude Include="Source\Game\SunFlower.h" />
     <ClInclude Include="Source\Game\SunManager.h" />
+    <ClInclude Include="Source\Game\triangle_zombie.h" />
     <ClInclude Include="Source\Game\Vector2.h" />
     <ClInclude Include="Source\Game\zombie.h" />
     <ClInclude Include="Source\Game\mygame.h" />

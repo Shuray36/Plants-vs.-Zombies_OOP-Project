@@ -53,17 +53,33 @@ void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	if (pointx >= 476 && pointx <= 797 && pointy >= 80 && pointy <= 188) {
-		menu_flag = 1;
-	}
-	if (pointx >= 685 && pointx <= 765 && pointy >= 530 && pointy <= 555) {
-		menu_flag = 0;
-	}
+	
 	if (pointx >= 120 && pointx <= 240 && pointy >= 120 && pointy <= 240 && menu_flag==1) {
 		menu_flag = 0;
 		Map::level = 1;
 		GotoGameState(GAME_STATE_RUN);
 	
+	}
+	if (pointx >= 360 && pointx <= 480 && pointy >= 120 && pointy <= 240 && menu_flag == 1) {
+		menu_flag = 0;
+		Map::level = 2;
+		GotoGameState(GAME_STATE_RUN);
+		//360 120
+
+	}
+	if (pointx >= 600 && pointx <= 720 && pointy >= 120 && pointy <= 240 && menu_flag == 1) {
+		menu_flag = 0;
+		Map::level = 3;
+		GotoGameState(GAME_STATE_RUN);
+
+		//600 120
+
+	}
+	if (pointx >= 476 && pointx <= 797 && pointy >= 80 && pointy <= 188) {
+		menu_flag = 1;
+	}
+	if (pointx >= 685 && pointx <= 765 && pointy >= 530 && pointy <= 555) {
+		menu_flag = 0;
 	}
 	//685 765 530 555
 }
