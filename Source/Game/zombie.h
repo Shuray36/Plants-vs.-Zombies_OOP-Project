@@ -8,8 +8,6 @@
 class Zombie {
 protected:
 	int atk;
-	
-	
 	int x = 0;
 	int y = 0;
 	game_framework::CMovingBitmap zombie;

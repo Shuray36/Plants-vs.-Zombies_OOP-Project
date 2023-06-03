@@ -82,7 +82,7 @@ public:
 				auto s=make_shared<Sunflower>();
 				s->Init();
 				s->setSunmanager(sun_manager);
-				s->SetAttackCounter(1000);
+				s->SetAttackCounter(3000);
 				p=s;
 			}
 			break;

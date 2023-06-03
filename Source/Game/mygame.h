@@ -50,7 +50,7 @@
 #include "SunFlower.h"
 #include "SunManager.h"
 #include "basic_zombie.h"
-
+#include "triangle_zombie.h"
 
 
 namespace game_framework {
@@ -154,6 +154,7 @@ namespace game_framework {
 		vector<Basic_zombie> basic_zombie;
 		int zombie_index = -1;
 		int call_time = 0;
+		vector<Triangle_zombie> tri_zombie;
 		//-------------------
 
 		//太陽花-----------------
