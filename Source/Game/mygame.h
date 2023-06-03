@@ -51,6 +51,7 @@
 #include "SunManager.h"
 #include "basic_zombie.h"
 #include "triangle_zombie.h"
+#include "bucket_zombie.h"
 
 
 namespace game_framework {
@@ -155,6 +156,10 @@ namespace game_framework {
 		int zombie_index = -1;
 		int call_time = 0;
 		vector<Triangle_zombie> tri_zombie;
+		vector<Bucket_zombie> bucket_zombie;
+		void tri_zombie_attack();
+		void bucket_zombie_attack();//寫殭屍攻擊植物
+
 		//-------------------
 
 		//太陽花-----------------
