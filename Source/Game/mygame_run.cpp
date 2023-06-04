@@ -548,39 +548,6 @@ void CGameStateRun::OnShow()
 		L1_map.ShowBitmap();
 		if (BG1_flag1 == 2) {
 			for (auto &z : basic_zombie) z.show();
-			for (auto &t : tri_zombie) t.show();
-			for (auto &bz : bucket_zombie) bz.show();
-			//if ((int)basic_zombie.size() < ZOMBIE_END) call_time += 1;
-			if (call_time == 200) {
-				auto z = Basic_zombie();
-				z.init();
-				z.SetTopLeft(950, 240);
-				basic_zombie.push_back(z);
-				call_time = 0;
-			}
-			//召喚殭屍------------------------------------
-			sun_manager->ShowSun();
-			for (auto&car : carList) {
-				car.ShowBitmap();
-			}
-			if (end_flag == 2) {
-				end_time += 1;
-				if (end_time < 200) {
-					zombie_win_picture.ShowBitmap();
-				}
-				else {
-					end_flag = 0;
-					end_time = 0;
-					GotoGameState(GAME_STATE_OVER);
-				}
-			}
-			plantManager.Show();
-		}
-	}
-	else if (Map::level == 2) {
-		L2_map.ShowBitmap();
-		if (BG1_flag1 == 2) {
-			for (auto &z : basic_zombie) z.show();
 			if ((int)basic_zombie.size() < ZOMBIE_END) call_time += 1;
 			if (call_time == 200) {
 				auto z = Basic_zombie();
@@ -594,26 +561,65 @@ void CGameStateRun::OnShow()
 			for (auto&car : carList) {
 				car.ShowBitmap();
 			}
-			if (end_flag == 2) {
-				end_time += 1;
-				if (end_time < 200) {
-					zombie_win_picture.ShowBitmap();
-				}
-				else {
-					end_flag = 0;
-					end_time = 0;
-					GotoGameState(GAME_STATE_OVER);
-				}
+			plantManager.Show();
+		}
+	}
+	else if (Map::level == 2) {
+		L2_map.ShowBitmap();
+		if (BG1_flag1 == 2) {
+			for (auto &z : basic_zombie) z.show();
+			for (auto &t : tri_zombie) t.show();
+			for (auto &bz : bucket_zombie) bz.show();
+			if ((int)basic_zombie.size() < 3) call_time += 1;
+			if (call_time == 200) {
+				auto z = Basic_zombie();
+				z.init();
+				z.SetTopLeft(950, zb_y_random());
+				basic_zombie.push_back(z);
+				call_time = 0;
+			}
+			if ((int)tri_zombie.size() < 3) tri_call_time += 1;
+			call_tir_zombie(); //召喚三角殭屍
+			//召喚殭屍------------------------------------
+			sun_manager->ShowSun();
+			for (auto&car : carList) {
+				car.ShowBitmap();
 			}
 			plantManager.Show();
 		}
 	}
 	else if (Map::level == 3) {
 		fight_background.ShowBitmap();
+		if (BG1_flag1 == 2) {
+			for (auto &z : basic_zombie) z.show();
+			for (auto &t : tri_zombie) t.show();
+			for (auto &bz : bucket_zombie) bz.show();
+			if ((int)basic_zombie.size() < 3) call_time += 1;
+			if (call_time == 200) {
+				auto z = Basic_zombie();
+				z.init();
+				z.SetTopLeft(950, zb_y_random());
+				basic_zombie.push_back(z);
+				call_time = 0;
+			}
+			if ((int)tri_zombie.size() < 3) tri_call_time += 1;
+			call_tir_zombie(); //召喚三角殭屍
+			if ((int)bucket_zombie.size() < 3) bucketcall_time += 1;
+			call_bucket_zombie();
+			//召喚殭屍------------------------------------
+			sun_manager->ShowSun();
+			for (auto&car : carList) {
+				car.ShowBitmap();
+			}
+			plantManager.Show();
+		}
 	}
+
 	for(auto &b : bean_plant) b.show();
 	for (auto &db : double_bean) db.show();
 	sunback.ShowBitmap();
+
+
 	if (money >= 100) {
 		pershooter_flag = 1;
 	}
@@ -674,32 +680,112 @@ void CGameStateRun::OnShow()
 }
 //-------------------------------------------------------------------------------------------
 void CGameStateRun::judge_plant_victory() {
-	bool overr = true;
-	for (auto&z : basic_zombie)
-	{
-		if (z.die_flag != 1)
+
+	if (Map::level == 1) {
+		bool overr = true;
+		for (auto&z : basic_zombie)
 		{
-			overr = false;
+			if (z.die_flag != 1)
+			{
+				overr = false;
+			}
+
 		}
-		
+		if (overr && ((int)basic_zombie.size() >= ZOMBIE_END)) overflag = 1;
 	}
-	if (overr && ((int)basic_zombie.size() >= ZOMBIE_END)) overflag = 1;
+	else if (Map::level == 2) {
+		bool overr = true;
+		for (auto&z : basic_zombie){
+			if (z.die_flag != 1)
+			{
+				overr = false;
+			}
+
+		}
+		for (auto&t : tri_zombie) {
+			if (t.die_flag != 1) {
+				overr = false;
+			}
+		}
+		if(overr && ((int)basic_zombie.size() >= 3) && (int)tri_zombie.size()>=3) overflag = 1;
+	}
+	else if (Map::level == 3) {
+		bool overr = true;
+		for (auto&z : basic_zombie) {
+			if (z.die_flag != 1)
+			{
+				overr = false;
+			}
+
+		}
+		for (auto&t : tri_zombie) {
+			if (t.die_flag != 1) {
+				overr = false;
+			}
+		}
+		for (auto& bz : bucket_zombie) {
+			if (bz.die_flag != 1) {
+				overr = false;
+			}
+		}
+		if (overr && ((int)basic_zombie.size() >= 3) && (int)tri_zombie.size() >= 3 && (int)bucket_zombie.size() >= 3) overflag = 1;
+	}
+	
 
 }
 
 void CGameStateRun::judge_zombie_victory() {
 	//結束---------------------
 	bool over = false;
-	for (auto &z : basic_zombie) {
-		if (z.GetLeft() <= 100) {
-			over = true;
+	if (Map::level == 1) {
+		for (auto &z : basic_zombie) {
+			if (z.GetLeft() <= 100) {
+				over = true;
+			}
 		}
 	}
+	else if (Map::level == 2) {
+		
+		for (auto &z : basic_zombie) {
+			if (z.GetLeft() <= 100) {
+				over = true;
+			}
+		}
+		for (auto &t : tri_zombie) {
+			if (t.GetLeft() <= 100) {
+				over = true;
+			}
+		}
+	}
+	else if (Map::level == 3) {
+		for (auto &z : basic_zombie) {
+			if (z.GetLeft() <= 100) {
+				over = true;
+			}
+		}
+		for (auto &t : tri_zombie) {
+			if (t.GetLeft() <= 100) {
+				over = true;
+			}
+		}
+		for (auto &bz : bucket_zombie) {
+			if (bz.GetLeft() <= 100) {
+				over = true;
+			}
+		}
+	}
+	
 	if (over == true) {
 		end_flag = 1;
 	}
 
 	if (end_flag == 1) {
+		basic_zombie.clear();
+		tri_zombie.clear();
+		bucket_zombie.clear();
+		call_time = 0;
+		tri_call_time = 0;
+		bucketcall_time = 0;
 		end_time += 1;
 		if (end_time >= 300) {
 			end_flag = 0;
@@ -771,14 +857,33 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 	//int seat_x[9];
 	int map_topleftX = 200;
 	int map_topleftY =  90;
-
-	for (int y = 0; y < 5; y++){
-		for (int x = 0; x < 9; x++){
-			if (targetx >= map_topleftX +x*BLOCK_WIDTH && targetx < map_topleftX+(x+1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT  && seat[x][y] != 2){
+	if (Map::level == 1) {
+		int y = 2;
+		for (int x = 0; x < 9; x++) {
+			if (targetx >= map_topleftX + x * BLOCK_WIDTH && targetx < map_topleftX + (x + 1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT  && seat[x][y] != 2) {
 				seat[x][y] = 1;
 			}
 		}
 	}
+	else if (Map::level == 2) {
+		for (int y = 1; y < 4; y++) {
+			for (int x = 0; x < 9; x++) {
+				if (targetx >= map_topleftX + x * BLOCK_WIDTH && targetx < map_topleftX + (x + 1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT  && seat[x][y] != 2) {
+					seat[x][y] = 1;
+				}
+			}
+		}
+	}
+	else {
+		for (int y = 0; y < 5; y++){
+			for (int x = 0; x < 9; x++){
+				if (targetx >= map_topleftX +x*BLOCK_WIDTH && targetx < map_topleftX+(x+1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT  && seat[x][y] != 2){
+					seat[x][y] = 1;
+				}
+			}
+		}
+	}
+	
 	
 	for (int y = 0; y < 5; y++){
 		for (int x = 0; x < 9; x++){
@@ -850,9 +955,10 @@ void CGameStateRun::reset() {
 	}
 	//---------------
 	//殭屍-----------
-	zombie_index = -1;
-	basic_zombie.clear();
 	call_time = 0;
+	tri_call_time = 0;
+	bucketcall_time= 0;
+	basic_zombie.clear();
 	tri_zombie.clear();
 	bucket_zombie.clear();
 	//---------------
@@ -879,15 +985,23 @@ void CGameStateRun::draw_text() {
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 157, 5, std::to_string(money));
 
-
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 900, 155, std::to_string(call_time));
+
+	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
+	CTextDraw::Print(pDC, 900, 185, std::to_string(tri_call_time));
+
+	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
+	CTextDraw::Print(pDC, 900, 215, std::to_string(bucketcall_time));
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 900, 485, std::to_string(basic_zombie.size()));
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	//CTextDraw::Print(pDC, 900, 515, std::to_string(zb_y[2]));
+	CTextDraw::Print(pDC, 900, 515, std::to_string(tri_zombie.size()));
+
+	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
+	CTextDraw::Print(pDC, 900, 545, std::to_string(bucket_zombie.size()));
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 50, 50, std::to_string(Map::level));
@@ -899,8 +1013,18 @@ int CGameStateRun::zb_y_random() {
 	//[40, 140, 240, 340, 440] 殭屍的道路
 	int zb_y[5];
 	for (int i = 0; i < 5; i++) zb_y[i] = 40 + 100 * i;
-	int ry = rand() % 5;
-	return zb_y[ry];
+	int ry = 0;
+	if (Map::level == 1) {
+		return 240;
+	}
+	else if (Map::level == 2) {
+		ry = rand() % 3 + 1;
+		return zb_y[ry];
+	}
+	else {
+		ry = rand() % 5;
+		return zb_y[ry];
+	}
 }
 
 void CGameStateRun::tri_zombie_attack() {
@@ -988,7 +1112,7 @@ void CGameStateRun::bucket_zombie_attack() {
 				z.cd += 1;
 				if (z.cd >= 100 && b.hp > 0) {
 					z.cd = 0;
-					b.hp -= 30;
+					b.hp -= 50;
 				}
 				if (b.hp <= 0) {
 					for (auto& zz : bucket_zombie) {
@@ -1033,7 +1157,7 @@ void CGameStateRun::bucket_zombie_attack() {
 				z.cd += 1;
 				if (z.cd >= 100 && db.hp > 0) {
 					z.cd = 0;
-					db.hp -= 30;
+					db.hp -= 50;
 				}
 				if (db.hp <= 0) {
 					for (auto& zz : bucket_zombie) {
@@ -1048,5 +1172,25 @@ void CGameStateRun::bucket_zombie_attack() {
 			}
 			//--------------------------------------------
 		}
+	}
+}
+
+void CGameStateRun::call_tir_zombie() {
+	if (tri_call_time == 210) {
+		auto t = Triangle_zombie();
+		t.init();
+		t.SetTopLeft(950, zb_y_random());
+		tri_zombie.push_back(t);
+		tri_call_time = 0;
+	}
+}
+
+void CGameStateRun::call_bucket_zombie() {
+	if (bucketcall_time == 220) {
+		auto bz = Bucket_zombie();
+		bz.init();
+		bz.SetTopLeft(950, zb_y_random());
+		bucket_zombie.push_back(bz);
+		bucketcall_time = 0;
 	}
 }
