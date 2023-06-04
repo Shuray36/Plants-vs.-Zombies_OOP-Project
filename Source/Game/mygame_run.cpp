@@ -405,63 +405,67 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		GotoGameState(GAME_STATE_INIT);
 	}
 	if (nChar == VK_RIGHT) {
-		/*
-		auto z = Basic_zombie();
-		z.init();
-		z.SetTopLeft(950, zb_y_random());
-		basic_zombie.push_back(z);
-		*/
-		
-		/*
-		auto t = Triangle_zombie();
-		t.init();
-		t.SetTopLeft(950, 240);
-		tri_zombie.push_back(t);
-		*/
-		
-		/*
-		
-		*/
-		auto bz = Bucket_zombie();
-		bz.init();
-		bz.SetTopLeft(950, 240);
-		bucket_zombie.push_back(bz);
+
 	}
-	if (nChar == 0x52) {
+	if (nChar == 0x52) {//r
 		reset();
 	}
-	if (nChar == 0x4D) {
+	if (nChar == 0x4D) {//m
 		money += 1000;
 	}
-	if (nChar == 0x31) {
+	if (nChar == 0x31) {//1
 		auto z = Basic_zombie();
 		z.init();
 		z.SetTopLeft(950, 40);
 		basic_zombie.push_back(z);
 	}
-	if (nChar == 0x32) {
+	if (nChar == 0x32) {//2
 		auto z = Basic_zombie();
 		z.init();
 		z.SetTopLeft(950, 140);
 		basic_zombie.push_back(z);
 	}
-	if (nChar == 0x33) {
+	if (nChar == 0x33) {//3
 		auto z = Basic_zombie();
 		z.init();
 		z.SetTopLeft(950, 240);
 		basic_zombie.push_back(z);
 	}
-	if (nChar == 0x34) {
+	if (nChar == 0x34) {//4
 		auto z = Basic_zombie();
 		z.init();
 		z.SetTopLeft(950, 340);
 		basic_zombie.push_back(z);
 	}
-	if (nChar == 0x35) {
+	if (nChar == 0x35) {//5
 		auto z = Basic_zombie();
 		z.init();
 		z.SetTopLeft(950, 440);
 		basic_zombie.push_back(z);
+	}
+	if (nChar == 0x4A) {//j
+		auto z = Basic_zombie();
+		z.init();
+		z.SetTopLeft(950, zb_y_random());
+		basic_zombie.push_back(z);
+	}
+	if (nChar == 0x4B) {//k
+		auto t = Triangle_zombie();
+		t.init();
+		t.SetTopLeft(950, 240);
+		tri_zombie.push_back(t);
+	}
+	if (nChar == 0x4C) {//L
+		auto bz = Bucket_zombie();
+		bz.init();
+		bz.SetTopLeft(950, 240);
+		bucket_zombie.push_back(bz);
+	}
+	if (nChar == 0x4F) {//o
+		end_flag = 1;
+	}
+	if (nChar == 0x50) {//p
+		overflag = 1;
 	}
 }
 
@@ -548,6 +552,8 @@ void CGameStateRun::OnShow()
 		L1_map.ShowBitmap();
 		if (BG1_flag1 == 2) {
 			for (auto &z : basic_zombie) z.show();
+			for (auto &t : tri_zombie) t.show();
+			for (auto &bz : bucket_zombie) bz.show();
 			if ((int)basic_zombie.size() < ZOMBIE_END) call_time += 1;
 			if (call_time == 200) {
 				auto z = Basic_zombie();
@@ -671,6 +677,12 @@ void CGameStateRun::OnShow()
 	}
 	
 	if (overflag == 1) {
+		basic_zombie.clear();
+		tri_zombie.clear();
+		bucket_zombie.clear();
+		call_time = 0;
+		tri_call_time = 0;
+		bucketcall_time = 0;
 		plant_win_picture.SetTopLeft(733, 313);
 		plant_win_picture.ShowBitmap();
 	}
@@ -778,7 +790,7 @@ void CGameStateRun::judge_zombie_victory() {
 	if (over == true) {
 		end_flag = 1;
 	}
-
+	
 	if (end_flag == 1) {
 		basic_zombie.clear();
 		tri_zombie.clear();
