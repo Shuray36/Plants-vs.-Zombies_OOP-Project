@@ -85,6 +85,7 @@
     <ClCompile Include="Source\Game\SunManager.cpp" />
     <ClCompile Include="Source\Game\PlantManager.cpp" />
     <ClCompile Include="Source\Game\triangle_zombie.cpp" />
+    <ClCompile Include="Source\Game\bucket_zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Library\audio.h">
@@ -141,6 +142,7 @@
     <ClInclude Include="Source\Game\basic_zombie.h" />
     <ClInclude Include="Source\Game\PlantManager.h" />
     <ClInclude Include="Source\Game\triangle_zombie.h" />
+    <ClInclude Include="Source\Game\bucket_zombie.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Source\Core\game.rc">

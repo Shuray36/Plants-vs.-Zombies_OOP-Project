@@ -245,6 +245,7 @@
     </ClCompile>
     <ClCompile Include="Source\Game\basic_zombie.cpp" />
     <ClCompile Include="Source\Game\bean.cpp" />
+    <ClCompile Include="Source\Game\bucket_zombie.cpp" />
     <ClCompile Include="Source\Game\Car.cpp" />
     <ClCompile Include="Source\Game\Counter.cpp" />
     <ClCompile Include="Source\Game\double_bean.cpp" />
@@ -278,6 +279,7 @@
     <ClInclude Include="Source\Core\StdAfx.h" />
     <ClInclude Include="Source\Game\basic_zombie.h" />
     <ClInclude Include="Source\Game\Bean.h" />
+    <ClInclude Include="Source\Game\bucket_zombie.h" />
     <ClInclude Include="Source\Game\Car.h" />
     <ClInclude Include="Source\Game\config.h" />
     <ClInclude Include="Source\Game\Counter.h" />
