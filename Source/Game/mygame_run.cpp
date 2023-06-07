@@ -98,7 +98,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		for (auto&t : tri_zombie) t.SetTopLeft(t.GetLeft() + t.speed, t.GetTop());
 		for (auto&bz : bucket_zombie) bz.SetTopLeft(bz.GetLeft() + bz.speed, bz.GetTop());
 		//------------------------------------------------------
-		//花開始落下--------------------------------------------
+		//花開始落下--------------------------------------------z
 		sun_cooldown += 1;
 		if (sun_cooldown >= 200) {
 			int r = (rand() % 900 + 100);
@@ -1005,6 +1005,9 @@ void CGameStateRun::draw_text() {
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 900, 215, std::to_string(bucketcall_time));
+
+	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
+	CTextDraw::Print(pDC, 900, 430, std::to_string(plantManager.plant_size()));
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 900, 485, std::to_string(basic_zombie.size()));
