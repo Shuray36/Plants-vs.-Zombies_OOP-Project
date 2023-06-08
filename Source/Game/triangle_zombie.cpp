@@ -113,14 +113,6 @@ void Triangle_zombie::show() {
 	}
 }
 
-int Triangle_zombie::GetLeft() {
-	return zombie.GetLeft();
-}
-
-int Triangle_zombie::GetTop() {
-	return zombie.GetTop();
-}
-
 
 void Triangle_zombie::loadstate(int state) {
 

@@ -123,14 +123,6 @@ void Basic_zombie::show() {
 	}
 }
 
-int Basic_zombie::GetLeft() {
-	return zombie.GetLeft();
-}
-
-int Basic_zombie::GetTop() {
-	return zombie.GetTop();
-}
-
 
 void Basic_zombie::loadstate(int state) {
 	
