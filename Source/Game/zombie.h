@@ -22,6 +22,9 @@ public:
 	int hp = 100;
 	void SetTopLeft(int x,int y);
 	int speed = -1;
+	int GetLeft();
+
+	int GetTop();
 };
 
 #endif // ZOMBIE_H

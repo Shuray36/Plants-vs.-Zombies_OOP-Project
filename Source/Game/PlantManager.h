@@ -103,4 +103,7 @@ public:
 	void clear_plant() {
 		plants.clear();
 	}
+	int plant_size() {
+		return plants.size();
+	}
 };

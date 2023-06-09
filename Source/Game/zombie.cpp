@@ -41,3 +41,13 @@ void Zombie::init() {
 void Zombie::SetTopLeft(int x,int y) {
 	zombie.SetTopLeft( x, y);
 }
+
+int Zombie::GetLeft()
+{
+	return zombie.GetLeft();
+}
+
+int Zombie::GetTop()
+{
+	return zombie.GetTop();
+}
