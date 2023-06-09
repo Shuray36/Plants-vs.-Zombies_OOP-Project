@@ -97,6 +97,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 		for (auto&t : tri_zombie) t.SetTopLeft(t.GetLeft() + t.speed, t.GetTop());
 		for (auto&bz : bucket_zombie) bz.SetTopLeft(bz.GetLeft() + bz.speed, bz.GetTop());
+		for (auto&zom : zombies)zom->SetTopLeft(zom->GetLeft() + zom->speed, zom->GetTop());
 		//------------------------------------------------------
 		//花開始落下--------------------------------------------z
 		sun_cooldown += 1;
@@ -351,6 +352,13 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					bz.state = 3;
 				}
 			}
+			for (auto&zom : zombies) {
+				if (car.GetLeft() >= zom->GetLeft() + 0 && car.GetLeft() <= zom->GetLeft() + 100 && car.GetTop() >= zom->GetTop() + 0 && car.GetTop() <= zom->GetTop() + 100)
+				{
+					car.Trigger();
+					zom->state = 3;
+				}
+			}
 		}		
 	}
 
@@ -444,22 +452,44 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		basic_zombie.push_back(z);
 	}
 	if (nChar == 0x4A) {//j
+		/*
 		auto z = Basic_zombie();
 		z.init();
 		z.SetTopLeft(950, zb_y_random());
 		basic_zombie.push_back(z);
+		*/
+		auto z = make_shared<Basic_zombie>();
+		z->init();
+		z->SetTopLeft(950, zb_y_random());
+		zombies.push_back(z);
+		
 	}
 	if (nChar == 0x4B) {//k
+
+		auto t = make_shared<Triangle_zombie>();
+		t->init();
+		t->SetTopLeft(950, zb_y_random());
+		zombies.push_back(t);
+		/*
 		auto t = Triangle_zombie();
 		t.init();
 		t.SetTopLeft(950, 240);
 		tri_zombie.push_back(t);
+		*/
+		
 	}
 	if (nChar == 0x4C) {//L
+
+		auto bz = make_shared<Bucket_zombie>();
+		bz->init();
+		bz->SetTopLeft(950, zb_y_random());
+		zombies.push_back(bz);
+		/*
 		auto bz = Bucket_zombie();
 		bz.init();
 		bz.SetTopLeft(950, 240);
 		bucket_zombie.push_back(bz);
+		*/
 	}
 	if (nChar == 0x4F) {//o
 		end_flag = 1;
@@ -554,7 +584,8 @@ void CGameStateRun::OnShow()
 			for (auto &z : basic_zombie) z.show();
 			for (auto &t : tri_zombie) t.show();
 			for (auto &bz : bucket_zombie) bz.show();
-			if ((int)basic_zombie.size() < ZOMBIE_END) call_time += 1;
+			for (auto &zom : zombies) zom->show();
+			//if ((int)basic_zombie.size() < ZOMBIE_END) call_time += 1;
 			if (call_time == 200) {
 				auto z = Basic_zombie();
 				z.init();
@@ -568,6 +599,7 @@ void CGameStateRun::OnShow()
 				car.ShowBitmap();
 			}
 			plantManager.Show();
+			
 		}
 	}
 	else if (Map::level == 2) {
@@ -1007,7 +1039,7 @@ void CGameStateRun::draw_text() {
 	CTextDraw::Print(pDC, 900, 215, std::to_string(bucketcall_time));
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 900, 430, std::to_string(plantManager.plant_size()));
+	CTextDraw::Print(pDC, 900, 430, std::to_string(zombies.size()));
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 900, 485, std::to_string(basic_zombie.size()));

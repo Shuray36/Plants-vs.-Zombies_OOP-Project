@@ -17,14 +17,15 @@ protected:
 public:
 	Zombie() {}
 	~Zombie() = default;
-	void show();
+	virtual void show();
 	virtual void init();
 	int hp = 100;
 	void SetTopLeft(int x,int y);
+	int die_flag = 0;
 	int speed = -1;
 	int GetLeft();
-
 	int GetTop();
+	int state = 0;
 };
 
 #endif // ZOMBIE_H

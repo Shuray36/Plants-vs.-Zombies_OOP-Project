@@ -163,6 +163,8 @@ namespace game_framework {
 		void call_bucket_zombie();
 		void tri_zombie_attack();
 		void bucket_zombie_attack();//寫殭屍攻擊植物
+		vector<shared_ptr<Zombie>> zombies;
+		
 
 		//-------------------
 
