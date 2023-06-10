@@ -101,3 +101,8 @@ void Plant::SetAttackCounter(float cycle)
 {
     attack.Set(cycle,0);
 }
+
+float Plant::GetAttackCounter()
+{
+    return attack.cycle;
+}

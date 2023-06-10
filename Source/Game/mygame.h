@@ -175,8 +175,6 @@ namespace game_framework {
 		//堅果--------------------------
 		//------------------------------
 
-		vector<Double_bean> double_bean;
-
 		//太陽記分板-----------------------------------------------------------------
 		CMovingBitmap sunback;
 		void load_sunback();

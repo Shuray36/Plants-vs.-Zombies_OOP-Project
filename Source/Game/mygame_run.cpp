@@ -154,40 +154,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		//植物攻擊-----------
 		//bean射擊
 		//double_bean 射擊
-		for (auto &🥒🥒 : double_bean) {
-			🥒🥒.cd += 1;
-			if (🥒🥒.cd >= 50) {
-				🥒🥒.pb1.show_flag = 0;
-				if (🥒🥒.cd >= 60) 🥒🥒.pb2.show_flag = 0;
-				
-			}
-			🥒🥒.attack();
-			for (auto&zom : zombies) {
-				if (🥒🥒.pb1.GetLeft() <= zom->GetLeft() + 50 && 🥒🥒.pb1.GetLeft() >= zom->GetLeft() + 45 && 🥒🥒.pb1.GetTop() <= zom->GetTop() + 60 && 🥒🥒.pb1.GetTop() >= zom->GetTop() - 0 && zom->die_flag == 0) {
-					🥒🥒.pb1.leave();
-					🥒🥒.pb1.show_flag = 1;
-					zom->hp -= 30;
-					if (zom->hp <= 0) {
-						zom->state = 1;
-						zom->die_flag = 1;
-					}
-				}
-				if (🥒🥒.pb2.GetLeft() <= zom->GetLeft() + 50 && 🥒🥒.pb2.GetLeft() >= zom->GetLeft() + 45 && 🥒🥒.pb2.GetTop() <= zom->GetTop() + 60 && 🥒🥒.pb2.GetTop() >= zom->GetTop() - 0 && zom->die_flag == 0) {
-					🥒🥒.pb2.leave();
-					🥒🥒.pb2.show_flag = 1;
-					zom->hp -= 30;
-					if (zom->hp <= 0) {
-						zom->state = 1;
-						zom->die_flag = 1;
-					}
-				}
-			}
-			if (🥒🥒.cd >= 200) {
-				🥒🥒.reload();
-				🥒🥒.cd = 0;
-			}
-
-		}
 		//fix me 植物應該在殭屍出現才開始射擊 
 		//-----------------------
 		//殭屍攻擊---------------
@@ -212,26 +178,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 							}
 						}
 						clear_seat((int)s->GetCoordinateX(), (int)s->GetCoordinateY());
-					}
-				}
-			}
-			for (auto &db : double_bean) {
-				if (zom->GetLeft() <= db.GetLeft() + 30 && zom->GetLeft() >= db.GetLeft() + 20 && zom->GetTop() <= db.GetTop() + 0 && zom->GetTop() >= db.GetTop() - 60 && zom->die_flag == 0) {
-					zom->state = 4;
-					zom->cd += 1;
-					if (zom->cd >= 100 && db.hp > 0) {
-						zom->cd = 0;
-						db.hp -= zom->attack;
-					}
-					if (db.hp <= 0) {
-						for (auto& z : zombies) {
-							if (z->state == 4) {
-								z->cd = 0;
-								z->state = 0;
-								z->speed = -1;
-							}
-						}
-						clear_seat((int)db.GetCoordinateX(), (int)db.GetCoordinateY());
 					}
 				}
 			}
@@ -273,7 +219,6 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	fight_background.SetTopLeft(0, 0);
 	
 	
-	for (auto& db : double_bean) db.init();
 	load_sunback();
 	load_sunflower_card();
 	load_sunflower_gray_card();
@@ -402,9 +347,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 	if (CMovingBitmap::IsCardClick(pointx, pointy, db_card) && money >= 100 && Map::level != 1) {
 		item = 3;
 		place_flag = 1;
-		Double_bean d = Double_bean();
-		d.init();
-		double_bean.push_back(d);
+		plantManager.MakePlant(PlantType::DOUBLE_BEAN,mousePosition);
 	}
 
 	if (pointx >= plant_win_picture.GetLeft() + 0 && pointx <= plant_win_picture.GetLeft() + 50 && pointy >= plant_win_picture.GetTop() + 0 && pointy <= plant_win_picture.GetTop() + 75) {
@@ -429,10 +372,6 @@ void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動
 	pointx = point.x;
 	pointy = point.y;
 	plantManager.OnMouseMove({ static_cast<float>(point.x),static_cast<float>(point.y)});
-	if (!double_bean.empty() && !double_bean.back().GetIsPlace()) {
-		double_bean.back().SetTopLeft(pointx - 32, pointy - 25);
-	}
-	
 }
 
 void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
@@ -464,7 +403,6 @@ void CGameStateRun::OnShow()
 		sun_manager->ShowSun();
 	}
 
-	for (auto &db : double_bean) db.show();
 	sunback.ShowBitmap();
 
 
@@ -693,10 +631,7 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 					money -= 75;
 				}
 				else if (item == (int)PlantType::DOUBLE_BEAN) {
-					auto &newdb = double_bean.back();
-					newdb.SetTopLeft(207 + BLOCK_WIDTH * x, 100 + BLOCK_HEIGHT * y);
-					newdb.SetCoordinate(x, y);
-					newdb.SetIsPlace(true);
+					plantManager.OnLButtonDown({(float)x,(float)y});
 					money -= 200;
 				}
 				place_flag = 0;
@@ -728,7 +663,6 @@ void CGameStateRun::reset() {
 	//-----------------------------
 
 	//雙豌豆-----------------------
-	double_bean.clear();
 	//-----------------------------
 	//map-------------
 	place_flag = 0;

@@ -2,6 +2,7 @@
 #include "PlantManager.h"
 
 #include "Bean.h"
+#include "double_bean.h"
 
 void PlantManager::setSunmanager(shared_ptr<SunManager> sm)
 {
@@ -96,7 +97,16 @@ void PlantManager::MakePlant(PlantType type, Vector2 position)
             p=nut;
         }
         break;
-    case PlantType::DOUBLE_BEAN: break;
+    case PlantType::DOUBLE_BEAN:
+        {
+            
+            auto bean=make_shared<Double_bean>();
+            bean->Init();
+            bean->SetAttackCounter(1500);
+            bean->SetPbManager(pb_manager);
+            p=bean;
+        }
+        break;
     default: ;
     }
     p->SetPositionByCenter(position);
