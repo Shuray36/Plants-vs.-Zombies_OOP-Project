@@ -191,7 +191,8 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			}
 			//太陽花&堅果-------------------------------------
 			for (auto &s : plantManager.GetPlants()) {
-				if (z.GetLeft() <= s->GetLeft() + 30 && z.GetLeft() >= s->GetLeft() + 20 && z.GetTop() <= s->GetTop() + 0 && z.GetTop() >= s->GetTop() - 60 && z.die_flag == 0) {
+				if (s->GetIsPlace()&&(z.GetLeft() <= s->GetLeft() + 30 && z.GetLeft() >= s->GetLeft() + 20 && z.GetTop() <= s->GetTop() + 0 && z.GetTop() >= s->GetTop() - 60 && z.die_flag == 0) )
+				{
 					z.state = 4;
 					z.cd += 1;
 					if (z.cd >= 100 && s->hp > 0) {
@@ -236,7 +237,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 		for (auto&zom : zombies) {
 			for (auto &s : plantManager.GetPlants()) {
-				if (zom->GetLeft() <= s->GetLeft() + 30 && zom->GetLeft() >= s->GetLeft() + 20 && zom->GetTop() <= s->GetTop() + 0 && zom->GetTop() >= s->GetTop() - 60 && zom->die_flag == 0) {
+				if (s->GetIsPlace()&&(zom->GetLeft() <= s->GetLeft() + 30 && zom->GetLeft() >= s->GetLeft() + 20 && zom->GetTop() <= s->GetTop() + 0 && zom->GetTop() >= s->GetTop() - 60 && zom->die_flag == 0) ){
 					zom->state = 4;
 					zom->cd += 1;
 					if (zom->cd >= 100 && s->hp > 0) {
@@ -246,7 +247,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					if (s->hp <= 0) {
 						for (auto& z : zombies) {
 							if (z->state == 4) {
-								z->cd = 0;
+   								z->cd = 0;
 								z->state = 0;
 								z->speed = -1;
 							}
