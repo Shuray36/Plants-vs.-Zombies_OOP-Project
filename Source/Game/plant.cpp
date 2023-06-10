@@ -21,11 +21,10 @@ void Plant::Init()
 {
     PZGameObject::Init();
     attack.Set(100,0);
-    hp = 100;
     _isPlace = false;
     
 	LoadBitmapByString(filePath, fileColor);
-	SetAnimation(240, false);
+	SetAnimation(_cycleTime, false);
 	ToggleAnimation();
 }
 
@@ -63,10 +62,11 @@ void Plant::SetCoordinate(Vector2 v)
     coordinate = v;
 }
 
-void Plant::SetImange(vector<string> path, int color)
+void Plant::SetImange(vector<string> path, int color, int cycleTime)
 {
     filePath = path;
     fileColor = color;
+    _cycleTime = cycleTime;
 }
 
 void Plant::Show()

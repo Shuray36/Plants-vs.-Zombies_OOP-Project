@@ -29,11 +29,10 @@ void Sunflower::Init()
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_15.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_16.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_17.bmp",
-		}, RGB(255, 255, 255)); //315 310}, RGB(255, 255, 255);
+		}, RGB(255, 255, 255),100); //315 310}, RGB(255, 255, 255);
 	}
 	Plant::Init();
-	SetAnimation(100, false);
-	ToggleAnimation();
+	hp = 100;
 #pragma region 
 	sunflower_getsun.LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/sunflower_getsun/sunflower_getsun_0.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_getsun/sunflower_getsun_1.bmp",

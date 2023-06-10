@@ -26,7 +26,7 @@ void Nut::Init()
 		"Plants_vs_Zombies_Image/plants/nut_one/nut_one_13.bmp",
 		"Plants_vs_Zombies_Image/plants/nut_one/nut_one_14.bmp",
 		"Plants_vs_Zombies_Image/plants/nut_one/nut_one_15.bmp",
-		}, RGB(0, 0, 0));
+		}, RGB(0, 0, 0), 100);
 	Plant::Init();
 	hp = 200;
 }

@@ -14,6 +14,7 @@ protected:
 	int state;
 	vector<string> filePath;
 	int fileColor;
+	int _cycleTime;
 	Vector2 coordinate;
 	Counter attack;
 	bool _isPlace;
@@ -27,7 +28,7 @@ public:
 	void SetCoordinate(int x,int y);
 	void SetCoordinate(float x,float y);
 	void SetCoordinate(Vector2 v);
-	void SetImange(vector<string> path,int color);
+	void SetImange(vector<string> path,int color, int cycleTime);
 	void Show() override;
 	int GetCoordinateX();
 	int GetCoordinateY();

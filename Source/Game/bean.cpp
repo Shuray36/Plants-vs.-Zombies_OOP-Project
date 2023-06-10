@@ -18,8 +18,9 @@ void Bean::Init() {
 		"Plants_vs_Zombies_Image/plants/bean/bean_7.bmp", 
 		"Plants_vs_Zombies_Image/plants/bean/bean_9.bmp", 
 		"Plants_vs_Zombies_Image/plants/bean/bean_10.bmp", 
-		"Plants_vs_Zombies_Image/plants/bean/bean_11.bmp", }, RGB(255,255,255));
-	
+		"Plants_vs_Zombies_Image/plants/bean/bean_11.bmp", }, RGB(255,255,255),240);
+
+	hp=100;
 	Plant::Init();
 	pb.init();
 }
