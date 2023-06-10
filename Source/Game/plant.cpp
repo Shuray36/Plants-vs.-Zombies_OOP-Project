@@ -30,20 +30,23 @@ void Plant::Init()
 
 void Plant::Update()
 {
-    if(attack.counter>=attack.cycle)
+    if(GetIsPlace())
     {
-        if(CanAttack())
+        if(attack.counter>=attack.cycle)
         {
-            Attack();
-            attack.counter =0;
+            if(CanAttack())
+            {
+                Attack();
+                attack.counter =0;
+            }
+        }else
+        {
+            attack.counter+=PZTIME;
         }
-    }else
-    {
-        attack.counter+=PZTIME;
-    }
-    if(hp<=0)
-    {
-        SetActive(false);
+        if(hp<=0)
+        {
+            SetActive(false);
+        }
     }
 }
 

@@ -39,6 +39,54 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	sun_manager->Update();
 	pb_manager->Update();
 	pb_manager->SetZombies(zombies);
+
+	if(Map::level == 3)
+	{
+		
+			if (basic_counter < ZOMBIE_END) call_time += 1;
+			if (call_time == 200) {
+				auto z = make_shared<Basic_zombie>();
+				z->init();
+				z->SetTopLeft(950, zb_y_random());
+				zombies.push_back(z);
+				basic_counter += 1;
+				call_time = 0;
+			}
+			//召喚殭屍----------------------------------
+	}
+	if (Map::level == 2)
+	{
+		if (basic_counter < 3) call_time += 1;
+		if (call_time == 200) {
+			auto z = make_shared<Basic_zombie>();
+			z->init();
+			z->SetTopLeft(950, zb_y_random());
+			zombies.push_back(z);
+			basic_counter += 1;
+			call_time = 0;
+		}
+		if (tri_counter < 3) tri_call_time += 1;
+		call_tir_zombie(); //召喚三角殭屍
+		//召喚殭屍------------------------------------
+	}
+	if (Map::level == 3)
+	{
+		
+			if (basic_counter < 3) call_time += 1;
+			if (call_time == 200) {
+				auto z = make_shared<Basic_zombie>();
+				z->init();
+				z->SetTopLeft(950, zb_y_random());
+				zombies.push_back(z);
+				basic_counter += 1;
+				call_time = 0;
+			}
+			if (tri_counter < 3) tri_call_time += 1;
+			call_tir_zombie(); //召喚三角殭屍
+			if (bucket_counter < 3) bucketcall_time += 1;
+			call_bucket_zombie();
+			//召喚殭屍------------------------------------
+	}
 	for(auto&car :carList)
 	{
 		car.Update();
@@ -399,76 +447,21 @@ void CGameStateRun::OnShow()
 {
 	if (Map::level == 1) {
 		L1_map.ShowBitmap();
-		if (BG1_flag1 == 2) {
-			for (auto &zom : zombies) zom->show();
-			if (basic_counter < ZOMBIE_END) call_time += 1;
-			if (call_time == 200) {
-				auto z = make_shared<Basic_zombie>();
-				z->init();
-				z->SetTopLeft(950, zb_y_random());
-				zombies.push_back(z);
-				basic_counter += 1;
-				call_time = 0;
-			}
-			//召喚殭屍----------------------------------
-			pb_manager->Show();
-			sun_manager->ShowSun();
-			for (auto&car : carList) {
-				car.ShowBitmap();
-			}
-			plantManager.Show();
-			
-		}
 	}
 	else if (Map::level == 2) {
 		L2_map.ShowBitmap();
-		if (BG1_flag1 == 2) {
-			for (auto &zom : zombies) zom->show();
-			if (basic_counter < 3) call_time += 1;
-			if (call_time == 200) {
-				auto z = make_shared<Basic_zombie>();
-				z->init();
-				z->SetTopLeft(950, zb_y_random());
-				zombies.push_back(z);
-				basic_counter += 1;
-				call_time = 0;
-			}
-			if (tri_counter < 3) tri_call_time += 1;
-			call_tir_zombie(); //召喚三角殭屍
-			//召喚殭屍------------------------------------
-			pb_manager->Show();
-			sun_manager->ShowSun();
-			for (auto&car : carList) {
-				car.ShowBitmap();
-			}
-			plantManager.Show();
-		}
 	}
 	else if (Map::level == 3) {
 		fight_background.ShowBitmap();
-		if (BG1_flag1 == 2) {
-			for (auto &zom : zombies) zom->show();
-			if (basic_counter < 3) call_time += 1;
-			if (call_time == 200) {
-				auto z = make_shared<Basic_zombie>();
-				z->init();
-				z->SetTopLeft(950, zb_y_random());
-				zombies.push_back(z);
-				basic_counter += 1;
-				call_time = 0;
-			}
-			if (tri_counter < 3) tri_call_time += 1;
-			call_tir_zombie(); //召喚三角殭屍
-			if (bucket_counter < 3) bucketcall_time += 1;
-			call_bucket_zombie();
-			//召喚殭屍------------------------------------
-			pb_manager->Show();
-			sun_manager->ShowSun();
-			for (auto&car : carList) {
-				car.ShowBitmap();
-			}
-			plantManager.Show();
+	}
+	if (BG1_flag1 == 2) {
+		for (auto &zom : zombies) zom->show();
+		pb_manager->Show();
+		for (auto&car : carList) {
+			car.ShowBitmap();
 		}
+		plantManager.Show();
+		sun_manager->ShowSun();
 	}
 
 	for (auto &db : double_bean) db.show();
