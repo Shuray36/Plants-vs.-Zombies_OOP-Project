@@ -152,11 +152,8 @@ namespace game_framework {
 		//----------------------
 		
 		//殭屍---------------
-		vector<Basic_zombie> basic_zombie;
 		int zombie_index = -1;
 		int call_time = 0;
-		vector<Triangle_zombie> tri_zombie;
-		vector<Bucket_zombie> bucket_zombie;
 		int tri_call_time = 0;
 		int bucketcall_time = 0;
 		void call_tir_zombie();

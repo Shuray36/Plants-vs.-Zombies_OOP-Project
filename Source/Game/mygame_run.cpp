@@ -143,53 +143,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		//-----------------------
 		//殭屍攻擊---------------
 
-		for(auto &z : basic_zombie){
-			//bean-------------------------------------
-			//太陽花&堅果-------------------------------------
-			for (auto &s : plantManager.GetPlants()) {
-				if (s->GetIsPlace()&&(z.GetLeft() <= s->GetLeft() + 30 && z.GetLeft() >= s->GetLeft() + 20 && z.GetTop() <= s->GetTop() + 0 && z.GetTop() >= s->GetTop() - 60 && z.die_flag == 0) )
-				{
-					z.state = 4;
-					z.cd += 1;
-					if (z.cd >= 100 && s->hp > 0) {
-						z.cd = 0;
-						s->hp -= 50;
-					}
-					if (s->hp <= 0) {
-						for (auto& zz : basic_zombie) {
-							if (zz.state == 4) {
-								zz.cd = 0;
-								zz.state = 0;
-								zz.speed = -1;
-							}
-						}
-						clear_seat((int)s->GetCoordinateX(), (int)s->GetCoordinateY());
-					}
-				}
-			}
 			//double_bean-------------------------------------
-			for (auto &db : double_bean) {
-				if (z.GetLeft() <= db.GetLeft() + 30 && z.GetLeft() >= db.GetLeft() + 20 && z.GetTop() <= db.GetTop() + 0 && z.GetTop() >= db.GetTop() - 60 && z.die_flag == 0) {
-					z.state = 4;
-					z.cd += 1;
-					if (z.cd >= 100 && db.hp > 0) {
-						z.cd = 0;
-						db.hp -= 30;
-					}
-					if (db.hp <= 0) {
-						for (auto& zz : basic_zombie) {
-							if (zz.state == 4) {
-								zz.cd = 0;
-								zz.state = 0;
-								zz.speed = -1;
-							}
-						}
-						clear_seat((int)db.GetCoordinateX(), (int)db.GetCoordinateY());
-					}
-				}
-				//--------------------------------------------
-			}
-		}
 
 		for (auto&zom : zombies) {
 			for (auto &s : plantManager.GetPlants()) {
@@ -238,30 +192,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		//--------------------------------
 		
 		for (auto &car : carList) {
-			for(auto&z : basic_zombie)
-			{
-				if (car.GetLeft() >= z.GetLeft() + 0 && car.GetLeft() <= z.GetLeft() + 100 && car.GetTop() >= z.GetTop() + 0 && car.GetTop() <= z.GetTop() + 100)
-				{
-					car.Trigger();
-					z.state=3;
-				}
-			}
-			for (auto&t : tri_zombie)
-			{
-				if (car.GetLeft() >= t.GetLeft() + 0 && car.GetLeft() <= t.GetLeft() + 100 && car.GetTop() >= t.GetTop() + 0 && car.GetTop() <= t.GetTop() + 100)
-				{
-					car.Trigger();
-					t.state = 3;
-				}
-			}
-			for (auto&bz : bucket_zombie)
-			{
-				if (car.GetLeft() >= bz.GetLeft() + 0 && car.GetLeft() <= bz.GetLeft() + 100 && car.GetTop() >= bz.GetTop() + 0 && car.GetTop() <= bz.GetTop() + 100)
-				{
-					car.Trigger();
-					bz.state = 3;
-				}
-			}
 			for (auto&zom : zombies) {
 				if (car.GetLeft() >= zom->GetLeft() + 0 && car.GetLeft() <= zom->GetLeft() + 100 && car.GetTop() >= zom->GetTop() + 0 && car.GetTop() <= zom->GetTop() + 100)
 				{
@@ -859,14 +789,6 @@ void CGameStateRun::draw_text() {
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 900, 430, std::to_string(zombies.size()));
 
-	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 900, 485, std::to_string(basic_zombie.size()));
-
-	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 900, 515, std::to_string(tri_zombie.size()));
-
-	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 900, 545, std::to_string(bucket_zombie.size()));
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 50, 50, std::to_string(Map::level));
