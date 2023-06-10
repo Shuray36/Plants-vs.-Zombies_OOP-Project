@@ -11,6 +11,7 @@ public:
 	void attack();
 	void reload();
 	void leave();
+
 	
 	Pb pb;
 	//game_framework::CMovingBitmap pb;

@@ -35,24 +35,19 @@ void Bean::show() {
 	else {
 		SetTopLeft(999, 999);
 	}
-	if (pb.show_flag == 0)pb.ShowBitmap();
+	pb.Show();
 
 }
 
 void Bean::attack(){
-	if (pb.show_flag == 0)pb.SetTopLeft(pb.GetLeft() + 3, pb.GetTop());
-	
-	if (pb.GetLeft() >= 950) {
-		pb.show_flag = 1;
-		pb.leave();
-	}
+	pb.Update();
 }
 
 void Bean::reload() {
-	pb.SetTopLeft(GetLeft() + 65, GetTop());
+	pb.SetPosition( Vector2::add(GetPosition(),{65,0}));
 }
 
 void Bean::leave() {
-	pb.SetTopLeft(999, 999);
+	pb.SetActive(false);
 }
 	
