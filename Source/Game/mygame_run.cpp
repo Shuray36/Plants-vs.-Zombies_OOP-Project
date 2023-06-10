@@ -31,7 +31,6 @@ CGameStateRun::~CGameStateRun()
 void CGameStateRun::OnBeginState()
 {
 	reset();
-	
 }
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
@@ -91,12 +90,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	
 
 	if (BG1_flag1 == 2) {        //遊戲跑換地圖後正式開始 
-	
-		for(auto& z : basic_zombie){
-			z.SetTopLeft(z.GetLeft() + z.speed, z.GetTop());
-		}
-		for (auto&t : tri_zombie) t.SetTopLeft(t.GetLeft() + t.speed, t.GetTop());
-		for (auto&bz : bucket_zombie) bz.SetTopLeft(bz.GetLeft() + bz.speed, bz.GetTop());
 		for (auto&zom : zombies)zom->SetTopLeft(zom->GetLeft() + zom->speed, zom->GetTop());
 		//------------------------------------------------------
 		//花開始落下--------------------------------------------z
@@ -117,26 +110,14 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				b.pb.show_flag = 0;
 			}
 			b.attack();
-			for(auto& z : basic_zombie){
-				if (b.pb.GetLeft() <= z.GetLeft() + 50 && b.pb.GetLeft() >= z.GetLeft() + 45 && b.pb.GetTop() <= z.GetTop() + 60 && b.pb.GetTop() >= z.GetTop() - 0 && z.die_flag == 0) {
+			for (auto&zom : zombies) {
+				if (b.pb.GetLeft() <= zom->GetLeft() + 50 && b.pb.GetLeft() >= zom->GetLeft() + 45 && b.pb.GetTop() <= zom->GetTop() + 60 && b.pb.GetTop() >= zom->GetTop() - 0 && zom->die_flag == 0) {
 					b.leave();
 					b.pb.show_flag = 1;
-					z.hp -= 30;
-					if (z.hp <= 0) {
-						z.state = 1;
-						z.die_flag = 1;
-					}
-				}
-			}
-			//triangle_zombie------------------------
-			for (auto& t : tri_zombie) {
-				if (b.pb.GetLeft() <= t.GetLeft() + 50 && b.pb.GetLeft() >= t.GetLeft() + 45 && b.pb.GetTop() <= t.GetTop() + 60 && b.pb.GetTop() >= t.GetTop() - 0 && t.die_flag == 0) {
-					b.leave();
-					b.pb.show_flag = 1;
-					t.hp -= 30;
-					if (t.hp <= 0) {
-						t.state = 1;
-						t.die_flag = 1;
+					zom->hp -= 30;
+					if (zom->hp <= 0) {
+						zom->state = 1;
+						zom->die_flag = 1;
 					}
 				}
 			}
@@ -144,23 +125,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				b.reload();
 				b.cd = 0;
 			}
-			//bucket_zombie----------------------------
-			for (auto& bz : bucket_zombie) {
-				if (b.pb.GetLeft() <= bz.GetLeft() + 50 && b.pb.GetLeft() >= bz.GetLeft() + 45 && b.pb.GetTop() <= bz.GetTop() + 60 && b.pb.GetTop() >= bz.GetTop() - 0 && bz.die_flag == 0) {
-					b.leave();
-					b.pb.show_flag = 1;
-					bz.hp -= 30;
-					if (bz.hp <= 0) {
-						bz.state = 1;
-						bz.die_flag = 1;
-					}
-				}
-			}
-			if (b.cd >= 250) {
-				b.reload();
-				b.cd = 0;
-			}
-			//-----------------------------------------
 		}
 		//double_bean 射擊
 		for (auto &🥒🥒 : double_bean) {
@@ -171,72 +135,26 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				
 			}
 			🥒🥒.attack();
-			for(auto& z : basic_zombie){
-				if (🥒🥒.pb1.GetLeft() <= z.GetLeft() + 50 && 🥒🥒.pb1.GetLeft() >= z.GetLeft() + 45 && 🥒🥒.pb1.GetTop() <= z.GetTop() + 60 && 🥒🥒.pb1.GetTop() >= z.GetTop() - 0 && z.die_flag == 0) {
+			for (auto&zom : zombies) {
+				if (🥒🥒.pb1.GetLeft() <= zom->GetLeft() + 50 && 🥒🥒.pb1.GetLeft() >= zom->GetLeft() + 45 && 🥒🥒.pb1.GetTop() <= zom->GetTop() + 60 && 🥒🥒.pb1.GetTop() >= zom->GetTop() - 0 && zom->die_flag == 0) {
 					🥒🥒.pb1.leave();
 					🥒🥒.pb1.show_flag = 1;
-					z.hp -= 30;
-					if (z.hp <= 0) {
-						z.state = 1;
-						z.die_flag = 1;
+					zom->hp -= 30;
+					if (zom->hp <= 0) {
+						zom->state = 1;
+						zom->die_flag = 1;
 					}
 				}
-				if (🥒🥒.pb2.GetLeft() <= z.GetLeft() + 50 && 🥒🥒.pb2.GetLeft() >= z.GetLeft() + 45 && 🥒🥒.pb2.GetTop() <= z.GetTop() + 60 && 🥒🥒.pb2.GetTop() >= z.GetTop() - 0 && z.die_flag == 0) {
+				if (🥒🥒.pb2.GetLeft() <= zom->GetLeft() + 50 && 🥒🥒.pb2.GetLeft() >= zom->GetLeft() + 45 && 🥒🥒.pb2.GetTop() <= zom->GetTop() + 60 && 🥒🥒.pb2.GetTop() >= zom->GetTop() - 0 && zom->die_flag == 0) {
 					🥒🥒.pb2.leave();
 					🥒🥒.pb2.show_flag = 1;
-					z.hp -= 30;
-					if (z.hp <= 0) {
-						z.state = 1;
-						z.die_flag = 1;
+					zom->hp -= 30;
+					if (zom->hp <= 0) {
+						zom->state = 1;
+						zom->die_flag = 1;
 					}
 				}
-				
 			}
-			//triangle_zombie----------------------
-			for (auto& t : tri_zombie) {
-				if (🥒🥒.pb1.GetLeft() <= t.GetLeft() + 50 && 🥒🥒.pb1.GetLeft() >= t.GetLeft() + 45 && 🥒🥒.pb1.GetTop() <= t.GetTop() + 60 && 🥒🥒.pb1.GetTop() >= t.GetTop() - 0 && t.die_flag == 0) {
-					🥒🥒.pb1.leave();
-					🥒🥒.pb1.show_flag = 1;
-					t.hp -= 30;
-					if (t.hp <= 0) {
-						t.state = 1;
-						t.die_flag = 1;
-					}
-				}
-				if (🥒🥒.pb2.GetLeft() <= t.GetLeft() + 50 && 🥒🥒.pb2.GetLeft() >= t.GetLeft() + 45 && 🥒🥒.pb2.GetTop() <= t.GetTop() + 60 && 🥒🥒.pb2.GetTop() >= t.GetTop() - 0 && t.die_flag == 0) {
-					🥒🥒.pb2.leave();
-					🥒🥒.pb2.show_flag = 1;
-					t.hp -= 30;
-					if (t.hp <= 0) {
-						t.state = 1;
-						t.die_flag = 1;
-					}
-				}
-
-			}
-			//bucket_zombie-------------------------
-			for (auto& bz : bucket_zombie) {
-				if (🥒🥒.pb1.GetLeft() <= bz.GetLeft() + 50 && 🥒🥒.pb1.GetLeft() >= bz.GetLeft() + 45 && 🥒🥒.pb1.GetTop() <= bz.GetTop() + 60 && 🥒🥒.pb1.GetTop() >= bz.GetTop() - 0 && bz.die_flag == 0) {
-					🥒🥒.pb1.leave();
-					🥒🥒.pb1.show_flag = 1;
-					bz.hp -= 30;
-					if (bz.hp <= 0) {
-						bz.state = 1;
-						bz.die_flag = 1;
-					}
-				}
-				if (🥒🥒.pb2.GetLeft() <= bz.GetLeft() + 50 && 🥒🥒.pb2.GetLeft() >= bz.GetLeft() + 45 && 🥒🥒.pb2.GetTop() <= bz.GetTop() + 60 && 🥒🥒.pb2.GetTop() >= bz.GetTop() - 0 && bz.die_flag == 0) {
-					🥒🥒.pb2.leave();
-					🥒🥒.pb2.show_flag = 1;
-					bz.hp -= 30;
-					if (bz.hp <= 0) {
-						bz.state = 1;
-						bz.die_flag = 1;
-					}
-				}
-
-			}
-			//--------------------------------------
 			if (🥒🥒.cd >= 200) {
 				🥒🥒.reload();
 				🥒🥒.cd = 0;
@@ -245,9 +163,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 		//fix me 植物應該在殭屍出現才開始射擊 
 		//-----------------------
-
-
-
 		//殭屍攻擊---------------
 
 		for(auto &z : basic_zombie){
@@ -274,7 +189,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					}
 				}
 			}
-			//太陽花-------------------------------------
+			//太陽花&堅果-------------------------------------
 			for (auto &s : plantManager.GetPlants()) {
 				if (z.GetLeft() <= s->GetLeft() + 30 && z.GetLeft() >= s->GetLeft() + 20 && z.GetTop() <= s->GetTop() + 0 && z.GetTop() >= s->GetTop() - 60 && z.die_flag == 0) {
 					z.state = 4;
@@ -294,10 +209,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 						clear_seat((int)s->GetCoordinateX(), (int)s->GetCoordinateY());
 					}
 				}
-				//--------------------------------------------
 			}
-			//nut-------------------------------------
-				//--------------------------------------------
 			//double_bean-------------------------------------
 			for (auto &db : double_bean) {
 				if (z.GetLeft() <= db.GetLeft() + 30 && z.GetLeft() >= db.GetLeft() + 20 && z.GetTop() <= db.GetTop() + 0 && z.GetTop() >= db.GetTop() - 60 && z.die_flag == 0) {
@@ -321,8 +233,69 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				//--------------------------------------------
 			}
 		}
-		tri_zombie_attack(); //三角殭屍攻擊
-		bucket_zombie_attack(); //鐵桶殭屍攻擊
+
+		for (auto&zom : zombies) {
+			for (auto &s : plantManager.GetPlants()) {
+				if (zom->GetLeft() <= s->GetLeft() + 30 && zom->GetLeft() >= s->GetLeft() + 20 && zom->GetTop() <= s->GetTop() + 0 && zom->GetTop() >= s->GetTop() - 60 && zom->die_flag == 0) {
+					zom->state = 4;
+					zom->cd += 1;
+					if (zom->cd >= 100 && s->hp > 0) {
+						zom->cd = 0;
+						s->hp -= zom->attack;
+					}
+					if (s->hp <= 0) {
+						for (auto& z : zombies) {
+							if (z->state == 4) {
+								z->cd = 0;
+								z->state = 0;
+								z->speed = -1;
+							}
+						}
+						clear_seat((int)s->GetCoordinateX(), (int)s->GetCoordinateY());
+					}
+				}
+			}
+			for (auto &b : bean_plant) {
+				if (zom->GetLeft() <= b.GetLeft() + 30 && zom->GetLeft() >= b.GetLeft() + 20 && zom->GetTop() <=b.GetTop() + 0 && zom->GetTop() >= b.GetTop() - 60 && zom->die_flag == 0) {
+					zom->state = 4;
+					zom->cd += 1;
+					if (zom->cd >= 100 && b.hp > 0) {
+						zom->cd = 0;
+						b.hp -= zom->attack;
+					}
+					if (b.hp <= 0) {
+						for (auto& z : zombies) {
+							if (z->state == 4) {
+								z->cd = 0;
+								z->state = 0;
+								z->speed = -1;
+							}
+						}
+						clear_seat((int)b.GetCoordinateX(), (int)b.GetCoordinateY());
+					}
+				}
+			}
+			for (auto &db : double_bean) {
+				if (zom->GetLeft() <= db.GetLeft() + 30 && zom->GetLeft() >= db.GetLeft() + 20 && zom->GetTop() <= db.GetTop() + 0 && zom->GetTop() >= db.GetTop() - 60 && zom->die_flag == 0) {
+					zom->state = 4;
+					zom->cd += 1;
+					if (zom->cd >= 100 && db.hp > 0) {
+						zom->cd = 0;
+						db.hp -= zom->attack;
+					}
+					if (db.hp <= 0) {
+						for (auto& z : zombies) {
+							if (z->state == 4) {
+								z->cd = 0;
+								z->state = 0;
+								z->speed = -1;
+							}
+						}
+						clear_seat((int)db.GetCoordinateX(), (int)db.GetCoordinateY());
+					}
+				}
+			}
+		}
 
 		//太陽花技能----------------------
 		//--------------------------------
@@ -422,42 +395,37 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		money += 1000;
 	}
 	if (nChar == 0x31) {//1
-		auto z = Basic_zombie();
-		z.init();
-		z.SetTopLeft(950, 40);
-		basic_zombie.push_back(z);
+		auto z = make_shared<Basic_zombie>();
+		z->init();
+		z->SetTopLeft(950, 40);
+		zombies.push_back(z);
 	}
 	if (nChar == 0x32) {//2
-		auto z = Basic_zombie();
-		z.init();
-		z.SetTopLeft(950, 140);
-		basic_zombie.push_back(z);
+		auto z = make_shared<Basic_zombie>();
+		z->init();
+		z->SetTopLeft(950, 140);
+		zombies.push_back(z);
 	}
 	if (nChar == 0x33) {//3
-		auto z = Basic_zombie();
-		z.init();
-		z.SetTopLeft(950, 240);
-		basic_zombie.push_back(z);
+		auto z = make_shared<Basic_zombie>();
+		z->init();
+		z->SetTopLeft(950, 240);
+		zombies.push_back(z);
 	}
 	if (nChar == 0x34) {//4
-		auto z = Basic_zombie();
-		z.init();
-		z.SetTopLeft(950, 340);
-		basic_zombie.push_back(z);
+		auto z = make_shared<Basic_zombie>();
+		z->init();
+		z->SetTopLeft(950, 340);
+		zombies.push_back(z);
 	}
 	if (nChar == 0x35) {//5
-		auto z = Basic_zombie();
-		z.init();
-		z.SetTopLeft(950, 440);
-		basic_zombie.push_back(z);
+		auto z = make_shared<Basic_zombie>();
+		z->init();
+		z->SetTopLeft(950, 440);
+		zombies.push_back(z);
 	}
 	if (nChar == 0x4A) {//j
-		/*
-		auto z = Basic_zombie();
-		z.init();
-		z.SetTopLeft(950, zb_y_random());
-		basic_zombie.push_back(z);
-		*/
+
 		auto z = make_shared<Basic_zombie>();
 		z->init();
 		z->SetTopLeft(950, zb_y_random());
@@ -465,18 +433,11 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		
 	}
 	if (nChar == 0x4B) {//k
-
 		auto t = make_shared<Triangle_zombie>();
 		t->init();
 		t->SetTopLeft(950, zb_y_random());
 		zombies.push_back(t);
-		/*
-		auto t = Triangle_zombie();
-		t.init();
-		t.SetTopLeft(950, 240);
-		tri_zombie.push_back(t);
-		*/
-		
+
 	}
 	if (nChar == 0x4C) {//L
 
@@ -484,12 +445,7 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		bz->init();
 		bz->SetTopLeft(950, zb_y_random());
 		zombies.push_back(bz);
-		/*
-		auto bz = Bucket_zombie();
-		bz.init();
-		bz.SetTopLeft(950, 240);
-		bucket_zombie.push_back(bz);
-		*/
+
 	}
 	if (nChar == 0x4F) {//o
 		end_flag = 1;
@@ -581,16 +537,14 @@ void CGameStateRun::OnShow()
 	if (Map::level == 1) {
 		L1_map.ShowBitmap();
 		if (BG1_flag1 == 2) {
-			for (auto &z : basic_zombie) z.show();
-			for (auto &t : tri_zombie) t.show();
-			for (auto &bz : bucket_zombie) bz.show();
 			for (auto &zom : zombies) zom->show();
-			//if ((int)basic_zombie.size() < ZOMBIE_END) call_time += 1;
+			if (basic_counter < ZOMBIE_END) call_time += 1;
 			if (call_time == 200) {
-				auto z = Basic_zombie();
-				z.init();
-				z.SetTopLeft(950, zb_y_random());
-				basic_zombie.push_back(z);
+				auto z = make_shared<Basic_zombie>();
+				z->init();
+				z->SetTopLeft(950, zb_y_random());
+				zombies.push_back(z);
+				basic_counter += 1;
 				call_time = 0;
 			}
 			//召喚殭屍------------------------------------
@@ -605,18 +559,17 @@ void CGameStateRun::OnShow()
 	else if (Map::level == 2) {
 		L2_map.ShowBitmap();
 		if (BG1_flag1 == 2) {
-			for (auto &z : basic_zombie) z.show();
-			for (auto &t : tri_zombie) t.show();
-			for (auto &bz : bucket_zombie) bz.show();
-			if ((int)basic_zombie.size() < 3) call_time += 1;
+			for (auto &zom : zombies) zom->show();
+			if (basic_counter < 3) call_time += 1;
 			if (call_time == 200) {
-				auto z = Basic_zombie();
-				z.init();
-				z.SetTopLeft(950, zb_y_random());
-				basic_zombie.push_back(z);
+				auto z = make_shared<Basic_zombie>();
+				z->init();
+				z->SetTopLeft(950, zb_y_random());
+				zombies.push_back(z);
+				basic_counter += 1;
 				call_time = 0;
 			}
-			if ((int)tri_zombie.size() < 3) tri_call_time += 1;
+			if (tri_counter < 3) tri_call_time += 1;
 			call_tir_zombie(); //召喚三角殭屍
 			//召喚殭屍------------------------------------
 			sun_manager->ShowSun();
@@ -629,20 +582,19 @@ void CGameStateRun::OnShow()
 	else if (Map::level == 3) {
 		fight_background.ShowBitmap();
 		if (BG1_flag1 == 2) {
-			for (auto &z : basic_zombie) z.show();
-			for (auto &t : tri_zombie) t.show();
-			for (auto &bz : bucket_zombie) bz.show();
-			if ((int)basic_zombie.size() < 3) call_time += 1;
+			for (auto &zom : zombies) zom->show();
+			if (basic_counter < 3) call_time += 1;
 			if (call_time == 200) {
-				auto z = Basic_zombie();
-				z.init();
-				z.SetTopLeft(950, zb_y_random());
-				basic_zombie.push_back(z);
+				auto z = make_shared<Basic_zombie>();
+				z->init();
+				z->SetTopLeft(950, zb_y_random());
+				zombies.push_back(z);
+				basic_counter += 1;
 				call_time = 0;
 			}
-			if ((int)tri_zombie.size() < 3) tri_call_time += 1;
+			if (tri_counter < 3) tri_call_time += 1;
 			call_tir_zombie(); //召喚三角殭屍
-			if ((int)bucket_zombie.size() < 3) bucketcall_time += 1;
+			if (bucket_counter < 3) bucketcall_time += 1;
 			call_bucket_zombie();
 			//召喚殭屍------------------------------------
 			sun_manager->ShowSun();
@@ -709,9 +661,6 @@ void CGameStateRun::OnShow()
 	}
 	
 	if (overflag == 1) {
-		basic_zombie.clear();
-		tri_zombie.clear();
-		bucket_zombie.clear();
 		call_time = 0;
 		tri_call_time = 0;
 		bucketcall_time = 0;
@@ -727,52 +676,29 @@ void CGameStateRun::judge_plant_victory() {
 
 	if (Map::level == 1) {
 		bool overr = true;
-		for (auto&z : basic_zombie)
+		for (auto&z :zombies)
 		{
-			if (z.die_flag != 1)
+			if (z->die_flag != 1)
 			{
 				overr = false;
 			}
 
 		}
-		if (overr && ((int)basic_zombie.size() >= ZOMBIE_END)) overflag = 1;
+		if (overr && ((int)zombies.size() >= ZOMBIE_END)) overflag = 1;
 	}
 	else if (Map::level == 2) {
-		bool overr = true;
-		for (auto&z : basic_zombie){
-			if (z.die_flag != 1)
-			{
-				overr = false;
-			}
-
+		int die_num = 0;
+		for (auto&z : zombies) {
+			die_num += z->die_flag;
 		}
-		for (auto&t : tri_zombie) {
-			if (t.die_flag != 1) {
-				overr = false;
-			}
-		}
-		if(overr && ((int)basic_zombie.size() >= 3) && (int)tri_zombie.size()>=3) overflag = 1;
+		if (die_num == 6) overflag = 1;
 	}
 	else if (Map::level == 3) {
-		bool overr = true;
-		for (auto&z : basic_zombie) {
-			if (z.die_flag != 1)
-			{
-				overr = false;
-			}
-
+		int die_num = 0;
+		for (auto&z : zombies) {
+			die_num += z->die_flag;
 		}
-		for (auto&t : tri_zombie) {
-			if (t.die_flag != 1) {
-				overr = false;
-			}
-		}
-		for (auto& bz : bucket_zombie) {
-			if (bz.die_flag != 1) {
-				overr = false;
-			}
-		}
-		if (overr && ((int)basic_zombie.size() >= 3) && (int)tri_zombie.size() >= 3 && (int)bucket_zombie.size() >= 3) overflag = 1;
+		if (die_num == 9) overflag = 1;
 	}
 	
 
@@ -781,52 +707,16 @@ void CGameStateRun::judge_plant_victory() {
 void CGameStateRun::judge_zombie_victory() {
 	//結束---------------------
 	bool over = false;
-	if (Map::level == 1) {
-		for (auto &z : basic_zombie) {
-			if (z.GetLeft() <= 100) {
-				over = true;
-			}
+	for (auto &z : zombies) {
+		if (z->GetLeft() <= 100) {
+			over = true;
 		}
 	}
-	else if (Map::level == 2) {
-		
-		for (auto &z : basic_zombie) {
-			if (z.GetLeft() <= 100) {
-				over = true;
-			}
-		}
-		for (auto &t : tri_zombie) {
-			if (t.GetLeft() <= 100) {
-				over = true;
-			}
-		}
-	}
-	else if (Map::level == 3) {
-		for (auto &z : basic_zombie) {
-			if (z.GetLeft() <= 100) {
-				over = true;
-			}
-		}
-		for (auto &t : tri_zombie) {
-			if (t.GetLeft() <= 100) {
-				over = true;
-			}
-		}
-		for (auto &bz : bucket_zombie) {
-			if (bz.GetLeft() <= 100) {
-				over = true;
-			}
-		}
-	}
-	
 	if (over == true) {
 		end_flag = 1;
 	}
 	
 	if (end_flag == 1) {
-		basic_zombie.clear();
-		tri_zombie.clear();
-		bucket_zombie.clear();
 		call_time = 0;
 		tri_call_time = 0;
 		bucketcall_time = 0;
@@ -979,14 +869,10 @@ void CGameStateRun::reset() {
 		newcar.Init(i);
 		carList.push_back(newcar);
 	}
-	//-----------------------------
-	//太陽花-----------------------
-	//-----------------------------
 	//豌豆-----------------------
 	bean_plant.clear();
 	//-----------------------------
-	//堅果-----------------------
-	//-----------------------------
+
 	//雙豌豆-----------------------
 	double_bean.clear();
 	//-----------------------------
@@ -1002,9 +888,10 @@ void CGameStateRun::reset() {
 	call_time = 0;
 	tri_call_time = 0;
 	bucketcall_time= 0;
-	basic_zombie.clear();
-	tri_zombie.clear();
-	bucket_zombie.clear();
+	basic_counter = 0;
+	tri_counter = 0;
+	bucket_counter = 0;
+	zombies.clear();
 	//---------------
 
 	//小太陽-----------
@@ -1074,170 +961,25 @@ int CGameStateRun::zb_y_random() {
 	}
 }
 
-void CGameStateRun::tri_zombie_attack() {
-	for (auto &z : tri_zombie) {
-		//bean-------------------------------------
-		for (auto &b : bean_plant)
-		{
-			if (z.GetLeft() <= b.GetLeft() + 30 && z.GetLeft() >= b.GetLeft() + 20 && z.GetTop() <= b.GetTop() + 0 && z.GetTop() >= b.GetTop() - 60 && z.die_flag == 0)
-			{
-				z.state = 4;
-				z.cd += 1;
-				if (z.cd >= 100 && b.hp > 0) {
-					z.cd = 0;
-					b.hp -= 30;
-				}
-				if (b.hp <= 0) {
-					for (auto& zz : tri_zombie) {
-						if (zz.state == 4) {
-							zz.cd = 0;
-							zz.state = 0;
-							zz.speed = -1;
-						}
-					}
-					clear_seat((int)b.GetCoordinateX(), (int)b.GetCoordinateY());
-				}
-			}
-		}
-		//太陽花-------------------------------------
-		for (auto &s : plantManager.GetPlants()) {
-			if (z.GetLeft() <= s->GetLeft() + 30 && z.GetLeft() >= s->GetLeft() + 20 && z.GetTop() <= s->GetTop() + 0 && z.GetTop() >= s->GetTop() - 60 && z.die_flag == 0) {
-				z.state = 4;
-				z.cd += 1;
-				if (z.cd >= 100 && s->hp > 0) {
-					z.cd = 0;
-					s->hp -= 50;
-				}
-				if (s->hp <= 0) {
-					for (auto& zz : tri_zombie) {
-						if (zz.state == 4) {
-							zz.cd = 0;
-							zz.state = 0;
-							zz.speed = -1;
-						}
-					}
-					clear_seat((int)s->GetCoordinateX(), (int)s->GetCoordinateY());
-				}
-			}
-			//--------------------------------------------
-		}
-		//nut-------------------------------------
-		//--------------------------------------------
-		//double_bean-------------------------------------
-		for (auto &db : double_bean) {
-			if (z.GetLeft() <= db.GetLeft() + 30 && z.GetLeft() >= db.GetLeft() + 20 && z.GetTop() <= db.GetTop() + 0 && z.GetTop() >= db.GetTop() - 60 && z.die_flag == 0) {
-				z.state = 4;
-				z.cd += 1;
-				if (z.cd >= 100 && db.hp > 0) {
-					z.cd = 0;
-					db.hp -= 30;
-				}
-				if (db.hp <= 0) {
-					for (auto& zz : tri_zombie) {
-						if (zz.state == 4) {
-							zz.cd = 0;
-							zz.state = 0;
-							zz.speed = -1;
-						}
-					}
-					clear_seat((int)db.GetCoordinateX(), (int)db.GetCoordinateY());
-				}
-			}
-			//--------------------------------------------
-		}
-	}
-}
-
-void CGameStateRun::bucket_zombie_attack() {
-	for (auto &z : bucket_zombie) {
-		//bean-------------------------------------
-		for (auto &b : bean_plant)
-		{
-			if (z.GetLeft() <= b.GetLeft() + 30 && z.GetLeft() >= b.GetLeft() + 20 && z.GetTop() <= b.GetTop() + 0 && z.GetTop() >= b.GetTop() - 60 && z.die_flag == 0)
-			{
-				z.state = 4;
-				z.cd += 1;
-				if (z.cd >= 100 && b.hp > 0) {
-					z.cd = 0;
-					b.hp -= 50;
-				}
-				if (b.hp <= 0) {
-					for (auto& zz : bucket_zombie) {
-						if (zz.state == 4) {
-							zz.cd = 0;
-							zz.state = 0;
-							zz.speed = -1;
-						}
-					}
-					clear_seat((int)b.GetCoordinateX(), (int)b.GetCoordinateY());
-				}
-			}
-		}
-		//太陽花-------------------------------------
-		for (auto &s : plantManager.GetPlants()) {
-			if (z.GetLeft() <= s->GetLeft() + 30 && z.GetLeft() >= s->GetLeft() + 20 && z.GetTop() <= s->GetTop() + 0 && z.GetTop() >= s->GetTop() - 60 && z.die_flag == 0) {
-				z.state = 4;
-				z.cd += 1;
-				if (z.cd >= 100 && s->hp > 0) {
-					z.cd = 0;
-					s->hp -= 50;
-				}
-				if (s->hp <= 0) {
-					for (auto& zz : bucket_zombie) {
-						if (zz.state == 4) {
-							zz.cd = 0;
-							zz.state = 0;
-							zz.speed = -1;
-						}
-					}
-					clear_seat((int)s->GetCoordinateX(), (int)s->GetCoordinateY());
-				}
-			}
-			//--------------------------------------------
-		}
-		//nut-------------------------------------
-		//--------------------------------------------
-		//double_bean-------------------------------------
-		for (auto &db : double_bean) {
-			if (z.GetLeft() <= db.GetLeft() + 30 && z.GetLeft() >= db.GetLeft() + 20 && z.GetTop() <= db.GetTop() + 0 && z.GetTop() >= db.GetTop() - 60 && z.die_flag == 0) {
-				z.state = 4;
-				z.cd += 1;
-				if (z.cd >= 100 && db.hp > 0) {
-					z.cd = 0;
-					db.hp -= 50;
-				}
-				if (db.hp <= 0) {
-					for (auto& zz : bucket_zombie) {
-						if (zz.state == 4) {
-							zz.cd = 0;
-							zz.state = 0;
-							zz.speed = -1;
-						}
-					}
-					clear_seat((int)db.GetCoordinateX(), (int)db.GetCoordinateY());
-				}
-			}
-			//--------------------------------------------
-		}
-	}
-}
-
 void CGameStateRun::call_tir_zombie() {
 	if (tri_call_time == 210) {
-		auto t = Triangle_zombie();
-		t.init();
-		t.SetTopLeft(950, zb_y_random());
-		tri_zombie.push_back(t);
+		auto t = make_shared<Triangle_zombie>();
+		t->init();
+		t->SetTopLeft(950, zb_y_random());
+		zombies.push_back(t);
+		tri_counter += 1;
 		tri_call_time = 0;
 	}
+	
 }
 
 void CGameStateRun::call_bucket_zombie() {
 	if (bucketcall_time == 220) {
-		auto bz = Bucket_zombie();
-		bz.init();
-		bz.SetTopLeft(950, zb_y_random());
-		bucket_zombie.push_back(bz);
+		auto bz = make_shared<Bucket_zombie>();
+		bz->init();
+		bz->SetTopLeft(950, zb_y_random());
+		zombies.push_back(bz);
+		bucket_counter += 1;
 		bucketcall_time = 0;
 	}
 }

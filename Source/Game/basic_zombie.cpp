@@ -90,6 +90,8 @@ void Basic_zombie::init() {
 	zombie_atk.SetTopLeft(zombie.GetLeft(), zombie.GetTop());
 	zombie_atk.SetAnimation(120, false);
 	zombie_atk.ToggleAnimation();
+
+	attack = 30;
 }
 
 void Basic_zombie::show() {

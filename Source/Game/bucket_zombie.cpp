@@ -73,6 +73,8 @@ void Bucket_zombie::init() {
 	zombie_atk.SetTopLeft(zombie.GetLeft(), zombie.GetTop());
 	zombie_atk.SetAnimation(120, false);
 	zombie_atk.ToggleAnimation();
+
+	attack = 60;
 }
 
 void Bucket_zombie::show() {

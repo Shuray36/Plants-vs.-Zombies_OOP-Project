@@ -9,7 +9,7 @@ public:
 	void show()override;
 	//int state = 0;
 	//int die_flag = 0;
-	int cd = 0;
+	//int cd = 0;
 	void loadstate(int state);
 
 };

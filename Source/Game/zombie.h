@@ -7,7 +7,6 @@
 
 class Zombie {
 protected:
-	int atk;
 	int x = 0;
 	int y = 0;
 	game_framework::CMovingBitmap zombie;
@@ -26,6 +25,8 @@ public:
 	int GetLeft();
 	int GetTop();
 	int state = 0;
+	int attack = 0;
+	int cd = 0;
 };
 
 #endif // ZOMBIE_H

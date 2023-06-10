@@ -161,8 +161,9 @@ namespace game_framework {
 		int bucketcall_time = 0;
 		void call_tir_zombie();
 		void call_bucket_zombie();
-		void tri_zombie_attack();
-		void bucket_zombie_attack();//寫殭屍攻擊植物
+		int basic_counter = 0;
+		int tri_counter = 0;
+		int bucket_counter = 0;
 		vector<shared_ptr<Zombie>> zombies;
 		
 
