@@ -2,6 +2,7 @@
 #include <memory>
 
 #include "Nut.h"
+#include "PbManager.h"
 #include "plant.h"
 #include "SunFlower.h"
 
@@ -15,12 +16,14 @@ class PlantManager
 {
 	vector<shared_ptr<Plant>> plants;
 	shared_ptr<SunManager> sun_manager;
+	shared_ptr<PbManager> pb_manager;
 public:
 	vector<shared_ptr<Plant>>& GetPlants()
 	{
 		return plants;
 	}
 	void setSunmanager(shared_ptr<SunManager> sm);
+	void setPbmanager(shared_ptr<PbManager> sm);
 
 	void Update();
 

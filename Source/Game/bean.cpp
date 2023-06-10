@@ -22,21 +22,19 @@ Bean::Bean()
 		"Plants_vs_Zombies_Image/plants/bean/bean_11.bmp", }, RGB(255,255,255),240);
 	hp=100;
 }
-void Bean::Init() {
-	Plant::Init();
-	pb.init();
-}
 void Bean::Show() {
 	Plant::Show();
-	pb.Show();
 }
 
 void Bean::Update(){
 	Plant::Update();
-	pb.Update();
 }
 
 void Bean::Attack() {
-	pb.SetPosition( Vector2::add(GetPosition(),{65,0}));
-	pb.SetActive(true);
+	pb_manager->MakePb(Vector2::add(GetPosition(),{65,0}));
+}
+
+void Bean::SetPbManager(shared_ptr<PbManager> p)
+{
+	pb_manager =p;
 }

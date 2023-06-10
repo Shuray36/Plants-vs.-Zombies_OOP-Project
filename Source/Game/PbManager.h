@@ -6,18 +6,10 @@
 
 class PbManager
 {
-    
-    std::vector<Pb> suns;
+    std::vector<Pb> pbs;
 public:
-    void makePb(Vector2 pos)
-    {
-        makePb(pos,pos);
-    }
-    void makePb(Vector2 pos, Vector2 goal)
-    {
-        
-    }
+    void MakePb(Vector2 pos);
     void Update();
     void Show();
-	void clear();
+    void clear();
 };

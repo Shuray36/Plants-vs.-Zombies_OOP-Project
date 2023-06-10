@@ -2,17 +2,14 @@
 #include "plant.h"
 #include "../Library/gameutil.h"
 #include "pb.h"
+#include "PbManager.h"
 
 class Bean:public Plant {
+	shared_ptr<PbManager> pb_manager;
 public:
 	Bean();
-	void Init() override;
 	void Show() override;
 	void Update() override;
 	void Attack() override;
-
-	
-	Pb pb;
-	//game_framework::CMovingBitmap pb;
-
+	void SetPbManager(shared_ptr<PbManager> p);
 };

@@ -7,6 +7,10 @@ void PlantManager::setSunmanager(shared_ptr<SunManager> sm)
 {
     sun_manager = sm;
 }
+void PlantManager::setPbmanager(shared_ptr<PbManager> sm)
+{
+    pb_manager = sm;
+}
 
 void PlantManager::Update()
 {
@@ -79,6 +83,7 @@ void PlantManager::MakePlant(PlantType type, Vector2 position)
             auto bean=make_shared<Bean>();
             bean->Init();
             bean->SetAttackCounter(300);
+            bean->SetPbManager(pb_manager);
             p=bean;
         }
         break;

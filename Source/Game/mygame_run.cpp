@@ -37,6 +37,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 {
 	plantManager.Update();
 	sun_manager->Update();
+	pb_manager->Update();
 	for(auto&car :carList)
 	{
 		car.Update();
@@ -307,6 +308,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	load_plant_win_picture();
 
 	plantManager.setSunmanager(sun_manager);
+	plantManager.setPbmanager(pb_manager);
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -477,7 +479,8 @@ void CGameStateRun::OnShow()
 				basic_counter += 1;
 				call_time = 0;
 			}
-			//召喚殭屍------------------------------------
+			//召喚殭屍----------------------------------
+			pb_manager->Show();
 			sun_manager->ShowSun();
 			for (auto&car : carList) {
 				car.ShowBitmap();
@@ -502,6 +505,7 @@ void CGameStateRun::OnShow()
 			if (tri_counter < 3) tri_call_time += 1;
 			call_tir_zombie(); //召喚三角殭屍
 			//召喚殭屍------------------------------------
+			pb_manager->Show();
 			sun_manager->ShowSun();
 			for (auto&car : carList) {
 				car.ShowBitmap();
@@ -527,6 +531,7 @@ void CGameStateRun::OnShow()
 			if (bucket_counter < 3) bucketcall_time += 1;
 			call_bucket_zombie();
 			//召喚殭屍------------------------------------
+			pb_manager->Show();
 			sun_manager->ShowSun();
 			for (auto&car : carList) {
 				car.ShowBitmap();
@@ -821,6 +826,7 @@ void CGameStateRun::reset() {
 
 	//小太陽-----------
 	sun_manager->clear_sun();
+	pb_manager->clear();
 	sun_cooldown = 0;
 	//-----------------
 	

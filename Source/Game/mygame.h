@@ -189,6 +189,7 @@ namespace game_framework {
 		int sun_flag = 0;
 		int sun_cooldown = 0;
 		shared_ptr<SunManager> sun_manager = make_shared<SunManager>();
+		shared_ptr<PbManager> pb_manager = make_shared<PbManager>();
 		//-------------------------------------------------------------------
 
 		//車-----------------------------------------------------------------
