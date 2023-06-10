@@ -12,6 +12,8 @@ enum class PlantStatus
 class Plant :public PZGameObject{
 protected:
 	int state;
+	vector<string> filePath;
+	int fileColor;
 	Vector2 coordinate;
 	Counter attack;
 	bool _isPlace;
@@ -25,6 +27,7 @@ public:
 	void SetCoordinate(int x,int y);
 	void SetCoordinate(float x,float y);
 	void SetCoordinate(Vector2 v);
+	void SetImange(vector<string> path,int color);
 	void Show() override;
 	int GetCoordinateX();
 	int GetCoordinateY();

@@ -10,9 +10,8 @@
 
 void Sunflower::Init()
 {
-	Plant::Init();
 	{
-	LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_0.bmp",
+	SetImange({ "Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_0.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_1.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_2.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_3.bmp",
@@ -32,6 +31,7 @@ void Sunflower::Init()
 		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_17.bmp",
 		}, RGB(255, 255, 255)); //315 310}, RGB(255, 255, 255);
 	}
+	Plant::Init();
 	SetAnimation(100, false);
 	ToggleAnimation();
 #pragma region 

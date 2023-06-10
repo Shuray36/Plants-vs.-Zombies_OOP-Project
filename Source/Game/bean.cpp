@@ -8,8 +8,7 @@
 #include <string>
 
 void Bean::Init() {
-	Plant::Init();
-	LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/bean/bean_0.bmp",
+	SetImange({ "Plants_vs_Zombies_Image/plants/bean/bean_0.bmp",
 		"Plants_vs_Zombies_Image/plants/bean/bean_1.bmp", 
 		"Plants_vs_Zombies_Image/plants/bean/bean_2.bmp", 
 		"Plants_vs_Zombies_Image/plants/bean/bean_3.bmp", 
@@ -20,9 +19,8 @@ void Bean::Init() {
 		"Plants_vs_Zombies_Image/plants/bean/bean_9.bmp", 
 		"Plants_vs_Zombies_Image/plants/bean/bean_10.bmp", 
 		"Plants_vs_Zombies_Image/plants/bean/bean_11.bmp", }, RGB(255,255,255));
-	SetAnimation(240, false);
-	ToggleAnimation();
 	
+	Plant::Init();
 	pb.init();
 }
 void Bean::Show() {

@@ -23,6 +23,10 @@ void Plant::Init()
     attack.Set(100,0);
     hp = 100;
     _isPlace = false;
+    
+	LoadBitmapByString(filePath, fileColor);
+	SetAnimation(240, false);
+	ToggleAnimation();
 }
 
 void Plant::Update()
@@ -57,6 +61,12 @@ void Plant::SetCoordinate(float x, float y)
 void Plant::SetCoordinate(Vector2 v)
 {
     coordinate = v;
+}
+
+void Plant::SetImange(vector<string> path, int color)
+{
+    filePath = path;
+    fileColor = color;
 }
 
 void Plant::Show()
