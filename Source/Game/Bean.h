@@ -6,11 +6,10 @@
 class Bean:public Plant {
 public:
 	Bean() = default;
-	void init();
-	void show();
-	void attack();
-	void reload();
-	void leave();
+	void Init() override;
+	void Show() override;
+	void Update() override;
+	void Attack() override;
 
 	
 	Pb pb;

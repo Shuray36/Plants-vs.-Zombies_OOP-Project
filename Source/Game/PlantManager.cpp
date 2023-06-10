@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "PlantManager.h"
 
+#include "Bean.h"
+
 void PlantManager::setSunmanager(shared_ptr<SunManager> sm)
 {
     sun_manager = sm;
@@ -72,7 +74,14 @@ void PlantManager::MakePlant(PlantType type, Vector2 position)
             p=s;
         }
         break;
-    case PlantType::BEAN_PLANT: break;
+    case PlantType::BEAN_PLANT:
+        {
+            auto bean=make_shared<Bean>();
+            bean->Init();
+            bean->SetAttackCounter(300);
+            p=bean;
+        }
+        break;
     case PlantType::NUT_PLANT: 
         {
             auto nut=make_shared<Nut>();
@@ -94,5 +103,5 @@ void PlantManager::clear_plant()
 
 int PlantManager::plant_size()
 {
-    return plants.size();
+    return (int)plants.size();
 }
