@@ -355,11 +355,11 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	L2_map.SetTopLeft(0, 0);
 	fight_background.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/BG1.bmp" });
 	fight_background.SetTopLeft(0, 0);
-	
-	
-	for(auto& b:bean_plant) b.init();
-	for (auto& db : double_bean) db.init();
+	for (auto& c : chili_plant) c.init();
+	//for(auto& b:bean_plant) b.init();
+	//for (auto& db : double_bean) db.init();
 	load_sunback();
+
 	load_sunflower_card();
 	load_sunflower_gray_card();
 	load_peashooter_gray_card();
@@ -368,6 +368,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	load_nut_gray_card();
 	load_db_card();
 	load_db_gray_card();
+
 	load_zombie_win_picture();
 	load_plant_win_picture();
 
@@ -386,7 +387,9 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		GotoGameState(GAME_STATE_INIT);
 	}
 	if (nChar == VK_RIGHT) {
-
+		Chili c = Chili();
+		c.init();
+		chili_plant.push_back(c);
 	}
 	if (nChar == 0x52) {//r
 		reset();
@@ -537,6 +540,7 @@ void CGameStateRun::OnShow()
 	if (Map::level == 1) {
 		L1_map.ShowBitmap();
 		if (BG1_flag1 == 2) {
+			for (auto&c : chili_plant) c.show();
 			for (auto &zom : zombies) zom->show();
 			if (basic_counter < ZOMBIE_END) call_time += 1;
 			if (call_time == 200) {
