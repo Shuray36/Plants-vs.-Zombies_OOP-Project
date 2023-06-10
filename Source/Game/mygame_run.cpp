@@ -38,6 +38,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	plantManager.Update();
 	sun_manager->Update();
 	pb_manager->Update();
+	pb_manager->SetZombies(zombies);
 	for(auto&car :carList)
 	{
 		car.Update();

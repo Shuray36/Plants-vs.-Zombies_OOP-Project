@@ -15,7 +15,7 @@ public:
 	void Update() override
 	{
 		PZGameObject::Update();
-		if(GetPosition().x>950)
+		if(GetPosition().x>1000)
 		{
 			SetActive(false);
 		}

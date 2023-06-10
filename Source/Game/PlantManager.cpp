@@ -52,9 +52,11 @@ void PlantManager::OnLButtonDown(Vector2 coordinate)
     if(!plants.empty() && !plants.back()->GetIsPlace())
     {
         plants.back()->SetCoordinate(coordinate);
-        plants.back()->SetTopLeft(
-            BoardLeft +BLOCK_WIDTH*static_cast<int>(coordinate.x),
-            BoardTop +BLOCK_HEIGHT*static_cast<int>(coordinate.y));
+        plants.back()->SetPosition(
+        {
+            static_cast<float>( BoardLeft +BLOCK_WIDTH*static_cast<int>(coordinate.x)),
+            static_cast<float>(BoardTop +BLOCK_HEIGHT*static_cast<int>(coordinate.y))
+        });
         plants.back()->SetIsPlace(true);
     }
 }
@@ -82,7 +84,7 @@ void PlantManager::MakePlant(PlantType type, Vector2 position)
         {
             auto bean=make_shared<Bean>();
             bean->Init();
-            bean->SetAttackCounter(300);
+            bean->SetAttackCounter(1500);
             bean->SetPbManager(pb_manager);
             p=bean;
         }
