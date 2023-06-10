@@ -8,31 +8,34 @@
 #include <string>
 
 
-void Sunflower::Init()
+Sunflower::Sunflower()
 {
 	{
-	SetImange({ "Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_0.bmp",
-		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_1.bmp",
-		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_2.bmp",
-		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_3.bmp",
-		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_4.bmp",
-		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_5.bmp",
-		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_6.bmp",
-		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_7.bmp",
-		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_8.bmp",
-		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_9.bmp",
-		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_10.bmp",
-		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_11.bmp",
-		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_12.bmp",
-		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_13.bmp",
-		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_14.bmp",
-		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_15.bmp",
-		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_16.bmp",
-		"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_17.bmp",
-		}, RGB(255, 255, 255),100); //315 310}, RGB(255, 255, 255);
+		SetImange({ "Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_0.bmp",
+			"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_1.bmp",
+			"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_2.bmp",
+			"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_3.bmp",
+			"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_4.bmp",
+			"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_5.bmp",
+			"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_6.bmp",
+			"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_7.bmp",
+			"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_8.bmp",
+			"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_9.bmp",
+			"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_10.bmp",
+			"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_11.bmp",
+			"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_12.bmp",
+			"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_13.bmp",
+			"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_14.bmp",
+			"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_15.bmp",
+			"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_16.bmp",
+			"Plants_vs_Zombies_Image/plants/sunflower_0/sunflower_17.bmp",
+			}, RGB(255, 255, 255),100); //315 310}, RGB(255, 255, 255);
 	}
-	Plant::Init();
 	hp = 100;
+}
+void Sunflower::Init()
+{
+	Plant::Init();
 #pragma region 
 	sunflower_getsun.LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/sunflower_getsun/sunflower_getsun_0.bmp",
 		"Plants_vs_Zombies_Image/plants/sunflower_getsun/sunflower_getsun_1.bmp",

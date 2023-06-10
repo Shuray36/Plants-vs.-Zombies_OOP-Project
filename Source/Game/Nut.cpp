@@ -8,7 +8,7 @@
 #include <string>
 
 
-void Nut::Init()
+Nut::Nut()
 {
 	SetImange({ "Plants_vs_Zombies_Image/plants/nut_one/nut_one_0.bmp",
 		"Plants_vs_Zombies_Image/plants/nut_one/nut_one_1.bmp",
@@ -27,7 +27,6 @@ void Nut::Init()
 		"Plants_vs_Zombies_Image/plants/nut_one/nut_one_14.bmp",
 		"Plants_vs_Zombies_Image/plants/nut_one/nut_one_15.bmp",
 		}, RGB(0, 0, 0), 100);
-	Plant::Init();
 	hp = 200;
 }
 

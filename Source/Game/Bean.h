@@ -5,7 +5,7 @@
 
 class Bean:public Plant {
 public:
-	Bean() = default;
+	Bean();
 	void Init() override;
 	void Show() override;
 	void Update() override;

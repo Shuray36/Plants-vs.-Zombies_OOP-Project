@@ -7,7 +7,8 @@
 #include "mygame.h"
 #include <string>
 
-void Bean::Init() {
+Bean::Bean()
+{
 	SetImange({ "Plants_vs_Zombies_Image/plants/bean/bean_0.bmp",
 		"Plants_vs_Zombies_Image/plants/bean/bean_1.bmp", 
 		"Plants_vs_Zombies_Image/plants/bean/bean_2.bmp", 
@@ -19,8 +20,9 @@ void Bean::Init() {
 		"Plants_vs_Zombies_Image/plants/bean/bean_9.bmp", 
 		"Plants_vs_Zombies_Image/plants/bean/bean_10.bmp", 
 		"Plants_vs_Zombies_Image/plants/bean/bean_11.bmp", }, RGB(255,255,255),240);
-
 	hp=100;
+}
+void Bean::Init() {
 	Plant::Init();
 	pb.init();
 }
