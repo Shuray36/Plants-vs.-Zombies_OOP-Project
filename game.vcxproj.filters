@@ -143,6 +143,7 @@
     <ClInclude Include="Source\Game\PlantManager.h" />
     <ClInclude Include="Source\Game\triangle_zombie.h" />
     <ClInclude Include="Source\Game\bucket_zombie.h" />
+    <ClInclude Include="Source\Game\ZombieManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Source\Core\game.rc">

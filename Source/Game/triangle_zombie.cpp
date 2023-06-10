@@ -80,6 +80,7 @@ void Triangle_zombie::init() {
 	zombie_atk.SetAnimation(120, false);
 	zombie_atk.ToggleAnimation();
 	hp = 160;
+	attack = 30;
 }
 
 void Triangle_zombie::show() {
