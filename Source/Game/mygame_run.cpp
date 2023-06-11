@@ -217,6 +217,11 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	L2_map.SetTopLeft(0, 0);
 	fight_background.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/BG1.bmp" });
 	fight_background.SetTopLeft(0, 0);
+
+	shovel_box.LoadBitmapByString({"Plants_vs_Zombies_Image/shovel_box.bmp"}, RGB(255, 255, 255));
+	shovel_box.SetTopLeft(870, 0);
+
+	shovel.LoadBitmapByString({ "Plants_vs_Zombies_Image/Shovel1.bmp" }, RGB(255, 255, 255));
 	load_sunback();
 
 	load_sunflower_card();
@@ -349,11 +354,19 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 		place_flag = 1;
 		plantManager.MakePlant(PlantType::DOUBLE_BEAN,mousePosition);
 	}
+	if (CMovingBitmap::IsCardClick(pointx, pointy, chili_card) && money >= 150) {
+		item = 4;
+		place_flag = 1;
+		plantManager.MakePlant(PlantType::CHILI_PLANT, mousePosition);
+	}
 
 	if (pointx >= plant_win_picture.GetLeft() + 0 && pointx <= plant_win_picture.GetLeft() + 50 && pointy >= plant_win_picture.GetTop() + 0 && pointy <= plant_win_picture.GetTop() + 75) {
 		if (overflag == 1) {
 			GotoGameState(GAME_STATE_INIT);
 		}
+	}
+	if (CMovingBitmap::IsCardClick(pointx, pointy, shovel_box) ) {
+		shovel_flag = 1;
 	}
 
 	if (place_flag == 1) {
@@ -372,6 +385,11 @@ void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動
 	pointx = point.x;
 	pointy = point.y;
 	plantManager.OnMouseMove({ static_cast<float>(point.x),static_cast<float>(point.y)});
+	if (shovel_flag == 1) {
+		shovel.SetTopLeft(pointx - shovel.GetWidth() / 2-1, pointy - shovel.GetHeight() / 2-1);
+	}
+	
+		
 }
 
 void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
@@ -465,6 +483,11 @@ void CGameStateRun::OnShow()
 		chili_card.ShowBitmap();
 	}
 	
+	shovel_box.ShowBitmap();
+	if (shovel_flag == 1) {
+		shovel.ShowBitmap();
+	}
+
 	if (overflag == 1) {
 		call_time = 0;
 		tri_call_time = 0;
@@ -649,6 +672,10 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 				else if (item == (int)PlantType::DOUBLE_BEAN) {
 					plantManager.OnLButtonDown({(float)x,(float)y});
 					money -= 200;
+				}
+				else if (item == (int)PlantType::CHILI_PLANT) {
+					plantManager.OnLButtonDown({ (float)x,(float)y });
+					money -= 150;
 				}
 				place_flag = 0;
 				seat[x][y] = 2;

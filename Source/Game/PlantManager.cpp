@@ -107,6 +107,14 @@ void PlantManager::MakePlant(PlantType type, Vector2 position)
             p=bean;
         }
         break;
+	case PlantType::CHILI_PLANT:
+		{
+			auto chili = make_shared<Chili>();
+			chili->Init();
+			chili->SetAttackCounter(1500);
+			p = chili;
+		}
+		break;
     default: ;
     }
     p->SetPositionByCenter(position);

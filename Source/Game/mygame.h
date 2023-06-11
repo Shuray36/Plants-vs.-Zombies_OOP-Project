@@ -49,6 +49,7 @@
 #include "PlantManager.h"
 #include "Sun.h"
 #include "SunFlower.h"
+#include "chili.h"
 #include "SunManager.h"
 #include "basic_zombie.h"
 #include "triangle_zombie.h"
@@ -235,7 +236,10 @@ namespace game_framework {
 		void judge_plant_victory();
 		void judge_zombie_victory();
 		//int zombie_end = 6;
-
+		//鏟子--------------------
+		CMovingBitmap shovel_box;
+		CMovingBitmap shovel;
+		int shovel_flag = 0;
 		CMovingBitmap plant_win_picture;
 		void load_plant_win_picture();
 		//--------------------------

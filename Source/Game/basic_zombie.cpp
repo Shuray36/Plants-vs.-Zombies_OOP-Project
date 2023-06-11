@@ -66,6 +66,7 @@ void Basic_zombie::init() {
 	zombie_headfall.SetAnimation(120, true);
 	zombie_headfall.ToggleAnimation();
 
+	
 	zombie_atk.LoadBitmapByString({ "Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_0.bmp",
 		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_1.bmp", 
 		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_2.bmp", 
@@ -87,9 +88,13 @@ void Basic_zombie::init() {
 		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_18.bmp", 
 		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_19.bmp", 
 		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_20.bmp", }, RGB(255, 255, 255));
+	
+	
 	zombie_atk.SetTopLeft(zombie.GetLeft(), zombie.GetTop());
 	zombie_atk.SetAnimation(120, false);
 	zombie_atk.ToggleAnimation();
+	
+	
 
 	attack = 30;
 }
