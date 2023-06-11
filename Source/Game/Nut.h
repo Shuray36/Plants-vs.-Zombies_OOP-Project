@@ -3,6 +3,5 @@
 
 class Nut:public Plant {
 public:
-	Nut() = default;
-	void Init() override;
+	Nut();
 };

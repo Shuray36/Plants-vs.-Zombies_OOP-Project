@@ -37,6 +37,56 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 {
 	plantManager.Update();
 	sun_manager->Update();
+	pb_manager->Update();
+	pb_manager->SetZombies(zombies);
+
+	if(Map::level == 3)
+	{
+		
+			if (basic_counter < ZOMBIE_END) call_time += 1;
+			if (call_time == 200) {
+				auto z = make_shared<Basic_zombie>();
+				z->init();
+				z->SetTopLeft(950, zb_y_random());
+				zombies.push_back(z);
+				basic_counter += 1;
+				call_time = 0;
+			}
+			//召喚殭屍----------------------------------
+	}
+	if (Map::level == 2)
+	{
+		if (basic_counter < 3) call_time += 1;
+		if (call_time == 200) {
+			auto z = make_shared<Basic_zombie>();
+			z->init();
+			z->SetTopLeft(950, zb_y_random());
+			zombies.push_back(z);
+			basic_counter += 1;
+			call_time = 0;
+		}
+		if (tri_counter < 3) tri_call_time += 1;
+		call_tir_zombie(); //召喚三角殭屍
+		//召喚殭屍------------------------------------
+	}
+	if (Map::level == 3)
+	{
+		
+			if (basic_counter < 3) call_time += 1;
+			if (call_time == 200) {
+				auto z = make_shared<Basic_zombie>();
+				z->init();
+				z->SetTopLeft(950, zb_y_random());
+				zombies.push_back(z);
+				basic_counter += 1;
+				call_time = 0;
+			}
+			if (tri_counter < 3) tri_call_time += 1;
+			call_tir_zombie(); //召喚三角殭屍
+			if (bucket_counter < 3) bucketcall_time += 1;
+			call_bucket_zombie();
+			//召喚殭屍------------------------------------
+	}
 	for(auto&car :carList)
 	{
 		car.Update();
@@ -103,140 +153,16 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 		//植物攻擊-----------
 		//bean射擊
-		for(auto &b:bean_plant)
-		{
-			b.cd+=1;
-			if (b.cd >= 50) {
-				b.pb.show_flag = 0;
-			}
-			b.attack();
-			for (auto&zom : zombies) {
-				if (b.pb.GetLeft() <= zom->GetLeft() + 50 && b.pb.GetLeft() >= zom->GetLeft() + 45 && b.pb.GetTop() <= zom->GetTop() + 60 && b.pb.GetTop() >= zom->GetTop() - 0 && zom->die_flag == 0) {
-					b.leave();
-					b.pb.show_flag = 1;
-					zom->hp -= 30;
-					if (zom->hp <= 0) {
-						zom->state = 1;
-						zom->die_flag = 1;
-					}
-				}
-			}
-			if (b.cd >= 250) {
-				b.reload();
-				b.cd = 0;
-			}
-		}
 		//double_bean 射擊
-		for (auto &🥒🥒 : double_bean) {
-			🥒🥒.cd += 1;
-			if (🥒🥒.cd >= 50) {
-				🥒🥒.pb1.show_flag = 0;
-				if (🥒🥒.cd >= 60) 🥒🥒.pb2.show_flag = 0;
-				
-			}
-			🥒🥒.attack();
-			for (auto&zom : zombies) {
-				if (🥒🥒.pb1.GetLeft() <= zom->GetLeft() + 50 && 🥒🥒.pb1.GetLeft() >= zom->GetLeft() + 45 && 🥒🥒.pb1.GetTop() <= zom->GetTop() + 60 && 🥒🥒.pb1.GetTop() >= zom->GetTop() - 0 && zom->die_flag == 0) {
-					🥒🥒.pb1.leave();
-					🥒🥒.pb1.show_flag = 1;
-					zom->hp -= 30;
-					if (zom->hp <= 0) {
-						zom->state = 1;
-						zom->die_flag = 1;
-					}
-				}
-				if (🥒🥒.pb2.GetLeft() <= zom->GetLeft() + 50 && 🥒🥒.pb2.GetLeft() >= zom->GetLeft() + 45 && 🥒🥒.pb2.GetTop() <= zom->GetTop() + 60 && 🥒🥒.pb2.GetTop() >= zom->GetTop() - 0 && zom->die_flag == 0) {
-					🥒🥒.pb2.leave();
-					🥒🥒.pb2.show_flag = 1;
-					zom->hp -= 30;
-					if (zom->hp <= 0) {
-						zom->state = 1;
-						zom->die_flag = 1;
-					}
-				}
-			}
-			if (🥒🥒.cd >= 200) {
-				🥒🥒.reload();
-				🥒🥒.cd = 0;
-			}
-
-		}
 		//fix me 植物應該在殭屍出現才開始射擊 
 		//-----------------------
 		//殭屍攻擊---------------
 
-		for(auto &z : basic_zombie){
-			//bean-------------------------------------
-			for(auto &b:bean_plant)
-			{
-				if (z.GetLeft() <= b.GetLeft() + 30 && z.GetLeft() >= b.GetLeft() + 20 && z.GetTop() <= b.GetTop() + 0 && z.GetTop() >= b.GetTop() -60 && z.die_flag == 0)
-				{
-					z.state = 4;
-					z.cd += 1;
-					if (z.cd >= 100 && b.hp > 0) {
-						z.cd = 0;
-						b.hp -= 30;
-					}
-					if (b.hp <= 0) {
-						for (auto& zz : basic_zombie) {
-							if (zz.state == 4) {
-								zz.cd = 0;
-								zz.state = 0;
-								zz.speed = -1;
-							}
-						}
-						clear_seat((int)b.GetCoordinateX(),(int) b.GetCoordinateY());
-					}
-				}
-			}
-			//太陽花&堅果-------------------------------------
-			for (auto &s : plantManager.GetPlants()) {
-				if (z.GetLeft() <= s->GetLeft() + 30 && z.GetLeft() >= s->GetLeft() + 20 && z.GetTop() <= s->GetTop() + 0 && z.GetTop() >= s->GetTop() - 60 && z.die_flag == 0) {
-					z.state = 4;
-					z.cd += 1;
-					if (z.cd >= 100 && s->hp > 0) {
-						z.cd = 0;
-						s->hp -= 50;
-					}
-					if (s->hp <= 0) {
-						for (auto& zz : basic_zombie) {
-							if (zz.state == 4) {
-								zz.cd = 0;
-								zz.state = 0;
-								zz.speed = -1;
-							}
-						}
-						clear_seat((int)s->GetCoordinateX(), (int)s->GetCoordinateY());
-					}
-				}
-			}
 			//double_bean-------------------------------------
-			for (auto &db : double_bean) {
-				if (z.GetLeft() <= db.GetLeft() + 30 && z.GetLeft() >= db.GetLeft() + 20 && z.GetTop() <= db.GetTop() + 0 && z.GetTop() >= db.GetTop() - 60 && z.die_flag == 0) {
-					z.state = 4;
-					z.cd += 1;
-					if (z.cd >= 100 && db.hp > 0) {
-						z.cd = 0;
-						db.hp -= 30;
-					}
-					if (db.hp <= 0) {
-						for (auto& zz : basic_zombie) {
-							if (zz.state == 4) {
-								zz.cd = 0;
-								zz.state = 0;
-								zz.speed = -1;
-							}
-						}
-						clear_seat((int)db.GetCoordinateX(), (int)db.GetCoordinateY());
-					}
-				}
-				//--------------------------------------------
-			}
-		}
 
 		for (auto&zom : zombies) {
 			for (auto &s : plantManager.GetPlants()) {
-				if (zom->GetLeft() <= s->GetLeft() + 30 && zom->GetLeft() >= s->GetLeft() + 20 && zom->GetTop() <= s->GetTop() + 0 && zom->GetTop() >= s->GetTop() - 60 && zom->die_flag == 0) {
+				if (s->GetIsPlace()&&(zom->GetLeft() <= s->GetLeft() + 30 && zom->GetLeft() >= s->GetLeft() + 20 && zom->GetTop() <= s->GetTop() + 0 && zom->GetTop() >= s->GetTop() - 60 && zom->die_flag == 0) ){
 					zom->state = 4;
 					zom->cd += 1;
 					if (zom->cd >= 100 && s->hp > 0) {
@@ -246,52 +172,12 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					if (s->hp <= 0) {
 						for (auto& z : zombies) {
 							if (z->state == 4) {
-								z->cd = 0;
+   								z->cd = 0;
 								z->state = 0;
 								z->speed = -1;
 							}
 						}
 						clear_seat((int)s->GetCoordinateX(), (int)s->GetCoordinateY());
-					}
-				}
-			}
-			for (auto &b : bean_plant) {
-				if (zom->GetLeft() <= b.GetLeft() + 30 && zom->GetLeft() >= b.GetLeft() + 20 && zom->GetTop() <=b.GetTop() + 0 && zom->GetTop() >= b.GetTop() - 60 && zom->die_flag == 0) {
-					zom->state = 4;
-					zom->cd += 1;
-					if (zom->cd >= 100 && b.hp > 0) {
-						zom->cd = 0;
-						b.hp -= zom->attack;
-					}
-					if (b.hp <= 0) {
-						for (auto& z : zombies) {
-							if (z->state == 4) {
-								z->cd = 0;
-								z->state = 0;
-								z->speed = -1;
-							}
-						}
-						clear_seat((int)b.GetCoordinateX(), (int)b.GetCoordinateY());
-					}
-				}
-			}
-			for (auto &db : double_bean) {
-				if (zom->GetLeft() <= db.GetLeft() + 30 && zom->GetLeft() >= db.GetLeft() + 20 && zom->GetTop() <= db.GetTop() + 0 && zom->GetTop() >= db.GetTop() - 60 && zom->die_flag == 0) {
-					zom->state = 4;
-					zom->cd += 1;
-					if (zom->cd >= 100 && db.hp > 0) {
-						zom->cd = 0;
-						db.hp -= zom->attack;
-					}
-					if (db.hp <= 0) {
-						for (auto& z : zombies) {
-							if (z->state == 4) {
-								z->cd = 0;
-								z->state = 0;
-								z->speed = -1;
-							}
-						}
-						clear_seat((int)db.GetCoordinateX(), (int)db.GetCoordinateY());
 					}
 				}
 			}
@@ -301,30 +187,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		//--------------------------------
 		
 		for (auto &car : carList) {
-			for(auto&z : basic_zombie)
-			{
-				if (car.GetLeft() >= z.GetLeft() + 0 && car.GetLeft() <= z.GetLeft() + 100 && car.GetTop() >= z.GetTop() + 0 && car.GetTop() <= z.GetTop() + 100)
-				{
-					car.Trigger();
-					z.state=3;
-				}
-			}
-			for (auto&t : tri_zombie)
-			{
-				if (car.GetLeft() >= t.GetLeft() + 0 && car.GetLeft() <= t.GetLeft() + 100 && car.GetTop() >= t.GetTop() + 0 && car.GetTop() <= t.GetTop() + 100)
-				{
-					car.Trigger();
-					t.state = 3;
-				}
-			}
-			for (auto&bz : bucket_zombie)
-			{
-				if (car.GetLeft() >= bz.GetLeft() + 0 && car.GetLeft() <= bz.GetLeft() + 100 && car.GetTop() >= bz.GetTop() + 0 && car.GetTop() <= bz.GetTop() + 100)
-				{
-					car.Trigger();
-					bz.state = 3;
-				}
-			}
 			for (auto&zom : zombies) {
 				if (car.GetLeft() >= zom->GetLeft() + 0 && car.GetLeft() <= zom->GetLeft() + 100 && car.GetTop() >= zom->GetTop() + 0 && car.GetTop() <= zom->GetTop() + 100)
 				{
@@ -355,8 +217,6 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	L2_map.SetTopLeft(0, 0);
 	fight_background.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/BG1.bmp" });
 	fight_background.SetTopLeft(0, 0);
-	for(auto& b:bean_plant) b.init();
-	for (auto& db : double_bean) db.init();
 	load_sunback();
 
 	load_sunflower_card();
@@ -372,6 +232,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	load_plant_win_picture();
 
 	plantManager.setSunmanager(sun_manager);
+	plantManager.setPbmanager(pb_manager);
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -473,9 +334,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 	if (CMovingBitmap::IsCardClick(pointx, pointy, peashooter_card)&&money>=100) { //245 15  330 50
 		item = 1;
 		place_flag = 1;
-		Bean newflower = Bean();
-		newflower.init();
-		bean_plant.push_back(newflower);
+		plantManager.MakePlant(PlantType::BEAN_PLANT,mousePosition);
 	}
 	
 	if (CMovingBitmap::IsCardClick(pointx, pointy, nut_card) && money >= 75) {
@@ -487,9 +346,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 	if (CMovingBitmap::IsCardClick(pointx, pointy, db_card) && money >= 100 && Map::level != 1) {
 		item = 3;
 		place_flag = 1;
-		Double_bean d = Double_bean();
-		d.init();
-		double_bean.push_back(d);
+		plantManager.MakePlant(PlantType::DOUBLE_BEAN,mousePosition);
 	}
 
 	if (pointx >= plant_win_picture.GetLeft() + 0 && pointx <= plant_win_picture.GetLeft() + 50 && pointy >= plant_win_picture.GetTop() + 0 && pointy <= plant_win_picture.GetTop() + 75) {
@@ -514,13 +371,6 @@ void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動
 	pointx = point.x;
 	pointy = point.y;
 	plantManager.OnMouseMove({ static_cast<float>(point.x),static_cast<float>(point.y)});
-	if (!bean_plant.empty()&&!bean_plant.back().GetIsPlace()) {
-		bean_plant.back().SetTopLeft(pointx - 32, pointy - 25);
-	}
-	if (!double_bean.empty() && !double_bean.back().GetIsPlace()) {
-		double_bean.back().SetTopLeft(pointx - 32, pointy - 25);
-	}
-	
 }
 
 void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
@@ -535,77 +385,23 @@ void CGameStateRun::OnShow()
 {
 	if (Map::level == 1) {
 		L1_map.ShowBitmap();
-		if (BG1_flag1 == 2) {
-			for (auto &zom : zombies) zom->show();
-			if (basic_counter < ZOMBIE_END) call_time += 1;
-			if (call_time == 200) {
-				auto z = make_shared<Basic_zombie>();
-				z->init();
-				z->SetTopLeft(950, zb_y_random());
-				zombies.push_back(z);
-				basic_counter += 1;
-				call_time = 0;
-			}
-			//召喚殭屍------------------------------------
-			sun_manager->ShowSun();
-			for (auto&car : carList) {
-				car.ShowBitmap();
-			}
-			plantManager.Show();
-			
-		}
 	}
 	else if (Map::level == 2) {
 		L2_map.ShowBitmap();
-		if (BG1_flag1 == 2) {
-			for (auto &zom : zombies) zom->show();
-			if (basic_counter < 3) call_time += 1;
-			if (call_time == 200) {
-				auto z = make_shared<Basic_zombie>();
-				z->init();
-				z->SetTopLeft(950, zb_y_random());
-				zombies.push_back(z);
-				basic_counter += 1;
-				call_time = 0;
-			}
-			if (tri_counter < 3) tri_call_time += 1;
-			call_tir_zombie(); //召喚三角殭屍
-			//召喚殭屍------------------------------------
-			sun_manager->ShowSun();
-			for (auto&car : carList) {
-				car.ShowBitmap();
-			}
-			plantManager.Show();
-		}
 	}
 	else if (Map::level == 3) {
 		fight_background.ShowBitmap();
-		if (BG1_flag1 == 2) {
-			for (auto &zom : zombies) zom->show();
-			if (basic_counter < 3) call_time += 1;
-			if (call_time == 200) {
-				auto z = make_shared<Basic_zombie>();
-				z->init();
-				z->SetTopLeft(950, zb_y_random());
-				zombies.push_back(z);
-				basic_counter += 1;
-				call_time = 0;
-			}
-			if (tri_counter < 3) tri_call_time += 1;
-			call_tir_zombie(); //召喚三角殭屍
-			if (bucket_counter < 3) bucketcall_time += 1;
-			call_bucket_zombie();
-			//召喚殭屍------------------------------------
-			sun_manager->ShowSun();
-			for (auto&car : carList) {
-				car.ShowBitmap();
-			}
-			plantManager.Show();
+	}
+	if (BG1_flag1 == 2) {
+		for (auto &zom : zombies) zom->show();
+		pb_manager->Show();
+		for (auto&car : carList) {
+			car.ShowBitmap();
 		}
+		plantManager.Show();
+		sun_manager->ShowSun();
 	}
 
-	for(auto &b : bean_plant) b.show();
-	for (auto &db : double_bean) db.show();
 	sunback.ShowBitmap();
 
 
@@ -826,10 +622,7 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 					money -= 50;
 				}
 				else if (item == (int)PlantType::BEAN_PLANT) {
-					auto &newflower = bean_plant.back();
-					newflower.SetTopLeft(207+BLOCK_WIDTH*x, 100+BLOCK_HEIGHT*y);
-					newflower.SetCoordinate(x,y);
-					newflower.SetIsPlace(true);
+					plantManager.OnLButtonDown({(float)x,(float)y});
 					money -= 100;
 				}
 				else if (item == (int)PlantType::NUT_PLANT) {
@@ -837,10 +630,7 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 					money -= 75;
 				}
 				else if (item == (int)PlantType::DOUBLE_BEAN) {
-					auto &newdb = double_bean.back();
-					newdb.SetTopLeft(207 + BLOCK_WIDTH * x, 100 + BLOCK_HEIGHT * y);
-					newdb.SetCoordinate(x, y);
-					newdb.SetIsPlace(true);
+					plantManager.OnLButtonDown({(float)x,(float)y});
 					money -= 200;
 				}
 				place_flag = 0;
@@ -869,11 +659,9 @@ void CGameStateRun::reset() {
 		carList.push_back(newcar);
 	}
 	//豌豆-----------------------
-	bean_plant.clear();
 	//-----------------------------
 
 	//雙豌豆-----------------------
-	double_bean.clear();
 	//-----------------------------
 	//map-------------
 	place_flag = 0;
@@ -895,6 +683,7 @@ void CGameStateRun::reset() {
 
 	//小太陽-----------
 	sun_manager->clear_sun();
+	pb_manager->clear();
 	sun_cooldown = 0;
 	//-----------------
 	
@@ -927,14 +716,6 @@ void CGameStateRun::draw_text() {
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 900, 430, std::to_string(zombies.size()));
 
-	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 900, 485, std::to_string(basic_zombie.size()));
-
-	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 900, 515, std::to_string(tri_zombie.size()));
-
-	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 900, 545, std::to_string(bucket_zombie.size()));
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 50, 50, std::to_string(Map::level));

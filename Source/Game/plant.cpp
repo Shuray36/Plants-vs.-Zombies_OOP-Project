@@ -21,26 +21,32 @@ void Plant::Init()
 {
     PZGameObject::Init();
     attack.Set(100,0);
-    hp = 100;
     _isPlace = false;
+    
+	LoadBitmapByString(filePath, fileColor);
+	SetAnimation(_cycleTime, false);
+	ToggleAnimation();
 }
 
 void Plant::Update()
 {
-    if(attack.counter>=attack.cycle)
+    if(GetIsPlace())
     {
-        if(CanAttack())
+        if(attack.counter>=attack.cycle)
         {
-            Attack();
-            attack.counter =0;
+            if(CanAttack())
+            {
+                Attack();
+                attack.counter =0;
+            }
+        }else
+        {
+            attack.counter+=PZTIME;
         }
-    }else
-    {
-        attack.counter+=PZTIME;
-    }
-    if(hp<=0)
-    {
-        SetActive(false);
+        if(hp<=0)
+        {
+            SetActive(false);
+        }
     }
 }
 
@@ -57,6 +63,13 @@ void Plant::SetCoordinate(float x, float y)
 void Plant::SetCoordinate(Vector2 v)
 {
     coordinate = v;
+}
+
+void Plant::SetImange(vector<string> path, int color, int cycleTime)
+{
+    filePath = path;
+    fileColor = color;
+    _cycleTime = cycleTime;
 }
 
 void Plant::Show()
@@ -87,4 +100,9 @@ void Plant::SetIsPlace(bool status)
 void Plant::SetAttackCounter(float cycle)
 {
     attack.Set(cycle,0);
+}
+
+float Plant::GetAttackCounter()
+{
+    return attack.cycle;
 }

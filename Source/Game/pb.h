@@ -1,9 +1,26 @@
 #pragma once
 #include "../Library/gameutil.h"
 #include <vector>
-class Pb : public game_framework::CMovingBitmap {
+
+#include "PZGameObject.h"
+
+class Pb : public PZGameObject {
 public:
-	void init();
+	void init() {
+		LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/PB.bmp" }, RGB(255, 255, 255));//440 285
+		SetSpeed({3.0f,0.0f});
+		SetActive(true);
+	}
 	int show_flag = 1;
-	void leave();
+	void Update() override
+	{
+		PZGameObject::Update();
+		if(GetPosition().x>1000)
+		{
+			SetActive(false);
+		}
+	}
+	void leave() {
+		SetTopLeft(999, 999);
+	}
 };

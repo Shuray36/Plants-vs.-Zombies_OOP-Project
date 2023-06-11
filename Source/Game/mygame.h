@@ -153,11 +153,8 @@ namespace game_framework {
 		//----------------------
 		
 		//殭屍---------------
-		vector<Basic_zombie> basic_zombie;
 		int zombie_index = -1;
 		int call_time = 0;
-		vector<Triangle_zombie> tri_zombie;
-		vector<Bucket_zombie> bucket_zombie;
 		int tri_call_time = 0;
 		int bucketcall_time = 0;
 		void call_tir_zombie();
@@ -174,13 +171,10 @@ namespace game_framework {
 		//--------------------------
 
 		//射手-----------------------
-		vector<Bean> bean_plant;
 		//---------------------------
 
 		//堅果--------------------------
 		//------------------------------
-
-		vector<Double_bean> double_bean;
 
 		//太陽記分板-----------------------------------------------------------------
 		CMovingBitmap sunback;
@@ -191,6 +185,7 @@ namespace game_framework {
 		int sun_flag = 0;
 		int sun_cooldown = 0;
 		shared_ptr<SunManager> sun_manager = make_shared<SunManager>();
+		shared_ptr<PbManager> pb_manager = make_shared<PbManager>();
 		//-------------------------------------------------------------------
 
 		//車-----------------------------------------------------------------

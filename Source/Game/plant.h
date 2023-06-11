@@ -12,6 +12,9 @@ enum class PlantStatus
 class Plant :public PZGameObject{
 protected:
 	int state;
+	vector<string> filePath;
+	int fileColor;
+	int _cycleTime;
 	Vector2 coordinate;
 	Counter attack;
 	bool _isPlace;
@@ -25,12 +28,14 @@ public:
 	void SetCoordinate(int x,int y);
 	void SetCoordinate(float x,float y);
 	void SetCoordinate(Vector2 v);
+	void SetImange(vector<string> path,int color, int cycleTime);
 	void Show() override;
 	int GetCoordinateX();
 	int GetCoordinateY();
 	bool GetIsPlace();
 	void SetIsPlace(bool status);
-	void SetAttackCounter(float cycle);;
+	void SetAttackCounter(float cycle);
+	float GetAttackCounter();;
 
 	// will remove
 	int cd;

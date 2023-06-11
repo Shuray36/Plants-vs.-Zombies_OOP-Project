@@ -3,16 +3,8 @@
 #include "../Library/gameutil.h"
 #include "pb.h"
 
-class Double_bean :public Plant {
+class Double_bean :public Bean{
 public:
-	Double_bean() = default;
-
-	int pb_x = 0;
-	int pb_y = 0;
-	void init();
-	void show();
-	void attack();
-	void reload();
-	Pb pb1;
-	Pb pb2;
+	Double_bean() ;
+	void Attack() override;
 };

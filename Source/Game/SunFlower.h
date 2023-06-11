@@ -8,7 +8,7 @@ protected:
 	game_framework::CMovingBitmap sunflower_getsun;
 	shared_ptr<SunManager> sun_manager;
 public:
-	Sunflower() = default;
+	Sunflower();
 	void Init() override;
 	void Attack() override;
 	void show();
