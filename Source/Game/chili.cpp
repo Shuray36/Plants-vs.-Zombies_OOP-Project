@@ -19,6 +19,7 @@ void Chili::init() {
 	SetTopLeft(250, 250);
 	SetAnimation(120, false);
 	ToggleAnimation();
+
 }
 
 void Chili::show() {
