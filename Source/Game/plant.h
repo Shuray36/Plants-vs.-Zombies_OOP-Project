@@ -36,10 +36,9 @@ public:
 	void SetIsPlace(bool status);
 	void SetAttackCounter(float cycle);
 	float GetAttackCycle();
-	float GetAttackCounter();;
+	float GetAttackCounter();
 
 	// will remove
-	int cd;
 	int hp;
 	
 };
