@@ -45,6 +45,7 @@
 #include "double_bean.h"
 #include "Car.h"
 #include "Nut.h"
+#include "chili.h"
 #include "PlantManager.h"
 #include "Sun.h"
 #include "SunFlower.h"
