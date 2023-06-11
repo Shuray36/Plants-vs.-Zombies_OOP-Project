@@ -8,10 +8,9 @@
 #include <string>
 
 
-void Nut::Init()
+Nut::Nut()
 {
-	Plant::Init();
-	LoadBitmapByString({ "Plants_vs_Zombies_Image/plants/nut_one/nut_one_0.bmp",
+	SetImange({ "Plants_vs_Zombies_Image/plants/nut_one/nut_one_0.bmp",
 		"Plants_vs_Zombies_Image/plants/nut_one/nut_one_1.bmp",
 		"Plants_vs_Zombies_Image/plants/nut_one/nut_one_2.bmp",
 		"Plants_vs_Zombies_Image/plants/nut_one/nut_one_3.bmp",
@@ -27,9 +26,7 @@ void Nut::Init()
 		"Plants_vs_Zombies_Image/plants/nut_one/nut_one_13.bmp",
 		"Plants_vs_Zombies_Image/plants/nut_one/nut_one_14.bmp",
 		"Plants_vs_Zombies_Image/plants/nut_one/nut_one_15.bmp",
-		}, RGB(0, 0, 0));
-	SetAnimation(100, false);
-	ToggleAnimation();
+		}, RGB(0, 0, 0), 100);
 	hp = 200;
 }
 
