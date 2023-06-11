@@ -40,7 +40,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	pb_manager->Update();
 	pb_manager->SetZombies(zombies);
 
-	if(Map::level == 3)
+	if(Map::level == 1)
 	{
 		
 			if (basic_counter < ZOMBIE_END) call_time += 1;
@@ -227,6 +227,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	load_nut_gray_card();
 	load_db_card();
 	load_db_gray_card();
+	load_chili_card();
 
 	load_zombie_win_picture();
 	load_plant_win_picture();
@@ -425,6 +426,9 @@ void CGameStateRun::OnShow()
 	}
 	if (money >= 200) db_flag = 1;
 	else if (money < 200) db_flag = 0;
+	
+	if (money >= 150) chili_flag = 1;
+	else if (money < 150) chili_flag = 0;
 
 
 	if (pershooter_flag == 0) {
@@ -453,6 +457,12 @@ void CGameStateRun::OnShow()
 	}
 	else if (db_flag == 1 && Map::level != 1) {
 		db_card.ShowBitmap();
+	}
+	if (chili_flag == 0) {
+		chili_gray_card.ShowBitmap();
+	}
+	else if (chili_flag == 1) {
+		chili_card.ShowBitmap();
 	}
 	
 	if (overflag == 1) {
@@ -580,6 +590,13 @@ void CGameStateRun::load_db_gray_card() {
 	db_gray_card.SetTopLeft(570, 0);
 }
 
+void CGameStateRun::load_chili_card() {
+	chili_card.LoadBitmapByString({"Plants_vs_Zombies_Image/card/chili_card/chili_card.bmp"}, RGB(0, 0, 0));
+	chili_card.SetTopLeft(690, 0);
+
+	chili_gray_card.LoadBitmapByString({"Plants_vs_Zombies_Image/card/chili_card/chili_gray_card.bmp"}, RGB(0, 0, 0));
+	chili_gray_card.SetTopLeft(690, 0);
+}
 
 void CGameStateRun::place_seat(int targetx, int targety,int item){
 	

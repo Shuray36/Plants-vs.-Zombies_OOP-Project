@@ -217,7 +217,11 @@ namespace game_framework {
 		CMovingBitmap db_gray_card;
 		void load_db_gray_card();
 		int db_flag = 0;
-
+		//辣椒------------------------------------------------------
+		CMovingBitmap chili_card;
+		void load_chili_card();
+		CMovingBitmap chili_gray_card;
+		int chili_flag = 0;
 		//-------------------------------------------------------------------
 		//地圖 位置左上(200,85) 右上(940,85) 左下(200,570) 右下(940,570)
 
