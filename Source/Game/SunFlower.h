@@ -11,9 +11,7 @@ public:
 	Sunflower();
 	void Init() override;
 	void Attack() override;
-	void show();
-	void skillUpdate();
-	int getsun_flag = 0;
-	int cd_keep = 0;
+	void Show() override;
+	void SetPosition(Vector2 position);
 	void setSunmanager(shared_ptr<SunManager> sm);
 };

@@ -66,35 +66,22 @@ void Sunflower::Attack()
 	sun_manager->makeSun({(float)GetLeft() + 65, (float)GetTop() });
 }
 
-
-
-void Sunflower::show() {
-	if (hp > 0 && state == 0) {
-		ShowBitmap();
-	}
-	else if (hp > 0 && state == 1) {
-		sunflower_getsun.SetTopLeft(GetLeft(), GetTop());
-		sunflower_getsun.ShowBitmap();
-		if (cd_keep >= 120)
-		{
-			cd = 0;
-			cd_keep = 0;
-			getsun_flag = 1;
-			sun_manager->makeSun({(float)GetLeft() + 65, (float)GetTop() });
-			state = 0;
-		}
-	}
-}
-
-void Sunflower::skillUpdate()
+void Sunflower::Show()
 {
-	cd += 1;
-	if (cd >= 245) {
-		cd_keep += 1;
-		state = 1;
+	if(GetAttackCounter()>GetAttackCycle()*0.8)
+	{
+		sunflower_getsun.ShowBitmap();
+	}else
+	{
+		Plant::Show();
 	}
 }
 
+void Sunflower::SetPosition(Vector2 position)
+{
+	PZGameObject::SetPosition(position);
+	sunflower_getsun.SetTopLeft((int)position.x,(int)position.y);
+}
 
 void Sunflower::setSunmanager(shared_ptr<SunManager> sm)
 {

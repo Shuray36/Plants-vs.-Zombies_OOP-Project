@@ -35,6 +35,7 @@ public:
 	bool GetIsPlace();
 	void SetIsPlace(bool status);
 	void SetAttackCounter(float cycle);
+	float GetAttackCycle();
 	float GetAttackCounter();;
 
 	// will remove
