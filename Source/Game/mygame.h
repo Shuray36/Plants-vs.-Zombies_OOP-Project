@@ -132,7 +132,6 @@ namespace game_framework {
 		int test = 0;
 		//main
 		PlantManager plantManager;
-		//CMovingBitmap chili;
 		int pointx = 0;
 		int pointy = 0;
 		int money = 1000;
@@ -181,9 +180,6 @@ namespace game_framework {
 		//堅果--------------------------
 		//------------------------------
 
-		//辣椒--------------------------
-		vector<Chili> chili_plant;
-		//-----------------------------
 		vector<Double_bean> double_bean;
 
 		//太陽記分板-----------------------------------------------------------------
