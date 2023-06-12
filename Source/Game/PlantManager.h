@@ -38,5 +38,8 @@ public:
 	void MakePlant(PlantType type, Vector2 position);
 
 	void clear_plant();
+
+	void PlantByShovel(Vector2 coordinate);
+
 	int plant_size();
 };

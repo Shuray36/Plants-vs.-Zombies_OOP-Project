@@ -130,3 +130,11 @@ int PlantManager::plant_size()
 {
     return (int)plants.size();
 }
+
+void PlantManager::PlantByShovel(Vector2 coordinate) {
+	for (auto &p : plants) {
+		if (p->GetCoordinateX() == (int)coordinate.x && p->GetCoordinateY() == (int)coordinate.y) {
+			p->hp -= 9999;
+		}
+	}
+}

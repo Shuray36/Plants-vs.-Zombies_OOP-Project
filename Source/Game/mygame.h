@@ -242,6 +242,7 @@ namespace game_framework {
 		int shovel_flag = 0;
 		CMovingBitmap plant_win_picture;
 		void load_plant_win_picture();
+		void uproot(int x, int y);
 		//--------------------------
 		//reset--------------------
 		void reset();

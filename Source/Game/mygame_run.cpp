@@ -373,6 +373,10 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 		place_seat(pointx, pointy, item);
 	}
 
+	if (shovel_flag == 1) {
+		uproot(pointx, pointy);
+		//shovel_flag = 0;
+	}
 
 }
 
@@ -682,6 +686,31 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 			}
 		}
 	}
+}
+
+void CGameStateRun::uproot(int targetx, int targety) {
+	int map_topleftX = 200;
+	int map_topleftY = 90;
+	for (int y = 0; y < 5; y++) {
+		for (int x = 0; x < 9; x++) {
+			if (targetx >= map_topleftX + x * BLOCK_WIDTH && targetx < map_topleftX + (x + 1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT ) {
+				plantManager.PlantByShovel({ (float)x,(float)y});
+				if (seat[x][y] != 0) {//表示一定有植物
+					for (auto &z : zombies) {
+						if (z->state == 4) {
+							z->state = 0;
+							z->speed = -1;
+						}
+					}
+					clear_seat(x, y);
+				}
+				shovel.SetTopLeft(999, 999);
+				shovel_flag = 0;
+			}
+		}
+	}
+	
+
 }
 
 void  CGameStateRun::clear_seat(int coordinate_x, int coordinate_y) {
