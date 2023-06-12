@@ -40,7 +40,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	pb_manager->Update();
 	pb_manager->SetZombies(zombies);
 
-	if(Map::level == 3)
+	if(Map::level == 1)
 	{
 		
 			if (basic_counter < ZOMBIE_END) call_time += 1;
@@ -217,6 +217,11 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	L2_map.SetTopLeft(0, 0);
 	fight_background.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/BG1.bmp" });
 	fight_background.SetTopLeft(0, 0);
+
+	shovel_box.LoadBitmapByString({"Plants_vs_Zombies_Image/shovel_box.bmp"}, RGB(255, 255, 255));
+	shovel_box.SetTopLeft(870, 0);
+
+	shovel.LoadBitmapByString({ "Plants_vs_Zombies_Image/Shovel1.bmp" }, RGB(255, 255, 255));
 	load_sunback();
 
 	load_sunflower_card();
@@ -227,6 +232,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	load_nut_gray_card();
 	load_db_card();
 	load_db_gray_card();
+	load_chili_card();
 
 	load_zombie_win_picture();
 	load_plant_win_picture();
@@ -348,17 +354,29 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 		place_flag = 1;
 		plantManager.MakePlant(PlantType::DOUBLE_BEAN,mousePosition);
 	}
+	if (CMovingBitmap::IsCardClick(pointx, pointy, chili_card) && money >= 150) {
+		item = 4;
+		place_flag = 1;
+		plantManager.MakePlant(PlantType::CHILI_PLANT, mousePosition);
+	}
 
 	if (pointx >= plant_win_picture.GetLeft() + 0 && pointx <= plant_win_picture.GetLeft() + 50 && pointy >= plant_win_picture.GetTop() + 0 && pointy <= plant_win_picture.GetTop() + 75) {
 		if (overflag == 1) {
 			GotoGameState(GAME_STATE_INIT);
 		}
 	}
+	if (CMovingBitmap::IsCardClick(pointx, pointy, shovel_box) ) {
+		shovel_flag = 1;
+	}
 
 	if (place_flag == 1) {
 		place_seat(pointx, pointy, item);
 	}
 
+	if (shovel_flag == 1) {
+		uproot(pointx, pointy);
+		//shovel_flag = 0;
+	}
 
 }
 
@@ -371,6 +389,11 @@ void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動
 	pointx = point.x;
 	pointy = point.y;
 	plantManager.OnMouseMove({ static_cast<float>(point.x),static_cast<float>(point.y)});
+	if (shovel_flag == 1) {
+		shovel.SetTopLeft(pointx - shovel.GetWidth() / 2-1, pointy - shovel.GetHeight() / 2-1);
+	}
+	
+		
 }
 
 void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
@@ -425,6 +448,9 @@ void CGameStateRun::OnShow()
 	}
 	if (money >= 200) db_flag = 1;
 	else if (money < 200) db_flag = 0;
+	
+	if (money >= 150) chili_flag = 1;
+	else if (money < 150) chili_flag = 0;
 
 
 	if (pershooter_flag == 0) {
@@ -454,7 +480,18 @@ void CGameStateRun::OnShow()
 	else if (db_flag == 1 && Map::level != 1) {
 		db_card.ShowBitmap();
 	}
+	if (chili_flag == 0) {
+		chili_gray_card.ShowBitmap();
+	}
+	else if (chili_flag == 1) {
+		chili_card.ShowBitmap();
+	}
 	
+	shovel_box.ShowBitmap();
+	if (shovel_flag == 1) {
+		shovel.ShowBitmap();
+	}
+
 	if (overflag == 1) {
 		call_time = 0;
 		tri_call_time = 0;
@@ -580,6 +617,13 @@ void CGameStateRun::load_db_gray_card() {
 	db_gray_card.SetTopLeft(570, 0);
 }
 
+void CGameStateRun::load_chili_card() {
+	chili_card.LoadBitmapByString({"Plants_vs_Zombies_Image/card/chili_card/chili_card.bmp"}, RGB(0, 0, 0));
+	chili_card.SetTopLeft(690, 0);
+
+	chili_gray_card.LoadBitmapByString({"Plants_vs_Zombies_Image/card/chili_card/chili_gray_card.bmp"}, RGB(0, 0, 0));
+	chili_gray_card.SetTopLeft(690, 0);
+}
 
 void CGameStateRun::place_seat(int targetx, int targety,int item){
 	
@@ -633,11 +677,40 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 					plantManager.OnLButtonDown({(float)x,(float)y});
 					money -= 200;
 				}
+				else if (item == (int)PlantType::CHILI_PLANT) {
+					plantManager.OnLButtonDown({ (float)x,(float)y });
+					money -= 150;
+				}
 				place_flag = 0;
 				seat[x][y] = 2;
 			}
 		}
 	}
+}
+
+void CGameStateRun::uproot(int targetx, int targety) {
+	int map_topleftX = 200;
+	int map_topleftY = 90;
+	for (int y = 0; y < 5; y++) {
+		for (int x = 0; x < 9; x++) {
+			if (targetx >= map_topleftX + x * BLOCK_WIDTH && targetx < map_topleftX + (x + 1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT ) {
+				plantManager.PlantByShovel({ (float)x,(float)y});
+				if (seat[x][y] != 0) {//表示一定有植物
+					for (auto &z : zombies) {
+						if (z->state == 4) {
+							z->state = 0;
+							z->speed = -1;
+						}
+					}
+					clear_seat(x, y);
+				}
+				shovel.SetTopLeft(999, 999);
+				shovel_flag = 0;
+			}
+		}
+	}
+	
+
 }
 
 void  CGameStateRun::clear_seat(int coordinate_x, int coordinate_y) {

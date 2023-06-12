@@ -13,6 +13,7 @@ protected:
 	game_framework::CMovingBitmap zombie_die;
 	game_framework::CMovingBitmap zombie_headfall;
 	game_framework::CMovingBitmap zombie_atk;
+	game_framework::CMovingBitmap zombie_fire;
 public:
 	Zombie() {}
 	~Zombie() = default;

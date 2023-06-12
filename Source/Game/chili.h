@@ -4,7 +4,6 @@
 
 class Chili :public Plant {
 public:
-	Chili() = default;
-	void init();
-	void show();
+	Chili();
+
 };

@@ -5,12 +5,14 @@
 #include "PbManager.h"
 #include "plant.h"
 #include "SunFlower.h"
+#include "chili.h"
 
 enum class PlantType {
 	SUN_FLOWER=0,
 	BEAN_PLANT=1,
 	NUT_PLANT=2,
-	DOUBLE_BEAN=3
+	DOUBLE_BEAN=3,
+	CHILI_PLANT=4
 };
 class PlantManager
 {
@@ -36,5 +38,8 @@ public:
 	void MakePlant(PlantType type, Vector2 position);
 
 	void clear_plant();
+
+	void PlantByShovel(Vector2 coordinate);
+
 	int plant_size();
 };
