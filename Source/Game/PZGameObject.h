@@ -17,7 +17,7 @@ private:
     Vector2 _speed;
     
 public:
-    void SetPosition(Vector2 position);
+    virtual void SetPosition(Vector2 position);
     void SetPositionByCenter(Vector2 position);
     Vector2 GetPosition();
     void SetActive(bool active);
