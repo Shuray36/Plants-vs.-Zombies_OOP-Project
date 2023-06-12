@@ -20,6 +20,7 @@ protected:
 	bool _isPlace;
 	virtual bool CanAttack(); //override it to let different plant attack 
 	virtual void Attack(); // override it to make different attack
+
 public:
 	Plant() = default;
 	~Plant() = default;

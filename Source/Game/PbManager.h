@@ -17,5 +17,6 @@ public:
     void SetZombies(vector<shared_ptr<Zombie>> z)
     {
         zombies = z;
+
     }
 };

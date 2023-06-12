@@ -89,12 +89,32 @@ void Basic_zombie::init() {
 		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_19.bmp", 
 		"Plants_vs_Zombies_Image/zombie/zombie_eat/zom_eat_20.bmp", }, RGB(255, 255, 255));
 	
-	
 	zombie_atk.SetTopLeft(zombie.GetLeft(), zombie.GetTop());
 	zombie_atk.SetAnimation(120, false);
 	zombie_atk.ToggleAnimation();
 	
-	
+	zombie_fire.LoadBitmapByString({"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_0.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_1.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_2.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_3.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_4.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_5.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_6.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_7.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_8.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_9.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_10.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_11.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_12.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_13.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_14.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_15.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_16.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_17.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_18.bmp", 
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_19.bmp", }, RGB(255, 255, 255));
+	zombie_fire.SetAnimation(120, true);
+	zombie_fire.ToggleAnimation();
 
 	attack = 30;
 }
@@ -127,6 +147,13 @@ void Basic_zombie::show() {
 		zombie_atk.ShowBitmap();
 		speed = 0;
 
+	}
+	else if (state == 5) {
+		zombie_fire.SetTopLeft(zombie.GetLeft(), zombie.GetTop());
+		zombie_fire.ShowBitmap();
+		speed = 0;
+		die_flag = 1;
+		if (zombie_fire.IsAnimationDone()) state = 2;
 	}
 }
 

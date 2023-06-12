@@ -24,14 +24,14 @@ void Plant::Init()
     _isPlace = false;
     
 	LoadBitmapByString(filePath, fileColor);
-	SetAnimation(_cycleTime, false);
-	ToggleAnimation();
+	
 }
 
 void Plant::Update()
 {
     if(GetIsPlace())
     {
+		
         if(attack.counter>=attack.cycle)
         {
             if(CanAttack())
@@ -94,6 +94,10 @@ bool Plant::GetIsPlace()
 
 void Plant::SetIsPlace(bool status)
 {
+	if (status == true) {
+		SetAnimation(_cycleTime, false);
+		ToggleAnimation();
+	}
     _isPlace = status;	
 }
 

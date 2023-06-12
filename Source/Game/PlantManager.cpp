@@ -111,7 +111,8 @@ void PlantManager::MakePlant(PlantType type, Vector2 position)
 		{
 			auto chili = make_shared<Chili>();
 			chili->Init();
-			chili->SetAttackCounter(1500);
+			chili->SetAttackCounter(0);
+			chili->SetZombies(zombies);
 			p = chili;
 		}
 		break;

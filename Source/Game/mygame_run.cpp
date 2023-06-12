@@ -36,9 +36,11 @@ void CGameStateRun::OnBeginState()
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {
 	plantManager.Update();
+	plantManager.SetZombies(zombies);
 	sun_manager->Update();
 	pb_manager->Update();
 	pb_manager->SetZombies(zombies);
+	
 
 	if(Map::level == 1)
 	{
@@ -375,7 +377,6 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 
 	if (shovel_flag == 1) {
 		uproot(pointx, pointy);
-		//shovel_flag = 0;
 	}
 
 }
@@ -706,7 +707,7 @@ void CGameStateRun::uproot(int targetx, int targety) {
 				}
 				shovel.SetTopLeft(999, 999);
 				shovel_flag = 0;
-			}
+			} 
 		}
 	}
 	

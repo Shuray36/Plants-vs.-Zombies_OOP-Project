@@ -6,6 +6,7 @@
 #include "plant.h"
 #include "SunFlower.h"
 #include "chili.h"
+#include "zombie.h"
 
 enum class PlantType {
 	SUN_FLOWER=0,
@@ -19,11 +20,20 @@ class PlantManager
 	vector<shared_ptr<Plant>> plants;
 	shared_ptr<SunManager> sun_manager;
 	shared_ptr<PbManager> pb_manager;
+	vector<shared_ptr<Zombie>> zombies;
+
+
 public:
 	vector<shared_ptr<Plant>>& GetPlants()
 	{
 		return plants;
 	}
+	void SetZombies(vector<shared_ptr<Zombie>> z)
+	{
+		zombies = z;
+
+	}
+
 	void setSunmanager(shared_ptr<SunManager> sm);
 	void setPbmanager(shared_ptr<PbManager> sm);
 
