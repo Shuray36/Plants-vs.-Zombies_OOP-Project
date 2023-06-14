@@ -31,7 +31,7 @@ int SunManager::Lbutton(Vector2 point)
     {
         if( s.IsPoint(point) )
         {
-            money+=300;
+            money+=50;
             s.SetActive(false);
         }
     }

@@ -75,6 +75,15 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 		//600 120
 
 	}
+	for (int i = 0; i < 3; i++) {
+		if (pointx >= 120+i*240 && pointx <= 240+ i * 240 && pointy >= 360 && pointy <= 480 && menu_flag == 1) {
+			menu_flag = 0;
+			Map::level = 4+i;
+			GotoGameState(GAME_STATE_RUN);
+
+		}
+	}
+
 	if (pointx >= 476 && pointx <= 797 && pointy >= 80 && pointy <= 188) {
 		menu_flag = 1;
 	}
@@ -101,6 +110,10 @@ void CGameStateInit::OnShow()
 		L1.ShowBitmap();
 		L2.ShowBitmap();
 		L3.ShowBitmap();
+		L4.ShowBitmap();
+		L5.ShowBitmap();
+		L6.ShowBitmap();
+
 	}
 
 
@@ -169,4 +182,13 @@ void CGameStateInit::load_level() {
 
 	L3.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/level_3.bmp" }, RGB(255, 255, 255));
 	L3.SetTopLeft(600, 120);
+
+	L4.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/level_4.bmp" }, RGB(255, 255, 255));
+	L4.SetTopLeft(120, 360);
+
+	L5.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/level_5.bmp" }, RGB(255, 255, 255));
+	L5.SetTopLeft(360, 360);
+
+	L6.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/level_6.bmp" }, RGB(255, 255, 255));
+	L6.SetTopLeft(600, 360);
 }
