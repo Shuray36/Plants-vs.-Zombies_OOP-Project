@@ -44,7 +44,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	{
 		
 			if (basic_counter < ZOMBIE_END) call_time += 1;
-			if (call_time == 200) {
+			if (call_time == 150) {
 				auto z = make_shared<Basic_zombie>();
 				z->init();
 				z->SetTopLeft(950, zb_y_random());
