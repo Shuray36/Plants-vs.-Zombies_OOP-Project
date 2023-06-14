@@ -172,10 +172,11 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 	money+=sun_manager->Lbutton(mousePosition);
 	// sun_flag=1;
 
-	item = -1;
-	item = cardManager.GetItem(pointx,pointy);
-	switch (item)
-	{
+	if(place_flag!=1){
+		item = -1;
+		item = cardManager.GetItem(pointx,pointy);
+		switch (item)
+		{
 		case 0:
 			plantManager.MakePlant(PlantType::SUN_FLOWER,mousePosition);
 			break;
@@ -191,10 +192,11 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 		case 4:
 			plantManager.MakePlant(PlantType::CHILI_PLANT, mousePosition);
 			break;
-	}
-	if(item !=-1)
-	{
-		place_flag = 1;
+		}
+		if(item !=-1)
+		{
+			place_flag = 1;
+		}
 	}
 
 	if (pointx >= plant_win_picture.GetLeft() + 0 && pointx <= plant_win_picture.GetLeft() + 50 && pointy >= plant_win_picture.GetTop() + 0 && pointy <= plant_win_picture.GetTop() + 75) {
@@ -320,57 +322,38 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 	//int seat_x[9];
 	int map_topleftX = 200;
 	int map_topleftY =  90;
+	int miny=0,maxy=5;
 	if (Map::level == 1) {
-		int y = 2;
-		for (int x = 0; x < 9; x++) {
-			if (targetx >= map_topleftX + x * BLOCK_WIDTH && targetx < map_topleftX + (x + 1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT  && plantManager.GetSeat(x,y) != 2) {
-				plantManager.SetSeat(x,y,1);
-			}
-		}
+		miny = 2;
+		maxy = 2;
 	}
 	else if (Map::level == 2) {
-		for (int y = 1; y < 4; y++) {
-			for (int x = 0; x < 9; x++) {
-				if (targetx >= map_topleftX + x * BLOCK_WIDTH && targetx < map_topleftX + (x + 1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT  && plantManager.GetSeat(x,y) != 2) {
-					plantManager.SetSeat(x,y,1);
-				}
-			}
-		}
-	}
-	else {
-		for (int y = 0; y < 5; y++){
-			for (int x = 0; x < 9; x++){
-				if (targetx >= map_topleftX +x*BLOCK_WIDTH && targetx < map_topleftX+(x+1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT  && plantManager.GetSeat(x,y) != 2){
-					plantManager.SetSeat(x,y,1);
-				}
-			}
-		}
+		miny =1;
+		maxy = 1;
 	}
 	
-	
-	for (int y = 0; y < 5; y++){
+	for (int y = miny; y < maxy; y++){
 		for (int x = 0; x < 9; x++){
+			if (targetx >= map_topleftX +x*BLOCK_WIDTH && targetx < map_topleftX+(x+1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT  && plantManager.GetSeat(x,y) != 2){
+				plantManager.SetSeat(x,y,1);
+			}
 			if ( plantManager.GetSeat(x,y)== 1 ) {
 				if (item == (int)PlantType::SUN_FLOWER) {
-					plantManager.OnLButtonDown({(float)x,(float)y});
 					money -= 50;
 				}
 				else if (item == (int)PlantType::BEAN_PLANT) {
-					plantManager.OnLButtonDown({(float)x,(float)y});
 					money -= 100;
 				}
 				else if (item == (int)PlantType::NUT_PLANT) {
-					plantManager.OnLButtonDown({(float)x,(float)y});
 					money -= 75;
 				}
 				else if (item == (int)PlantType::DOUBLE_BEAN) {
-					plantManager.OnLButtonDown({(float)x,(float)y});
 					money -= 200;
 				}
 				else if (item == (int)PlantType::CHILI_PLANT) {
-					plantManager.OnLButtonDown({ (float)x,(float)y });
 					money -= 150;
 				}
+				plantManager.OnLButtonDown({(float)x,(float)y});
 				place_flag = 0;
 				plantManager.SetSeat(x,y,2);
 			}
