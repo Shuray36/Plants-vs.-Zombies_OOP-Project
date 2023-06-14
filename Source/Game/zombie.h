@@ -17,7 +17,7 @@ protected:
 public:
 	Zombie() {}
 	~Zombie() = default;
-	virtual void show();
+	void show();
 	virtual void init();
 	int hp = 100;
 	void SetTopLeft(int x,int y);
