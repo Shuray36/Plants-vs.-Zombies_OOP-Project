@@ -2,7 +2,10 @@
 #include <memory>
 #include <vector>
 
+#include "plant.h"
 #include "zombie.h"
+
+class Plant;
 
 class ZombieManager
 {
@@ -62,9 +65,26 @@ public:
 		}
 		return result;
 	}
-	void Update()
+	void Update(vector<shared_ptr<Plant>> plants)
 	{
-		for (auto&zom : zombies)zom->SetTopLeft(zom->GetLeft() + zom->speed, zom->GetTop());
+		for (auto&zom : zombies)
+		{
+			zom->SetTopLeft(zom->GetLeft() + zom->speed, zom->GetTop());
+			for (auto &s : plants)
+			{
+				if (s->GetIsPlace()&&(zom->GetLeft() <= s->GetLeft() + 30 && zom->GetLeft() >= s->GetLeft() + 20 && zom->GetTop() <= s->GetTop() + 0 && zom->GetTop() >= s->GetTop() - 60 && zom->die_flag == 0) ){
+					zom->state = 4;
+					zom->cd += 1;
+					if (zom->cd >= 100 && s->hp > 0) {
+						zom->cd = 0;
+						s->hp -= zom->attack;
+					}
+					if (s->hp <= 0) {
+						SetAllZombieMove();
+					}
+				}
+			}
+		}
 	}
 	
 };

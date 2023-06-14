@@ -111,7 +111,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	
 
 	if (BG1_flag1 == 2) {        //遊戲跑換地圖後正式開始
-		zombieManager.Update();
+		zombieManager.Update(plantManager.GetPlants());
 		//------------------------------------------------------
 		//花開始落下--------------------------------------------z
 		sun_cooldown += 1;
@@ -122,35 +122,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			sun_flag = 0;
 			sun_cooldown = 0;
 		}
-		//植物攻擊-----------
-		//bean射擊
-		//double_bean 射擊
-		//fix me 植物應該在殭屍出現才開始射擊 
-		//-----------------------
-		//殭屍攻擊---------------
-
-			//double_bean-------------------------------------
-
-		for (auto&zom : zombieManager.GetZombies()) {
-			for (auto &s : plantManager.GetPlants()) {
-				if (s->GetIsPlace()&&(zom->GetLeft() <= s->GetLeft() + 30 && zom->GetLeft() >= s->GetLeft() + 20 && zom->GetTop() <= s->GetTop() + 0 && zom->GetTop() >= s->GetTop() - 60 && zom->die_flag == 0) ){
-					zom->state = 4;
-					zom->cd += 1;
-					if (zom->cd >= 100 && s->hp > 0) {
-						zom->cd = 0;
-						s->hp -= zom->attack;
-					}
-					if (s->hp <= 0) {
-						zombieManager.SetAllZombieMove();
-						clear_seat((int)s->GetCoordinateX(), (int)s->GetCoordinateY());
-					}
-				}
-			}
-		}
-
-		//太陽花技能----------------------
-		//--------------------------------
-		
 		for (auto &car : carList) {
 			if(zombieManager.CarTouch(car.GetLeft(),car.GetTop()))
 			{
@@ -539,16 +510,16 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 	if (Map::level == 1) {
 		int y = 2;
 		for (int x = 0; x < 9; x++) {
-			if (targetx >= map_topleftX + x * BLOCK_WIDTH && targetx < map_topleftX + (x + 1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT  && seat[x][y] != 2) {
-				seat[x][y] = 1;
+			if (targetx >= map_topleftX + x * BLOCK_WIDTH && targetx < map_topleftX + (x + 1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT  && plantManager.GetSeat(x,y) != 2) {
+				plantManager.SetSeat(x,y,1);
 			}
 		}
 	}
 	else if (Map::level == 2) {
 		for (int y = 1; y < 4; y++) {
 			for (int x = 0; x < 9; x++) {
-				if (targetx >= map_topleftX + x * BLOCK_WIDTH && targetx < map_topleftX + (x + 1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT  && seat[x][y] != 2) {
-					seat[x][y] = 1;
+				if (targetx >= map_topleftX + x * BLOCK_WIDTH && targetx < map_topleftX + (x + 1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT  && plantManager.GetSeat(x,y) != 2) {
+					plantManager.SetSeat(x,y,1);
 				}
 			}
 		}
@@ -556,8 +527,8 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 	else {
 		for (int y = 0; y < 5; y++){
 			for (int x = 0; x < 9; x++){
-				if (targetx >= map_topleftX +x*BLOCK_WIDTH && targetx < map_topleftX+(x+1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT  && seat[x][y] != 2){
-					seat[x][y] = 1;
+				if (targetx >= map_topleftX +x*BLOCK_WIDTH && targetx < map_topleftX+(x+1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT  && plantManager.GetSeat(x,y) != 2){
+					plantManager.SetSeat(x,y,1);
 				}
 			}
 		}
@@ -566,7 +537,7 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 	
 	for (int y = 0; y < 5; y++){
 		for (int x = 0; x < 9; x++){
-			if (seat[x][y] == 1 ) {
+			if ( plantManager.GetSeat(x,y)== 1 ) {
 				if (item == (int)PlantType::SUN_FLOWER) {
 					plantManager.OnLButtonDown({(float)x,(float)y});
 					money -= 50;
@@ -588,7 +559,7 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 					money -= 150;
 				}
 				place_flag = 0;
-				seat[x][y] = 2;
+				plantManager.SetSeat(x,y,2);
 			}
 		}
 	}
@@ -601,9 +572,9 @@ void CGameStateRun::uproot(int targetx, int targety) {
 		for (int x = 0; x < 9; x++) {
 			if (targetx >= map_topleftX + x * BLOCK_WIDTH && targetx < map_topleftX + (x + 1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT ) {
 				plantManager.PlantByShovel({ (float)x,(float)y});
-				if (seat[x][y] != 0) {//表示一定有植物
+				if (plantManager.GetSeat(x,y) != 0) {//表示一定有植物
 					zombieManager.SetAllZombieMove();
-					clear_seat(x, y);
+					plantManager.ClearSeat(x, y);
 				}
 				shovel.SetTopLeft(999, 999);
 				shovel_flag = 0;
@@ -612,10 +583,6 @@ void CGameStateRun::uproot(int targetx, int targety) {
 	}
 	
 
-}
-
-void  CGameStateRun::clear_seat(int coordinate_x, int coordinate_y) {
-	seat[coordinate_x][coordinate_y] = 0;
 }
 
 void CGameStateRun::reset() {
@@ -634,11 +601,6 @@ void CGameStateRun::reset() {
 	}
 	//map-------------
 	place_flag = 0;
-	for (int x = 0; x < 9; x++) {
-		for (int y = 0; y < 5; y++) {
-			seat[x][y] = 0;
-		}
-	}
 	//---------------
 	//殭屍-----------
 	call_time = 0;

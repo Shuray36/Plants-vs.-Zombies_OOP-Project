@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <memory>
 
 #include "Nut.h"
@@ -19,27 +20,20 @@ class PlantManager
 	vector<shared_ptr<Plant>> plants;
 	shared_ptr<SunManager> sun_manager;
 	shared_ptr<PbManager> pb_manager;
+	int seat[9][5] ;
 public:
-	vector<shared_ptr<Plant>>& GetPlants()
-	{
-		return plants;
-	}
+	vector<shared_ptr<Plant>>& GetPlants();
 	void setSunmanager(shared_ptr<SunManager> sm);
 	void setPbmanager(shared_ptr<PbManager> sm);
-
+	void ClearSeat(int get_coordinate_x, int get_coordinate_y);
 	void Update();
-
 	void Show();
-
 	void OnMouseMove(Vector2 point);
-
+	int GetSeat(int x,int y){return seat[x][y];}
+	void  SetSeat(int x,int y, int item){seat[x][y] = item;}
 	void OnLButtonDown(Vector2 coordinate);
-
 	void MakePlant(PlantType type, Vector2 position);
-
 	void clear_plant();
-
 	void PlantByShovel(Vector2 coordinate);
-
 	int plant_size();
 };
