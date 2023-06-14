@@ -39,25 +39,8 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	sun_manager->Update();
 	pb_manager->Update();
 	pb_manager->SetZombies(zombieManager.GetZombies());
+	zombieManager.UpdateCallZombie(Map::level);
 
-	if (basic_counter < ZOMBIE_END) call_time += 1;
-	if (call_time == 200) {
-		zombieManager.MakeZombie<Basic_zombie>(950, zb_y_random());
-		basic_counter += 1;
-		call_time = 0;
-	}
-	if (Map::level != 1)
-	{
-		if (tri_counter < 3) tri_call_time += 1;
-		call_tir_zombie(); //召喚三角殭屍
-		//召喚殭屍------------------------------------
-	}
-	if (Map::level == 3)
-	{
-		if (bucket_counter < 3) bucketcall_time += 1;
-		call_bucket_zombie();
-		//召喚殭屍------------------------------------
-	}
 	for(auto&car :carList)
 	{
 		car.Update();
@@ -209,14 +192,14 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		zombieManager.MakeZombie<Basic_zombie>(950, 440);
 	}
 	if (nChar == 0x4A) {//j
-		zombieManager.MakeZombie<Basic_zombie>(950, zb_y_random());
+		zombieManager.MakeZombie<Basic_zombie>(Map::level);
 		
 	}
 	if (nChar == 0x4B) {//k
-		zombieManager.MakeZombie<Triangle_zombie>(950, zb_y_random());
+		zombieManager.MakeZombie<Triangle_zombie>(Map::level);
 	}
 	if (nChar == 0x4C) {//L
-		zombieManager.MakeZombie<Bucket_zombie>(950, zb_y_random());
+		zombieManager.MakeZombie<Bucket_zombie>(Map::level);
 	}
 	if (nChar == 0x4F) {//o
 		end_flag = 1;
@@ -398,9 +381,6 @@ void CGameStateRun::OnShow()
 	}
 
 	if (overflag == 1) {
-		call_time = 0;
-		tri_call_time = 0;
-		bucketcall_time = 0;
 		plant_win_picture.SetTopLeft(733, 313);
 		plant_win_picture.ShowBitmap();
 	}
@@ -426,9 +406,6 @@ void CGameStateRun::judge_zombie_victory() {
 	}
 	
 	if (end_flag == 1) {
-		call_time = 0;
-		tri_call_time = 0;
-		bucketcall_time = 0;
 		end_time += 1;
 		if (end_time >= 300) {
 			end_flag = 0;
@@ -603,12 +580,6 @@ void CGameStateRun::reset() {
 	place_flag = 0;
 	//---------------
 	//殭屍-----------
-	call_time = 0;
-	tri_call_time = 0;
-	bucketcall_time= 0;
-	basic_counter = 0;
-	tri_counter = 0;
-	bucket_counter = 0;
 	zombieManager.clear();
 	//---------------
 
@@ -636,51 +607,8 @@ void CGameStateRun::draw_text() {
 	CTextDraw::Print(pDC, 157, 5, std::to_string(money));
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 900, 155, std::to_string(call_time));
-
-	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 900, 185, std::to_string(tri_call_time));
-
-	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 900, 215, std::to_string(bucketcall_time));
-
-	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 50, 50, std::to_string(Map::level));
 
 	CDDraw::ReleaseBackCDC();
 }
 
-int CGameStateRun::zb_y_random() {
-	//[40, 140, 240, 340, 440] 殭屍的道路
-	int zb_y[5];
-	for (int i = 0; i < 5; i++) zb_y[i] = 40 + 100 * i;
-	int ry = 0;
-	if (Map::level == 1) {
-		return 240;
-	}
-	else if (Map::level == 2) {
-		ry = rand() % 3 + 1;
-		return zb_y[ry];
-	}
-	else {
-		ry = rand() % 5;
-		return zb_y[ry];
-	}
-}
-
-void CGameStateRun::call_tir_zombie() {
-	if (tri_call_time == 210) {
-		zombieManager.MakeZombie<Triangle_zombie>(950,zb_y_random());
-		tri_counter += 1;
-		tri_call_time = 0;
-	}
-	
-}
-
-void CGameStateRun::call_bucket_zombie() {
-	if (bucketcall_time == 220) {
-		zombieManager.MakeZombie<Bucket_zombie>(950,zb_y_random());
-		bucket_counter += 1;
-		bucketcall_time = 0;
-	}
-}
