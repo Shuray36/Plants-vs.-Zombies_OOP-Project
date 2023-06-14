@@ -170,28 +170,9 @@ namespace game_framework {
 		CardManager cardManager;
 		//太陽花----------------------------------------------------------
 		//射手----------------------------------------------------
-		CMovingBitmap peashooter_card;
-		void load_peashooter_card();
-		CMovingBitmap peashooter_gray_card;
-		void load_peashooter_gray_card();
-		int pershooter_flag = 0;
 		//堅果----------------------------------------------------
-		CMovingBitmap nut_card;
-		void load_nut_card();
-		CMovingBitmap nut_gray_card;
-		void load_nut_gray_card();
-		int nut_flag = 0;
 		//雙重豌豆射手---------------------------------------------
-		CMovingBitmap db_card;
-		void load_db_card();
-		CMovingBitmap db_gray_card;
-		void load_db_gray_card();
-		int db_flag = 0;
 		//辣椒------------------------------------------------------
-		CMovingBitmap chili_card;
-		void load_chili_card();
-		CMovingBitmap chili_gray_card;
-		int chili_flag = 0;
 		//-------------------------------------------------------------------
 		//地圖 位置左上(200,85) 右上(940,85) 左下(200,570) 右下(940,570)
 

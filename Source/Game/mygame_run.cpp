@@ -102,13 +102,6 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	shovel.LoadBitmapByString({ "Plants_vs_Zombies_Image/Shovel1.bmp" }, RGB(255, 255, 255));
 	load_sunback();
 
-	load_peashooter_gray_card();
-	load_peashooter_card();
-	load_nut_card();
-	load_nut_gray_card();
-	load_db_card();
-	load_db_gray_card();
-	load_chili_card();
 
 	load_zombie_win_picture();
 	load_plant_win_picture();
@@ -181,38 +174,27 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 
 	item = -1;
 	item = cardManager.GetItem(pointx,pointy);
-	if(item !=-1)
-	{
-		place_flag = 1;
-	}
 	switch (item)
 	{
 		case 0:
 			plantManager.MakePlant(PlantType::SUN_FLOWER,mousePosition);
 			break;
+		case 1:
+			plantManager.MakePlant(PlantType::BEAN_PLANT,mousePosition);
+			break;
+		case 2:
+			plantManager.MakePlant(PlantType::NUT_PLANT,mousePosition);
+			break;
+		case 3:
+			plantManager.MakePlant(PlantType::DOUBLE_BEAN,mousePosition);
+			break;
+		case 4:
+			plantManager.MakePlant(PlantType::CHILI_PLANT, mousePosition);
+			break;
 	}
-
-	if (CMovingBitmap::IsCardClick(pointx, pointy, peashooter_card)&&money>=100) { //245 15  330 50
-		item = 1;
+	if(item !=-1)
+	{
 		place_flag = 1;
-		plantManager.MakePlant(PlantType::BEAN_PLANT,mousePosition);
-	}
-	
-	if (CMovingBitmap::IsCardClick(pointx, pointy, nut_card) && money >= 75) {
-		item = 2;
-		place_flag = 1;
-		plantManager.MakePlant(PlantType::NUT_PLANT,mousePosition);
-	}
-
-	if (CMovingBitmap::IsCardClick(pointx, pointy, db_card) && money >= 100 && Map::level != 1) {
-		item = 3;
-		place_flag = 1;
-		plantManager.MakePlant(PlantType::DOUBLE_BEAN,mousePosition);
-	}
-	if (CMovingBitmap::IsCardClick(pointx, pointy, chili_card) && money >= 150) {
-		item = 4;
-		place_flag = 1;
-		plantManager.MakePlant(PlantType::CHILI_PLANT, mousePosition);
 	}
 
 	if (pointx >= plant_win_picture.GetLeft() + 0 && pointx <= plant_win_picture.GetLeft() + 50 && pointy >= plant_win_picture.GetTop() + 0 && pointy <= plant_win_picture.GetTop() + 75) {
@@ -274,53 +256,6 @@ void CGameStateRun::OnShow()
 	}
 
 	sunback.ShowBitmap();
-
-
-	if (money >= 100) {
-		pershooter_flag = 1;
-	}
-	else if (money < 100) {
-		pershooter_flag = 0;
-	}
-	if (money >= 75) {
-		nut_flag = 1;
-	}
-	else if (money < 75) {
-		nut_flag = 0;
-	}
-	if (money >= 200) db_flag = 1;
-	else if (money < 200) db_flag = 0;
-	
-	if (money >= 150) chili_flag = 1;
-	else if (money < 150) chili_flag = 0;
-
-
-	if (pershooter_flag == 0) {
-		peashooter_gray_card.ShowBitmap();
-	}
-	else if (pershooter_flag == 1) {
-		peashooter_card.ShowBitmap();
-	}
-
-	if (nut_flag == 0) {
-		nut_gray_card.ShowBitmap();
-	}
-	else if (nut_flag == 1) {
-		nut_card.ShowBitmap();
-	}
-
-	if (db_flag == 0 && Map::level != 1) {
-		db_gray_card.ShowBitmap();
-	}
-	else if (db_flag == 1 && Map::level != 1) {
-		db_card.ShowBitmap();
-	}
-	if (chili_flag == 0) {
-		chili_gray_card.ShowBitmap();
-	}
-	else if (chili_flag == 1) {
-		chili_card.ShowBitmap();
-	}
 	
 	shovel_box.ShowBitmap();
 	if (shovel_flag == 1) {
@@ -370,26 +305,6 @@ void CGameStateRun::load_sunback() {
 
 }
 
-void CGameStateRun::load_peashooter_gray_card() {
-	peashooter_gray_card.LoadBitmapByString({ "Plants_vs_Zombies_Image/card/peashooter_card/peashooter_gray.bmp" }, RGB(255, 255, 255));
-	peashooter_gray_card.SetTopLeft(350, 0);
-}
-void CGameStateRun::load_peashooter_card() {
-	peashooter_card.LoadBitmapByString({ "Plants_vs_Zombies_Image/card/peashooter_card/peashooter.bmp" }, RGB(255, 255, 255));
-	peashooter_card.SetTopLeft(350, 0);
-}
-
-
-void CGameStateRun::load_nut_gray_card() {
-	nut_gray_card.LoadBitmapByString({ "Plants_vs_Zombies_Image/card/nut_card/nut_card_gray.bmp" }, RGB(0, 0, 0));
-	nut_gray_card.SetTopLeft(460, 0);
-}
-
-void CGameStateRun::load_nut_card() {
-	nut_card.LoadBitmapByString({ "Plants_vs_Zombies_Image/card/nut_card/nut_card.bmp" }, RGB(0, 0, 0));
-	nut_card.SetTopLeft(460, 0);
-}
-
 void CGameStateRun::load_zombie_win_picture() {
 	zombie_win_picture.LoadBitmapByString({ "Plants_vs_Zombies_Image/end/ZombiesWon.bmp" }, RGB(255, 255, 255));
 	zombie_win_picture.SetTopLeft(350, 100);
@@ -398,24 +313,6 @@ void CGameStateRun::load_zombie_win_picture() {
 void CGameStateRun::load_plant_win_picture() {
 	plant_win_picture.LoadBitmapByString({ "Plants_vs_Zombies_Image/end/plantWon.bmp" }, RGB(255, 255, 255));
 	plant_win_picture.SetTopLeft(0, 0);
-}
-
-void CGameStateRun::load_db_card() {
-	db_card.LoadBitmapByString({ "Plants_vs_Zombies_Image/card/double_bean_card/db_card.bmp" }, RGB(255, 255, 255));
-	db_card.SetTopLeft(570, 0);
-}
-
-void CGameStateRun::load_db_gray_card() {
-	db_gray_card.LoadBitmapByString({ "Plants_vs_Zombies_Image/card/double_bean_card/db_gray_card.bmp" }, RGB(255, 255, 255));
-	db_gray_card.SetTopLeft(570, 0);
-}
-
-void CGameStateRun::load_chili_card() {
-	chili_card.LoadBitmapByString({"Plants_vs_Zombies_Image/card/chili_card/chili_card.bmp"}, RGB(0, 0, 0));
-	chili_card.SetTopLeft(690, 0);
-
-	chili_gray_card.LoadBitmapByString({"Plants_vs_Zombies_Image/card/chili_card/chili_gray_card.bmp"}, RGB(0, 0, 0));
-	chili_gray_card.SetTopLeft(690, 0);
 }
 
 void CGameStateRun::place_seat(int targetx, int targety,int item){

@@ -11,9 +11,26 @@ class CardManager
     vector<pair<int,int>> cardPosition;
 public:
     CardManager(){
-        path.push_back({"Plants_vs_Zombies_Image/card/sunflower_card/sunflower_card.bmp" , "Plants_vs_Zombies_Image/card/sunflower_card/sunflower_gray_card.bmp" });
-        cardPosition={{240,0}};
-        price = {50};
+        path.push_back({
+            "Plants_vs_Zombies_Image/card/sunflower_card/sunflower_card.bmp" ,
+            "Plants_vs_Zombies_Image/card/sunflower_card/sunflower_gray_card.bmp" });
+        path.push_back({
+            "Plants_vs_Zombies_Image/card/peashooter_card/peashooter.bmp" ,
+            "Plants_vs_Zombies_Image/card/peashooter_card/peashooter_gray.bmp" });
+        path.push_back({
+             "Plants_vs_Zombies_Image/card/nut_card/nut_card.bmp" ,
+            "Plants_vs_Zombies_Image/card/nut_card/nut_card_gray.bmp" 
+        });
+        path.push_back({
+            "Plants_vs_Zombies_Image/card/double_bean_card/db_card.bmp" ,
+            "Plants_vs_Zombies_Image/card/double_bean_card/db_gray_card.bmp"
+        });
+        path.push_back({
+        "Plants_vs_Zombies_Image/card/chili_card/chili_card.bmp",
+            "Plants_vs_Zombies_Image/card/chili_card/chili_gray_card.bmp"
+        });
+        cardPosition={{240,0},{350,0},{460,0},{570,0},{690,0}};
+        price = {50,100,75,200,150};
     }
     void LoadCard()
     {
