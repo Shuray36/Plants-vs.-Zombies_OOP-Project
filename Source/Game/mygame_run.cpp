@@ -93,7 +93,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			}
 		}
 	}
-	else if (Map::level == 3) {
+	else {
 		if (fight_background.GetLeft() >= (-350) && BG1_flag1 == 0) {
 			fight_background.SetTopLeft(fight_background.GetLeft() - 10, 0);
 			if (fight_background.GetLeft() <= (-350)) {
@@ -115,7 +115,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		//------------------------------------------------------
 		//花開始落下--------------------------------------------z
 		sun_cooldown += 1;
-		if (sun_cooldown >= 200) {
+		if (sun_cooldown >= 700) {
 			int r = (rand() % 900 + 100);
 			int y = (rand() % 700 + 100);
 			sun_manager->makeSun({(float)r,0},{(float)r,(float)y});
@@ -346,7 +346,7 @@ void CGameStateRun::OnShow()
 	else if (Map::level == 2) {
 		L2_map.ShowBitmap();
 	}
-	else if (Map::level == 3) {
+	else {
 		fight_background.ShowBitmap();
 	}
 	if (BG1_flag1 == 2) {
@@ -619,7 +619,7 @@ void  CGameStateRun::clear_seat(int coordinate_x, int coordinate_y) {
 }
 
 void CGameStateRun::reset() {
-	money = 0;
+	money = 100;
 	BG1_flag1 = 0;
 	time = 0;
 	overflag = 0;
@@ -632,11 +632,6 @@ void CGameStateRun::reset() {
 		newcar.Init(i);
 		carList.push_back(newcar);
 	}
-	//豌豆-----------------------
-	//-----------------------------
-
-	//雙豌豆-----------------------
-	//-----------------------------
 	//map-------------
 	place_flag = 0;
 	for (int x = 0; x < 9; x++) {
@@ -658,7 +653,7 @@ void CGameStateRun::reset() {
 	//小太陽-----------
 	sun_manager->clear_sun();
 	pb_manager->clear();
-	sun_cooldown = 0;
+	sun_cooldown = 500;
 	//-----------------
 	
 	plantManager.clear_plant();

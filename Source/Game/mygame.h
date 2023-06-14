@@ -104,6 +104,9 @@ namespace game_framework {
 		CMovingBitmap L1;
 		CMovingBitmap L2;
 		CMovingBitmap L3;
+		CMovingBitmap L4;
+		CMovingBitmap L5;
+		CMovingBitmap L6;
 		void load_level();
 
 	};
@@ -185,7 +188,7 @@ namespace game_framework {
 
 		//小太陽-----------------------------------------------------------------
 		int sun_flag = 0;
-		int sun_cooldown = 0;
+		int sun_cooldown = 500;
 		shared_ptr<SunManager> sun_manager = make_shared<SunManager>();
 		shared_ptr<PbManager> pb_manager = make_shared<PbManager>();
 		//-------------------------------------------------------------------
