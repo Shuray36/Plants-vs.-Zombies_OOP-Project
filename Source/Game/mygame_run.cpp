@@ -46,49 +46,17 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		car.Update();
 	}
 	//遊戲剛開始的移動 往右到一定程度後 往回到原本樣式
-	if (Map::level == 1) {
-		if (L1_map.GetLeft() >= (-350) && BG1_flag1 == 0) {
-			L1_map.SetTopLeft(L1_map.GetLeft() - 10, 0);
-			if (L1_map.GetLeft() <= (-350)) {
-				BG1_flag1 = 1;
-			}
-		}
-		else if (L1_map.GetLeft() <= (350) && BG1_flag1 == 1) {
-			time += 1;
-			if (time >= 20) {
-				L1_map.SetTopLeft(L1_map.GetLeft() + 10, 0);
-				if (L1_map.GetLeft() >= (-50)) BG1_flag1 = 2;
-			}
+	if (fight_background.GetLeft() >= (-350) && BG1_flag1 == 0) {
+		fight_background.SetTopLeft(fight_background.GetLeft() - 10, 0);
+		if (fight_background.GetLeft() <= (-350)) {
+			BG1_flag1 = 1;
 		}
 	}
-	else if (Map::level == 2) {
-		if (L2_map.GetLeft() >= (-350) && BG1_flag1 == 0) {
-			L2_map.SetTopLeft(L2_map.GetLeft() - 10, 0);
-			if (L2_map.GetLeft() <= (-350)) {
-				BG1_flag1 = 1;
-			}
-		}
-		else if (L2_map.GetLeft() <= (350) && BG1_flag1 == 1) {
-			time += 1;
-			if (time >= 20) {
-				L2_map.SetTopLeft(L2_map.GetLeft() + 10, 0);
-				if (L2_map.GetLeft() >= (-50)) BG1_flag1 = 2;
-			}
-		}
-	}
-	else {
-		if (fight_background.GetLeft() >= (-350) && BG1_flag1 == 0) {
-			fight_background.SetTopLeft(fight_background.GetLeft() - 10, 0);
-			if (fight_background.GetLeft() <= (-350)) {
-				BG1_flag1 = 1;
-			}
-		}
-		else if (fight_background.GetLeft() <= (350) && BG1_flag1 == 1) {
-			time += 1;
-			if (time >= 20) {
-				fight_background.SetTopLeft(fight_background.GetLeft() + 10, 0);
-				if (fight_background.GetLeft() >= (-50)) BG1_flag1 = 2;
-			}
+	else if (fight_background.GetLeft() <= (350) && BG1_flag1 == 1) {
+		time += 1;
+		if (time >= 20) {
+			fight_background.SetTopLeft(fight_background.GetLeft() + 10, 0);
+			if (fight_background.GetLeft() >= (-50)) BG1_flag1 = 2;
 		}
 	}
 	
@@ -126,13 +94,6 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		newcar.Init(i);
 		carList.push_back(newcar);
 	}
-
-	L1_map.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/level1_map.bmp" });
-	L1_map.SetTopLeft(0, 0);
-	L2_map.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/level2_map.bmp" });
-	L2_map.SetTopLeft(0, 0);
-	fight_background.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/BG1.bmp" });
-	fight_background.SetTopLeft(0, 0);
 
 	shovel_box.LoadBitmapByString({"Plants_vs_Zombies_Image/shovel_box.bmp"}, RGB(255, 255, 255));
 	shovel_box.SetTopLeft(870, 0);
@@ -294,15 +255,7 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動
 
 void CGameStateRun::OnShow()
 {
-	if (Map::level == 1) {
-		L1_map.ShowBitmap();
-	}
-	else if (Map::level == 2) {
-		L2_map.ShowBitmap();
-	}
-	else {
-		fight_background.ShowBitmap();
-	}
+	fight_background.ShowBitmap();
 	if (BG1_flag1 == 2) {
 		zombieManager.Show();
 		pb_manager->Show();
@@ -590,6 +543,20 @@ void CGameStateRun::reset() {
 	//-----------------
 	
 	plantManager.clear_plant();
+	fight_background.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/BG1.bmp" , "Plants_vs_Zombies_Image/Scenes/level1_map.bmp", "Plants_vs_Zombies_Image/Scenes/level2_map.bmp"  });
+	fight_background.SetTopLeft(0, 0);
+	switch (Map::level)
+	{
+	case 1:
+		fight_background.SetFrameIndexOfBitmap(1);
+		break;
+	case 2:
+		fight_background.SetFrameIndexOfBitmap(2);
+		break;
+	default: ;
+		fight_background.SetFrameIndexOfBitmap(0);
+		break;
+	}
 }
 
 
