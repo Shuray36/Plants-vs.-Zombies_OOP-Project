@@ -1,23 +1,20 @@
-#ifndef ZOMBIE_H
-#define ZOMBIE_H
+#pragma once
+#include "PZGameObject.h"
 
-#include <string>
-
-//using namespace game_framework;
 
 class Zombie {
 protected:
 	int x = 0;
 	int y = 0;
-	game_framework::CMovingBitmap zombie;
-	game_framework::CMovingBitmap zombie_die;
-	game_framework::CMovingBitmap zombie_headfall;
-	game_framework::CMovingBitmap zombie_atk;
-	game_framework::CMovingBitmap zombie_fire;
+	PZGameObject zombie;
+	PZGameObject zombie_die;
+	PZGameObject zombie_headfall;
+	PZGameObject zombie_atk;
+	PZGameObject zombie_fire;
 public:
-	Zombie() {}
+	Zombie() = default;
 	~Zombie() = default;
-	virtual void show();
+	void show();
 	virtual void init();
 	int hp = 100;
 	void SetTopLeft(int x,int y);
@@ -30,7 +27,6 @@ public:
 	int cd = 0;
 };
 
-#endif // ZOMBIE_H
 
 
 

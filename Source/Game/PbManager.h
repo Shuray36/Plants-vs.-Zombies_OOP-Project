@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <vector>
 
 #include "pb.h"
@@ -14,8 +15,5 @@ public:
     void Update();
     void Show();
     void clear();
-    void SetZombies(vector<shared_ptr<Zombie>> z)
-    {
-        zombies = z;
-    }
+    void SetZombies(vector<shared_ptr<Zombie>> z);
 };

@@ -98,39 +98,3 @@ void Basic_zombie::init() {
 
 	attack = 30;
 }
-
-void Basic_zombie::show() {
-	if (hp > 0 && state==0) {
-		//speed = 0;
-		zombie.ShowBitmap();
-	}
-	else if (hp <= 0 && state==1) {
-		
-		zombie_die.SetTopLeft(zombie.GetLeft(), zombie.GetTop());
-		zombie_die.ShowBitmap();
-		speed = 0;
-		die_flag = 1;
-		if(zombie_die.IsAnimationDone()) state = 2;
-	}
-	else if (state == 2) {
-		zombie.SetTopLeft(999, 999);
-	}
-	else if (state == 3) {
-		zombie_headfall.SetTopLeft(zombie.GetLeft(), zombie.GetTop());
-		zombie_headfall.ShowBitmap();
-		speed = 0;
-		die_flag = 1;
-		if (zombie_headfall.IsAnimationDone()) state = 2;
-	}
-	else if (state == 4) {
-		zombie_atk.SetTopLeft(zombie.GetLeft(), zombie.GetTop());
-		zombie_atk.ShowBitmap();
-		speed = 0;
-
-	}
-}
-
-
-void Basic_zombie::loadstate(int state) {
-	
-}

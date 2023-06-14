@@ -54,6 +54,7 @@
 #include "basic_zombie.h"
 #include "triangle_zombie.h"
 #include "bucket_zombie.h"
+#include "ZombieManager.h"
 
 
 namespace game_framework {
@@ -166,8 +167,8 @@ namespace game_framework {
 		int basic_counter = 0;
 		int tri_counter = 0;
 		int bucket_counter = 0;
-		vector<shared_ptr<Zombie>> zombies;
-		
+
+		ZombieManager zombieManager;
 
 		//-------------------
 
