@@ -47,5 +47,20 @@ public:
 	{
 		for (auto &zom : zombies) zom->show();
 	}
+	bool CarTouch(int x,int y){
+		bool result = false;
+		for (auto &zom : zombies)
+		{
+			if (x >= zom->GetLeft() + 0 &&
+			 x <= zom->GetLeft() + 100 &&
+			 y >= zom->GetTop() + 0 &&
+			 y <= zom->GetTop() + 100)
+			{
+				result =true;
+				zom->state = 3;
+			}
+		}
+		return result;
+	}
 	
 };

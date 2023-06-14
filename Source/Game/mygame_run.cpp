@@ -158,12 +158,9 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		//--------------------------------
 		
 		for (auto &car : carList) {
-			for (auto&zom : zombieManager.GetZombies()) {
-				if (car.GetLeft() >= zom->GetLeft() + 0 && car.GetLeft() <= zom->GetLeft() + 100 && car.GetTop() >= zom->GetTop() + 0 && car.GetTop() <= zom->GetTop() + 100)
-				{
-					car.Trigger();
-					zom->state = 3;
-				}
+			if(zombieManager.CarTouch(car.GetLeft(),car.GetTop()))
+			{
+				car.Trigger();
 			}
 		}		
 	}
