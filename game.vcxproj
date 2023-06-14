@@ -266,6 +266,7 @@
     <ClCompile Include="Source\Game\triangle_zombie.cpp" />
     <ClCompile Include="Source\Game\Vector2.cpp" />
     <ClCompile Include="Source\Game\zombie.cpp" />
+    <ClCompile Include="Source\Game\ZombieManager.cpp" />
     <ClCompile Include="Source\Library\audio.cpp" />
     <ClCompile Include="Source\Library\gamecore.cpp" />
     <ClCompile Include="Source\Library\gameutil.cpp">
@@ -301,6 +302,7 @@
     <ClInclude Include="Source\Game\zombie.h" />
     <ClInclude Include="Source\Game\mygame.h" />
     <ClInclude Include="Source\Game\plant.h" />
+    <ClInclude Include="Source\Game\ZombieManager.h" />
     <ClInclude Include="Source\Library\audio.h" />
     <ClInclude Include="Source\Library\gamecore.h" />
     <ClInclude Include="Source\Library\gameutil.h" />
