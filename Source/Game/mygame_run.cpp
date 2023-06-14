@@ -110,8 +110,8 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	}
 	
 
-	if (BG1_flag1 == 2) {        //遊戲跑換地圖後正式開始 
-		for (auto&zom : zombieManager.GetZombies())zom->SetTopLeft(zom->GetLeft() + zom->speed, zom->GetTop());
+	if (BG1_flag1 == 2) {        //遊戲跑換地圖後正式開始
+		zombieManager.Update();
 		//------------------------------------------------------
 		//花開始落下--------------------------------------------z
 		sun_cooldown += 1;
@@ -141,13 +141,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 						s->hp -= zom->attack;
 					}
 					if (s->hp <= 0) {
-						for (auto& z : zombieManager.GetZombies()) {
-							if (z->state == 4) {
-   								z->cd = 0;
-								z->state = 0;
-								z->speed = -1;
-							}
-						}
+						zombieManager.SetAllZombieMove();
 						clear_seat((int)s->GetCoordinateX(), (int)s->GetCoordinateY());
 					}
 				}

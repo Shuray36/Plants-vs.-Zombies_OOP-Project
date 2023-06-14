@@ -62,5 +62,9 @@ public:
 		}
 		return result;
 	}
+	void Update()
+	{
+		for (auto&zom : zombies)zom->SetTopLeft(zom->GetLeft() + zom->speed, zom->GetTop());
+	}
 	
 };
