@@ -87,6 +87,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 {
+	cardManager.LoadCard();
 	int roadNum = 5;
 	for(int i = 0 ;i< roadNum;i++)
 	{
@@ -101,8 +102,6 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	shovel.LoadBitmapByString({ "Plants_vs_Zombies_Image/Shovel1.bmp" }, RGB(255, 255, 255));
 	load_sunback();
 
-	load_sunflower_card();
-	load_sunflower_gray_card();
 	load_peashooter_gray_card();
 	load_peashooter_card();
 	load_nut_card();
@@ -180,10 +179,17 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 	money+=sun_manager->Lbutton(mousePosition);
 	// sun_flag=1;
 
-	if (CMovingBitmap::IsCardClick(pointx, pointy, sunflower_card) && money >= 50) {
-		item = 0;
+	item = -1;
+	item = cardManager.GetItem(pointx,pointy);
+	if(item !=-1)
+	{
 		place_flag = 1;
-		plantManager.MakePlant(PlantType::SUN_FLOWER,mousePosition);
+	}
+	switch (item)
+	{
+		case 0:
+			plantManager.MakePlant(PlantType::SUN_FLOWER,mousePosition);
+			break;
 	}
 
 	if (CMovingBitmap::IsCardClick(pointx, pointy, peashooter_card)&&money>=100) { //245 15  330 50
@@ -264,6 +270,7 @@ void CGameStateRun::OnShow()
 		}
 		plantManager.Show();
 		sun_manager->ShowSun();
+		cardManager.show(money);
 	}
 
 	sunback.ShowBitmap();
@@ -274,12 +281,6 @@ void CGameStateRun::OnShow()
 	}
 	else if (money < 100) {
 		pershooter_flag = 0;
-	}
-	if (money >= 50) {
-		sunflower_flag = 1;
-	}
-	else if (money < 50) {
-		sunflower_flag = 0;
 	}
 	if (money >= 75) {
 		nut_flag = 1;
@@ -299,13 +300,6 @@ void CGameStateRun::OnShow()
 	}
 	else if (pershooter_flag == 1) {
 		peashooter_card.ShowBitmap();
-	}
-
-	if (sunflower_flag == 0) {
-		sunflower_gray_card.ShowBitmap();
-	}
-	else if (sunflower_flag == 1) {
-		sunflower_card.ShowBitmap();
 	}
 
 	if (nut_flag == 0) {
@@ -374,14 +368,6 @@ void CGameStateRun::load_sunback() {
 	sunback.LoadBitmapByString({ "Plants_vs_Zombies_Image/SunBack.bmp", }, RGB(255, 255, 255));
 	sunback.SetTopLeft(115, 0);
 
-}
-void CGameStateRun::load_sunflower_card() {
-	sunflower_card.LoadBitmapByString({ "Plants_vs_Zombies_Image/card/sunflower_card/sunflower_card.bmp" }, RGB(255, 255, 255));
-	sunflower_card.SetTopLeft(240, 0);
-}
-void CGameStateRun::load_sunflower_gray_card() {
-	sunflower_gray_card.LoadBitmapByString({ "Plants_vs_Zombies_Image/card/sunflower_card/sunflower_gray_card.bmp" }, RGB(255, 255, 255));
-	sunflower_gray_card.SetTopLeft(240, 0);
 }
 
 void CGameStateRun::load_peashooter_gray_card() {
