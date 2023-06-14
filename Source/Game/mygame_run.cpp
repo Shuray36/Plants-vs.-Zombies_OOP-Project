@@ -359,7 +359,7 @@ void CGameStateRun::OnShow()
 		fight_background.ShowBitmap();
 	}
 	if (BG1_flag1 == 2) {
-		for (auto &zom : zombieManager.GetZombies()) zom->show();
+		zombieManager.Show();
 		pb_manager->Show();
 		for (auto&car : carList) {
 			car.ShowBitmap();
@@ -448,46 +448,18 @@ void CGameStateRun::OnShow()
 }
 //-------------------------------------------------------------------------------------------
 void CGameStateRun::judge_plant_victory() {
-
-	if (Map::level == 1) {
-		bool overr = true;
-		for (auto&z :zombieManager.GetZombies())
-		{
-			if (z->die_flag != 1)
-			{
-				overr = false;
-			}
-
-		}
-		if (overr && ((int)zombieManager.GetZombies().size() >= ZOMBIE_END)) overflag = 1;
-	}
-	else if (Map::level == 2) {
-		int die_num = 0;
-		for (auto&z : zombieManager.GetZombies()) {
-			die_num += z->die_flag;
-		}
+	int die_num = zombieManager.GetDienum();
+	if (Map::level != 3) {
 		if (die_num == 6) overflag = 1;
 	}
-	else if (Map::level == 3) {
-		int die_num = 0;
-		for (auto&z : zombieManager.GetZombies()) {
-			die_num += z->die_flag;
-		}
+	else {
 		if (die_num == 9) overflag = 1;
 	}
-	
-
 }
 
 void CGameStateRun::judge_zombie_victory() {
 	//結束---------------------
-	bool over = false;
-	for (auto &z : zombieManager.GetZombies()) {
-		if (z->GetLeft() <= 100) {
-			over = true;
-		}
-	}
-	if (over == true) {
+	if (zombieManager.GetZombieWin() == true) {
 		end_flag = 1;
 	}
 	
@@ -639,12 +611,7 @@ void CGameStateRun::uproot(int targetx, int targety) {
 			if (targetx >= map_topleftX + x * BLOCK_WIDTH && targetx < map_topleftX + (x + 1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT ) {
 				plantManager.PlantByShovel({ (float)x,(float)y});
 				if (seat[x][y] != 0) {//表示一定有植物
-					for (auto &z : zombieManager.GetZombies()) {
-						if (z->state == 4) {
-							z->state = 0;
-							z->speed = -1;
-						}
-					}
+					zombieManager.SetAllZombieMove();
 					clear_seat(x, y);
 				}
 				shovel.SetTopLeft(999, 999);
