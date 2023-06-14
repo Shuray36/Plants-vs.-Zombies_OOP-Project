@@ -309,7 +309,6 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 
 	if (shovel_flag == 1) {
 		uproot(pointx, pointy);
-		//shovel_flag = 0;
 	}
 
 }
@@ -659,6 +658,11 @@ void CGameStateRun::reset() {
 	plantManager.clear_plant();
 }
 
+/*
+void CGameStateRun::load_music() {
+	BGM_fight->Load(1, "Plants_vs_Zombies_Image/music/fight.wav");
+}
+*/
 
 
 void CGameStateRun::draw_text() {

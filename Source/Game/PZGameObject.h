@@ -26,7 +26,6 @@ public:
     virtual void Update();
     virtual void Show();
     void SetSpeed(Vector2 s);
-
     //todo isOverlap with _collider
     bool IsPoint(Vector2 p);
 };

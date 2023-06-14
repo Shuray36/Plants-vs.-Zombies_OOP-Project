@@ -41,6 +41,7 @@
 #include "plant.h"
 #include <vector>
 #include "map.h"
+#include "music.h"
 #include "Bean.h"
 #include "double_bean.h"
 #include "Car.h"
@@ -108,6 +109,13 @@ namespace game_framework {
 		CMovingBitmap L5;
 		CMovingBitmap L6;
 		void load_level();
+		//音樂---------------
+		/*
+		CAudio* BGM = CAudio::Instance();
+		void load_music();
+		*/
+		
+		//-------------------
 
 	};
 
@@ -253,6 +261,13 @@ namespace game_framework {
 		//-------------------------
 		//隨機---------------------
 		int zb_y_random();
+		//------------------------
+		//音樂---------------------
+		/*
+		CAudio* BGM_fight = CAudio::Instance();
+		void load_music();
+		*/
+		
 		//------------------------
 		
 	};

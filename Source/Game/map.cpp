@@ -6,8 +6,6 @@
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
 #include "mygame.h"
-//#include "zombie.h"
-//#include "plant.h"
 #include <string>
 #include <random>
 #include "map.h"

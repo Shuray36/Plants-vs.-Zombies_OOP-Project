@@ -9,6 +9,9 @@
 #include "map.h"
 #include <string>
 
+
+//音樂-------------
+//-----------------
 using namespace game_framework;
 /////////////////////////////////////////////////////////////////////////////
 // 這個class為遊戲的遊戲開頭畫面物件
@@ -16,6 +19,7 @@ using namespace game_framework;
 
 CGameStateInit::CGameStateInit(CGame *g) : CGameState(g)
 {
+	
 }
 
 void CGameStateInit::OnInit()
@@ -33,7 +37,11 @@ void CGameStateInit::OnInit()
 	load_level_menu();
 	load_close_button();
 	load_level();
-
+	/*
+	load_music();
+	BGM->Play(0, true);
+	*/
+	
 	ShowInitProgress(66, "Initialize...");
 	Sleep(200);
 	//Sleep(1000);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
@@ -44,6 +52,9 @@ void CGameStateInit::OnInit()
 
 void CGameStateInit::OnBeginState()
 {
+	
+	//BGM->Resume();
+	
 }
 
 void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -58,7 +69,6 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 		menu_flag = 0;
 		Map::level = 1;
 		GotoGameState(GAME_STATE_RUN);
-	
 	}
 	if (pointx >= 360 && pointx <= 480 && pointy >= 120 && pointy <= 240 && menu_flag == 1) {
 		menu_flag = 0;
@@ -115,11 +125,6 @@ void CGameStateInit::OnShow()
 		L6.ShowBitmap();
 
 	}
-
-
-
-
-
 	draw_text();
 }
 
@@ -192,3 +197,9 @@ void CGameStateInit::load_level() {
 	L6.LoadBitmapByString({ "Plants_vs_Zombies_Image/Scenes/level_6.bmp" }, RGB(255, 255, 255));
 	L6.SetTopLeft(600, 360);
 }
+
+/*
+void CGameStateInit::load_music() {
+	BGM->Load(0,"Plants_vs_Zombies_Image/music/Begin.wav");
+}
+*/

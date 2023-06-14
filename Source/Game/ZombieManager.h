@@ -13,7 +13,8 @@ public:
 	void MakeZombie(int x, int y){
 		auto z = std::make_shared<Z>();
 		z->init();
-		z->SetTopLeft(x, y);
+		z->SetPosition({(float)x,(float)y});
+		//z->SetTopLeft(x, y);
 		zombies.push_back(z);
 	}
 	void clear();
@@ -64,7 +65,10 @@ public:
 	}
 	void Update()
 	{
-		for (auto&zom : zombies)zom->SetTopLeft(zom->GetLeft() + zom->speed, zom->GetTop());
+		for (auto&zom : zombies) {
+			zom->Update();
+			//zom->SetTopLeft(zom->GetLeft() + zom->speed, zom->GetTop());
+		}
 	}
 	
 };
