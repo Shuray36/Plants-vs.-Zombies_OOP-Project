@@ -36,6 +36,7 @@ void CGameStateRun::OnBeginState()
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {
 	plantManager.Update();
+	plantManager.SetZombies(zombieManager.GetZombies());
 	sun_manager->Update();
 	pb_manager->Update();
 	pb_manager->SetZombies(zombieManager.GetZombies());

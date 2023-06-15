@@ -24,8 +24,7 @@ void Plant::Init()
     _isPlace = false;
     
 	LoadBitmapByString(filePath, fileColor);
-	SetAnimation(_cycleTime, false);
-	ToggleAnimation();
+	
 }
 
 void Plant::Update()
@@ -89,11 +88,16 @@ int Plant::GetCoordinateY()
 
 bool Plant::GetIsPlace()
 {
+
     return _isPlace;
 }
 
 void Plant::SetIsPlace(bool status)
 {
+	if (status == true) {
+		SetAnimation(_cycleTime, false);
+		ToggleAnimation();
+	}
     _isPlace = status;	
 }
 

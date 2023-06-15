@@ -23,6 +23,7 @@ void Zombie::show() {
 	}
 	else if (state == 2) {
 		SetTopLeft(999, 999);
+		SetPosition({ 999,999 });
 	}
 	else if (state == 3) {
 		zombie_headfall.SetTopLeft(GetLeft(), GetTop());
@@ -35,6 +36,13 @@ void Zombie::show() {
 		zombie_atk.SetTopLeft(GetLeft(), GetTop());
 		zombie_atk.ShowBitmap();
 		SetSpeed({ -0.0f,0.0f });
+	}
+	else if (state == 5) {
+		zombie_fire.SetTopLeft(GetLeft(), GetTop());
+		zombie_fire.ShowBitmap();
+		SetSpeed({ -0.0f,0.0f });
+		die_flag = 1;
+		if (zombie_fire.IsAnimationDone()) state = 2;
 	}
 }
 void Zombie::init() {

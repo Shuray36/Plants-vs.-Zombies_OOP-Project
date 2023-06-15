@@ -7,6 +7,7 @@
 #include "triangle_zombie.h"
 #include "plant.h"
 #include "zombie.h"
+#include "map.h"
 
 class ZombieManager
 {
@@ -90,6 +91,7 @@ public:
 		for (auto&zom : zombies)
 		{
 			zom->Update();
+			//Map::level = zom->state;
 			//zom->SetTopLeft(zom->GetLeft() + zom->speed, zom->GetTop());
 			for (auto &s : plants)
 			{

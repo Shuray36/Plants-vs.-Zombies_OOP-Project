@@ -73,6 +73,29 @@ void Bucket_zombie::init() {
 	zombie_atk.SetTopLeft(GetLeft(), GetTop());
 	zombie_atk.SetAnimation(120, false);
 	zombie_atk.ToggleAnimation();
+	zombie_fire.LoadBitmapByString({ "Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_0.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_1.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_2.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_3.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_4.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_5.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_6.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_7.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_8.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_9.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_10.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_11.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_12.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_13.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_14.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_15.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_16.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_17.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_18.bmp",
+		"Plants_vs_Zombies_Image/zombie/zombie_fire/BoomDie_19.bmp", }, RGB(255, 255, 255));
+	zombie_fire.SetAnimation(120, true);
+	zombie_fire.ToggleAnimation();
+
 
 	SetSpeed({ -0.5f,0.0f });
 	hp = 200;
