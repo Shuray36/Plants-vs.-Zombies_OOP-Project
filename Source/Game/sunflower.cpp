@@ -61,7 +61,7 @@ void Sunflower::Init()
 
 void Sunflower::Attack()
 {
-	sun_manager->makeSun({(float)GetLeft() + 65, (float)GetTop() });
+	sun_manager->makeSun({(float)GetLeft() + 33, (float)GetTop() });
 }
 
 void Sunflower::Show()

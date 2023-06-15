@@ -115,9 +115,12 @@ public:
 			MakeZombie<Basic_zombie>(950, zb_y_random(level));
 			basic_counter += 1;
 			call_time = 0;
-		}else if(basic_counter < 6)
+		}else if(basic_counter < 3)
 		{
-			call_time+=1;
+			call_time += 1;
+		}
+		else if (basic_counter < 6 && level == 1) {
+			call_time += 1;
 		}
 		if(level !=1)
 		{
@@ -135,12 +138,20 @@ public:
 			*/
 			
 		}
-		if(level >= 3){
+		if(level >= 3 && level != 6){
 			if (bucket_counter < 3) bucketcall_time += 1;
 			if (bucketcall_time == 550) {
 				MakeZombie<Bucket_zombie>(950,zb_y_random(level));
 				bucket_counter += 1;
 				bucketcall_time = 0;
+			}
+		}
+		if (level == 6) {
+			if (bucket_counter < 30) bucketcall_time += 1;
+			if (bucketcall_time == 550) {
+				MakeZombie<Bucket_zombie>(950, zb_y_random(level));
+				bucket_counter += 1;
+				bucketcall_time = 450;
 			}
 		}
 	}

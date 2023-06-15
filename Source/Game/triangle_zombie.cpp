@@ -105,6 +105,6 @@ void Triangle_zombie::init() {
 
 
 	SetSpeed({ -0.5f,0.0f });
-	hp = 160;
+	hp = 190;
 	attack = 30;
 }

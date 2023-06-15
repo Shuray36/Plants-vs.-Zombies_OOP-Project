@@ -167,6 +167,7 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		end_flag = 1;
 	}
 	if (nChar == 0x50) {//p
+		zombieManager.clear();
 		overflag = 1;
 	}
 }
@@ -204,13 +205,13 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 		place_flag = 1;
 		plantManager.MakePlant(PlantType::DOUBLE_BEAN,mousePosition);
 	}
-	if (CMovingBitmap::IsCardClick(pointx, pointy, chili_card) && money >= 150) {
+	if (CMovingBitmap::IsCardClick(pointx, pointy, chili_card) && money >= 150 && Map::level == 6 ) {
 		item = 4;
 		place_flag = 1;
 		plantManager.MakePlant(PlantType::CHILI_PLANT, mousePosition);
 	}
 
-	if (pointx >= plant_win_picture.GetLeft() + 0 && pointx <= plant_win_picture.GetLeft() + 50 && pointy >= plant_win_picture.GetTop() + 0 && pointy <= plant_win_picture.GetTop() + 75) {
+	if (pointx >= plant_win_picture.GetLeft() + 0 && pointx <= plant_win_picture.GetLeft() + 100 && pointy >= plant_win_picture.GetTop() + 0 && pointy <= plant_win_picture.GetTop() + 100) {
 		if (overflag == 1) {
 			GotoGameState(GAME_STATE_INIT);
 		}
@@ -322,10 +323,10 @@ void CGameStateRun::OnShow()
 	else if (db_flag == 1 && Map::level != 1) {
 		db_card.ShowBitmap();
 	}
-	if (chili_flag == 0) {
+	if (chili_flag == 0 && Map::level == 6) {
 		chili_gray_card.ShowBitmap();
 	}
-	else if (chili_flag == 1) {
+	else if (chili_flag == 1 && Map::level == 6) {
 		chili_card.ShowBitmap();
 	}
 	
@@ -345,8 +346,14 @@ void CGameStateRun::OnShow()
 //-------------------------------------------------------------------------------------------
 void CGameStateRun::judge_plant_victory() {
 	int die_num = zombieManager.GetDienum();
-	if (Map::level != 3) {
+	if (Map::level != 3 && Map::level != 6) {
 		if (die_num >= 6) overflag = 1;
+	}
+	else if (Map::level == 1) {
+		if (die_num >= 6) overflag = 1;
+	}
+	else if (Map::level >= 6) {
+		if (die_num >= 36) overflag = 1;
 	}
 	else {
 		if (die_num >= 9) overflag = 1;
@@ -518,6 +525,7 @@ void CGameStateRun::uproot(int targetx, int targety) {
 
 void CGameStateRun::reset() {
 	money = 100;
+	if (Map::level == 6) money = 300;
 	BG1_flag1 = 0;
 	time = 0;
 	overflag = 0;

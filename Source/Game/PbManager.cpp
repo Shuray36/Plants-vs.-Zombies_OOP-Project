@@ -9,6 +9,7 @@ void PbManager::MakePb(Vector2 pos,int y)
 			s.init();
 			s.SetPosition(pos);
 			pbs.push_back(s);
+			break;
 		}
 	}
     
@@ -21,6 +22,7 @@ void PbManager::Update()
 		for (auto&zom : zombies)
 		{
 			if (s.GetLeft() <= zom->GetLeft() + 50 && s.GetLeft() >= zom->GetLeft() + 45 && s.GetTop() <= zom->GetTop() + 60 && s.GetTop() >= zom->GetTop() - 0 && zom->die_flag == 0) {
+				s.leave();
 				zom->hp -= 30;
 				if (zom->hp <= 0) {
 					zom->state = 1;

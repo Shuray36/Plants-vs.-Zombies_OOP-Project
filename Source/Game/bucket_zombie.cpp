@@ -96,8 +96,8 @@ void Bucket_zombie::init() {
 	zombie_fire.SetAnimation(120, true);
 	zombie_fire.ToggleAnimation();
 
-
-	SetSpeed({ -0.5f,0.0f });
-	hp = 200;
+	cd = 50;
+	SetSpeed({ -0.7f,0.0f });
+	hp = 230;
 	attack = 60;
 }

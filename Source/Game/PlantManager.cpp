@@ -87,7 +87,7 @@ void PlantManager::MakePlant(PlantType type, Vector2 position)
             auto s=make_shared<Sunflower>();
             s->Init();
             s->setSunmanager(sun_manager);
-            s->SetAttackCounter(3000);
+            s->SetAttackCounter(6300);
             p=s;
         }
         break;
@@ -95,7 +95,7 @@ void PlantManager::MakePlant(PlantType type, Vector2 position)
         {
             auto bean=make_shared<Bean>();
             bean->Init();
-            bean->SetAttackCounter(1500);
+            bean->SetAttackCounter(2500);
             bean->SetPbManager(pb_manager);
             p=bean;
         }
@@ -112,7 +112,7 @@ void PlantManager::MakePlant(PlantType type, Vector2 position)
             
             auto bean=make_shared<Double_bean>();
             bean->Init();
-            bean->SetAttackCounter(1500);
+            bean->SetAttackCounter(2500);
             bean->SetPbManager(pb_manager);
             p=bean;
         }
