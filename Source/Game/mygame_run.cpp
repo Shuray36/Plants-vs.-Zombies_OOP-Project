@@ -39,25 +39,8 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	sun_manager->Update();
 	pb_manager->Update();
 	pb_manager->SetZombies(zombieManager.GetZombies());
+	zombieManager.UpdateCallZombie(Map::level);
 
-	if (basic_counter < ZOMBIE_END) call_time += 1;
-	if (call_time == 200) {
-		zombieManager.MakeZombie<Basic_zombie>(950, zb_y_random());
-		basic_counter += 1;
-		call_time = 0;
-	}
-	if (Map::level != 1)
-	{
-		if (tri_counter < 3) tri_call_time += 1;
-		call_tir_zombie(); //召喚三角殭屍
-		//召喚殭屍------------------------------------
-	}
-	if (Map::level == 3)
-	{
-		if (bucket_counter < 3) bucketcall_time += 1;
-		call_bucket_zombie();
-		//召喚殭屍------------------------------------
-	}
 	for(auto&car :carList)
 	{
 		car.Update();
@@ -111,7 +94,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	
 
 	if (BG1_flag1 == 2) {        //遊戲跑換地圖後正式開始
-		zombieManager.Update();
+		zombieManager.Update(plantManager.GetPlants());
 		//------------------------------------------------------
 		//花開始落下--------------------------------------------z
 		sun_cooldown += 1;
@@ -122,35 +105,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			sun_flag = 0;
 			sun_cooldown = 0;
 		}
-		//植物攻擊-----------
-		//bean射擊
-		//double_bean 射擊
-		//fix me 植物應該在殭屍出現才開始射擊 
-		//-----------------------
-		//殭屍攻擊---------------
-
-			//double_bean-------------------------------------
-
-		for (auto&zom : zombieManager.GetZombies()) {
-			for (auto &s : plantManager.GetPlants()) {
-				if (s->GetIsPlace()&&(zom->GetLeft() <= s->GetLeft() + 30 && zom->GetLeft() >= s->GetLeft() + 20 && zom->GetTop() <= s->GetTop() + 0 && zom->GetTop() >= s->GetTop() - 60 && zom->die_flag == 0) ){
-					zom->state = 4;
-					zom->cd += 1;
-					if (zom->cd >= 100 && s->hp > 0) {
-						zom->cd = 0;
-						s->hp -= zom->attack;
-					}
-					if (s->hp <= 0) {
-						zombieManager.SetAllZombieMove();
-						clear_seat((int)s->GetCoordinateX(), (int)s->GetCoordinateY());
-					}
-				}
-			}
-		}
-
-		//太陽花技能----------------------
-		//--------------------------------
-		
 		for (auto &car : carList) {
 			if(zombieManager.CarTouch(car.GetLeft(),car.GetTop()))
 			{
@@ -238,14 +192,14 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		zombieManager.MakeZombie<Basic_zombie>(950, 440);
 	}
 	if (nChar == 0x4A) {//j
-		zombieManager.MakeZombie<Basic_zombie>(950, zb_y_random());
+		zombieManager.MakeZombie<Basic_zombie>(Map::level);
 		
 	}
 	if (nChar == 0x4B) {//k
-		zombieManager.MakeZombie<Triangle_zombie>(950, zb_y_random());
+		zombieManager.MakeZombie<Triangle_zombie>(Map::level);
 	}
 	if (nChar == 0x4C) {//L
-		zombieManager.MakeZombie<Bucket_zombie>(950, zb_y_random());
+		zombieManager.MakeZombie<Bucket_zombie>(Map::level);
 	}
 	if (nChar == 0x4F) {//o
 		end_flag = 1;
@@ -427,9 +381,6 @@ void CGameStateRun::OnShow()
 	}
 
 	if (overflag == 1) {
-		call_time = 0;
-		tri_call_time = 0;
-		bucketcall_time = 0;
 		plant_win_picture.SetTopLeft(733, 313);
 		plant_win_picture.ShowBitmap();
 	}
@@ -455,9 +406,6 @@ void CGameStateRun::judge_zombie_victory() {
 	}
 	
 	if (end_flag == 1) {
-		call_time = 0;
-		tri_call_time = 0;
-		bucketcall_time = 0;
 		end_time += 1;
 		if (end_time >= 300) {
 			end_flag = 0;
@@ -539,16 +487,16 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 	if (Map::level == 1) {
 		int y = 2;
 		for (int x = 0; x < 9; x++) {
-			if (targetx >= map_topleftX + x * BLOCK_WIDTH && targetx < map_topleftX + (x + 1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT  && seat[x][y] != 2) {
-				seat[x][y] = 1;
+			if (targetx >= map_topleftX + x * BLOCK_WIDTH && targetx < map_topleftX + (x + 1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT  && plantManager.GetSeat(x,y) != 2) {
+				plantManager.SetSeat(x,y,1);
 			}
 		}
 	}
 	else if (Map::level == 2) {
 		for (int y = 1; y < 4; y++) {
 			for (int x = 0; x < 9; x++) {
-				if (targetx >= map_topleftX + x * BLOCK_WIDTH && targetx < map_topleftX + (x + 1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT  && seat[x][y] != 2) {
-					seat[x][y] = 1;
+				if (targetx >= map_topleftX + x * BLOCK_WIDTH && targetx < map_topleftX + (x + 1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT  && plantManager.GetSeat(x,y) != 2) {
+					plantManager.SetSeat(x,y,1);
 				}
 			}
 		}
@@ -556,8 +504,8 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 	else {
 		for (int y = 0; y < 5; y++){
 			for (int x = 0; x < 9; x++){
-				if (targetx >= map_topleftX +x*BLOCK_WIDTH && targetx < map_topleftX+(x+1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT  && seat[x][y] != 2){
-					seat[x][y] = 1;
+				if (targetx >= map_topleftX +x*BLOCK_WIDTH && targetx < map_topleftX+(x+1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT  && plantManager.GetSeat(x,y) != 2){
+					plantManager.SetSeat(x,y,1);
 				}
 			}
 		}
@@ -566,7 +514,7 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 	
 	for (int y = 0; y < 5; y++){
 		for (int x = 0; x < 9; x++){
-			if (seat[x][y] == 1 ) {
+			if ( plantManager.GetSeat(x,y)== 1 ) {
 				if (item == (int)PlantType::SUN_FLOWER) {
 					plantManager.OnLButtonDown({(float)x,(float)y});
 					money -= 50;
@@ -588,7 +536,7 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 					money -= 150;
 				}
 				place_flag = 0;
-				seat[x][y] = 2;
+				plantManager.SetSeat(x,y,2);
 			}
 		}
 	}
@@ -601,9 +549,9 @@ void CGameStateRun::uproot(int targetx, int targety) {
 		for (int x = 0; x < 9; x++) {
 			if (targetx >= map_topleftX + x * BLOCK_WIDTH && targetx < map_topleftX + (x + 1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT ) {
 				plantManager.PlantByShovel({ (float)x,(float)y});
-				if (seat[x][y] != 0) {//表示一定有植物
+				if (plantManager.GetSeat(x,y) != 0) {//表示一定有植物
 					zombieManager.SetAllZombieMove();
-					clear_seat(x, y);
+					plantManager.ClearSeat(x, y);
 				}
 				shovel.SetTopLeft(999, 999);
 				shovel_flag = 0;
@@ -612,10 +560,6 @@ void CGameStateRun::uproot(int targetx, int targety) {
 	}
 	
 
-}
-
-void  CGameStateRun::clear_seat(int coordinate_x, int coordinate_y) {
-	seat[coordinate_x][coordinate_y] = 0;
 }
 
 void CGameStateRun::reset() {
@@ -634,19 +578,8 @@ void CGameStateRun::reset() {
 	}
 	//map-------------
 	place_flag = 0;
-	for (int x = 0; x < 9; x++) {
-		for (int y = 0; y < 5; y++) {
-			seat[x][y] = 0;
-		}
-	}
 	//---------------
 	//殭屍-----------
-	call_time = 0;
-	tri_call_time = 0;
-	bucketcall_time= 0;
-	basic_counter = 0;
-	tri_counter = 0;
-	bucket_counter = 0;
 	zombieManager.clear();
 	//---------------
 
@@ -674,51 +607,8 @@ void CGameStateRun::draw_text() {
 	CTextDraw::Print(pDC, 157, 5, std::to_string(money));
 
 	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 900, 155, std::to_string(call_time));
-
-	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 900, 185, std::to_string(tri_call_time));
-
-	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 900, 215, std::to_string(bucketcall_time));
-
-	CTextDraw::ChangeFontLog(pDC, 24, "微軟正黑體", RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 50, 50, std::to_string(Map::level));
 
 	CDDraw::ReleaseBackCDC();
 }
 
-int CGameStateRun::zb_y_random() {
-	//[40, 140, 240, 340, 440] 殭屍的道路
-	int zb_y[5];
-	for (int i = 0; i < 5; i++) zb_y[i] = 40 + 100 * i;
-	int ry = 0;
-	if (Map::level == 1) {
-		return 240;
-	}
-	else if (Map::level == 2) {
-		ry = rand() % 3 + 1;
-		return zb_y[ry];
-	}
-	else {
-		ry = rand() % 5;
-		return zb_y[ry];
-	}
-}
-
-void CGameStateRun::call_tir_zombie() {
-	if (tri_call_time == 210) {
-		zombieManager.MakeZombie<Triangle_zombie>(950,zb_y_random());
-		tri_counter += 1;
-		tri_call_time = 0;
-	}
-	
-}
-
-void CGameStateRun::call_bucket_zombie() {
-	if (bucketcall_time == 220) {
-		zombieManager.MakeZombie<Bucket_zombie>(950,zb_y_random());
-		bucket_counter += 1;
-		bucketcall_time = 0;
-	}
-}

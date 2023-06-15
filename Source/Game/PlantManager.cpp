@@ -4,6 +4,11 @@
 #include "Bean.h"
 #include "double_bean.h"
 
+vector<shared_ptr<Plant>>& PlantManager::GetPlants()
+{
+    return plants;
+}
+
 void PlantManager::setSunmanager(shared_ptr<SunManager> sm)
 {
     sun_manager = sm;
@@ -11,6 +16,11 @@ void PlantManager::setSunmanager(shared_ptr<SunManager> sm)
 void PlantManager::setPbmanager(shared_ptr<PbManager> sm)
 {
     pb_manager = sm;
+}
+
+void PlantManager::ClearSeat(int x, int y)
+{
+	seat[x][y] = 0;
 }
 
 void PlantManager::Update()
@@ -28,6 +38,7 @@ void PlantManager::Update()
     }
     for(auto& p:removeIndex)
     {
+        ClearSeat(plants[p]->GetCoordinateX(),plants[p]->GetCoordinateY());
         plants.erase(plants.begin()+p);
     }
 }
@@ -68,7 +79,6 @@ void PlantManager::MakePlant(PlantType type, Vector2 position)
     {
         return;
     }
-    //todo
     std::shared_ptr<Plant> p;
     switch (type)
     {
@@ -124,6 +134,11 @@ void PlantManager::MakePlant(PlantType type, Vector2 position)
 void PlantManager::clear_plant()
 {
     plants.clear();
+	for (int x = 0; x < 9; x++) {
+		for (int y = 0; y < 5; y++) {
+			seat[x][y] = 0;
+		}
+	}
 }
 
 int PlantManager::plant_size()

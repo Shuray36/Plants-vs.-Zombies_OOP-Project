@@ -150,24 +150,12 @@ namespace game_framework {
 		int overtime = 0;
 		
 		//map-------------------
-		int seat[9][5];
 		int place_flag = 0;
 		void place_seat(int x,int y,int item);
 		int item = -1;
-		void clear_seat(int coordinate_x,int coordinate_y);
 		//----------------------
 		
 		//殭屍---------------
-		int zombie_index = -1;
-		int call_time = 0;
-		int tri_call_time = 0;
-		int bucketcall_time = 0;
-		void call_tir_zombie();
-		void call_bucket_zombie();
-		int basic_counter = 0;
-		int tri_counter = 0;
-		int bucket_counter = 0;
-
 		ZombieManager zombieManager;
 
 		//-------------------
@@ -252,7 +240,6 @@ namespace game_framework {
 		void reset();
 		//-------------------------
 		//隨機---------------------
-		int zb_y_random();
 		//------------------------
 		
 	};
