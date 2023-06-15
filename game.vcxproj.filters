@@ -87,6 +87,9 @@
     <ClCompile Include="Source\Game\triangle_zombie.cpp" />
     <ClCompile Include="Source\Game\bucket_zombie.cpp" />
     <ClCompile Include="Source\Game\chili.cpp" />
+    <ClCompile Include="Source\Game\PbManager.cpp" />
+    <ClCompile Include="Source\Game\ZombieManager.cpp" />
+    <ClCompile Include="Source\Game\music.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Library\audio.h">
@@ -145,6 +148,9 @@
     <ClInclude Include="Source\Game\triangle_zombie.h" />
     <ClInclude Include="Source\Game\bucket_zombie.h" />
     <ClInclude Include="Source\Game\chili.h" />
+    <ClInclude Include="Source\Game\PbManager.h" />
+    <ClInclude Include="Source\Game\ZombieManager.h" />
+    <ClInclude Include="Source\Game\music.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Source\Core\game.rc">

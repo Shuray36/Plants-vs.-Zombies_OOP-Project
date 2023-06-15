@@ -33,7 +33,6 @@ void CGameStateInit::OnInit()
 	load_level_menu();
 	load_close_button();
 	load_level();
-
 	ShowInitProgress(66, "Initialize...");
 	Sleep(200);
 	//Sleep(1000);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
@@ -44,6 +43,7 @@ void CGameStateInit::OnInit()
 
 void CGameStateInit::OnBeginState()
 {
+	
 }
 
 void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)

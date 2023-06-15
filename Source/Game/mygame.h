@@ -55,6 +55,7 @@
 #include "triangle_zombie.h"
 #include "bucket_zombie.h"
 #include "ZombieManager.h"
+#include "music.h"
 
 
 namespace game_framework {
@@ -93,11 +94,10 @@ namespace game_framework {
 		CMovingBitmap start_button_2;
 		int pointx = 0;
 		int pointy = 0;
-
 		CMovingBitmap level_menu;
 		void load_level_menu();
 		int menu_flag = 0;
-
+		Music m;
 		CMovingBitmap close_button;
 		void load_close_button();
 
@@ -109,6 +109,7 @@ namespace game_framework {
 		CMovingBitmap L6;
 		void load_level();
 
+		
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -156,16 +157,7 @@ namespace game_framework {
 		//殭屍---------------
 		ZombieManager zombieManager;
 
-		//-------------------
-
-		//太陽花-----------------
-		//--------------------------
-
-		//射手-----------------------
-		//---------------------------
-
-		//堅果--------------------------
-		//------------------------------
+		//CAudio * bgm = CAudio::Instance();
 
 		//太陽記分板-----------------------------------------------------------------
 		CMovingBitmap sunback;
@@ -239,6 +231,7 @@ namespace game_framework {
 		//-------------------------
 		//隨機---------------------
 		//------------------------
+		Music bgm;
 		
 	};
 

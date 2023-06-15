@@ -30,6 +30,9 @@ CGameStateRun::~CGameStateRun()
 
 void CGameStateRun::OnBeginState()
 {
+	bgm.Stop(0);
+	bgm.play(1,true);
+	//bgm->Play(0);
 	reset();
 }
 
@@ -95,6 +98,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		newcar.Init(i);
 		carList.push_back(newcar);
 	}
+	bgm.load_music();
 
 	shovel_box.LoadBitmapByString({"Plants_vs_Zombies_Image/shovel_box.bmp"}, RGB(255, 255, 255));
 	shovel_box.SetTopLeft(870, 0);
@@ -128,6 +132,8 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		}
 	}
 	if (nChar == VK_UP) {
+		bgm.Stop(1);
+		bgm.play(0, true);
 		GotoGameState(GAME_STATE_INIT);
 	}
 	if (nChar == VK_RIGHT) {
@@ -213,6 +219,9 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 
 	if (pointx >= plant_win_picture.GetLeft() + 0 && pointx <= plant_win_picture.GetLeft() + 100 && pointy >= plant_win_picture.GetTop() + 0 && pointy <= plant_win_picture.GetTop() + 100) {
 		if (overflag == 1) {
+			//bgm->Stop(0);
+			bgm.Stop(1);
+			bgm.play(0, true);
 			GotoGameState(GAME_STATE_INIT);
 		}
 	}
