@@ -8,7 +8,7 @@
 #include <string>
 
 void Triangle_zombie::init() {
-	zombie.LoadBitmapByString({ "Plants_vs_Zombies_Image/zombie/triangle_zombie/walk/tri_zom_0.bmp",
+	LoadBitmapByString({ "Plants_vs_Zombies_Image/zombie/triangle_zombie/walk/tri_zom_0.bmp",
 		"Plants_vs_Zombies_Image/zombie/triangle_zombie/walk/tri_zom_1.bmp",
 		"Plants_vs_Zombies_Image/zombie/triangle_zombie/walk/tri_zom_2.bmp",
 		"Plants_vs_Zombies_Image/zombie/triangle_zombie/walk/tri_zom_3.bmp",
@@ -30,8 +30,8 @@ void Triangle_zombie::init() {
 		"Plants_vs_Zombies_Image/zombie/triangle_zombie/walk/tri_zom_19.bmp",
 		"Plants_vs_Zombies_Image/zombie/triangle_zombie/walk/tri_zom_20.bmp",
 		}, RGB(255, 255, 255));
-	zombie.SetTopLeft(999, 999);//950 240
-	zombie.SetAnimation(120, false);
+	SetTopLeft(999, 999);//950 240
+	SetAnimation(120, false);
 
 	zombie_die.LoadBitmapByString({ "Plants_vs_Zombies_Image/zombie/basic_zombie_die/falldown_0.bmp" ,
 		"Plants_vs_Zombies_Image/zombie/basic_zombie_die/falldown_1.bmp" ,
@@ -44,7 +44,7 @@ void Triangle_zombie::init() {
 		"Plants_vs_Zombies_Image/zombie/basic_zombie_die/falldown_8.bmp" ,
 		"Plants_vs_Zombies_Image/zombie/basic_zombie_die/falldown_9.bmp" ,
 		}, RGB(255, 255, 255));
-	zombie_die.SetTopLeft(zombie.GetLeft(), zombie.GetTop());
+	zombie_die.SetTopLeft(GetLeft(), GetTop());
 	zombie_die.SetAnimation(120, true);
 	zombie_die.ToggleAnimation();
 
@@ -61,7 +61,7 @@ void Triangle_zombie::init() {
 		"Plants_vs_Zombies_Image/zombie/basic_zombie_headfall/headfall_9.bmp" ,
 		"Plants_vs_Zombies_Image/zombie/basic_zombie_headfall/headfall_10.bmp" ,
 		"Plants_vs_Zombies_Image/zombie/basic_zombie_headfall/headfall_11.bmp" , }, RGB(255, 255, 255));
-	zombie_headfall.SetTopLeft(zombie.GetLeft(), zombie.GetTop());
+	zombie_headfall.SetTopLeft(GetLeft(), GetTop());
 	zombie_headfall.SetAnimation(120, true);
 	zombie_headfall.ToggleAnimation();
 
@@ -76,9 +76,11 @@ void Triangle_zombie::init() {
 		"Plants_vs_Zombies_Image/zombie/triangle_zombie/eat/tri_zom_eat_8.bmp", 
 		"Plants_vs_Zombies_Image/zombie/triangle_zombie/eat/tri_zom_eat_9.bmp", 
 		"Plants_vs_Zombies_Image/zombie/triangle_zombie/eat/tri_zom_eat_10.bmp", }, RGB(255, 255, 255));
-	zombie_atk.SetTopLeft(zombie.GetLeft(), zombie.GetTop());
+	zombie_atk.SetTopLeft(GetLeft(), GetTop());
 	zombie_atk.SetAnimation(120, false);
 	zombie_atk.ToggleAnimation();
+
+	SetSpeed({ -0.5f,0.0f });
 	hp = 160;
 	attack = 30;
 }

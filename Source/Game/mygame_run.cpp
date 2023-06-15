@@ -345,7 +345,7 @@ void CGameStateRun::OnShow()
 void CGameStateRun::judge_plant_victory() {
 	int die_num = zombieManager.GetDienum();
 	if (Map::level != 3) {
-		if (die_num >= 3) overflag = 1;
+		if (die_num >= 6) overflag = 1;
 	}
 	else {
 		if (die_num >= 9) overflag = 1;

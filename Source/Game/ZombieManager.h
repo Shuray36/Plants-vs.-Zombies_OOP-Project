@@ -26,14 +26,16 @@ public:
 	void MakeZombie(int level){
 		auto z = std::make_shared<Z>();
 		z->init();
-		z->SetTopLeft(950, zb_y_random(level));
+		z->SetPosition({ 950.0f,(float)zb_y_random(level) });
+		//z->SetTopLeft(950, zb_y_random(level));
 		zombies.push_back(z);
 	}
 	template<typename Z = Zombie>
 	void MakeZombie(int x, int y){
 		auto z = std::make_shared<Z>();
 		z->init();
-		z->SetTopLeft(x, y);
+		z->SetPosition({ (float)x,(float)y });
+		//z->SetTopLeft(x, y);
 		zombies.push_back(z);
 	}
 	void clear();
@@ -59,7 +61,8 @@ public:
 		for (auto &z : zombies) {
 			if (z->state == 4) {
 				z->state = 0;
-				z->speed = -1;
+				//z->speed = -1;
+				z->SetSpeed({ -0.5f,0.0f });
 			}
 		}
 	}
@@ -86,7 +89,8 @@ public:
 	{
 		for (auto&zom : zombies)
 		{
-			zom->SetTopLeft(zom->GetLeft() + zom->speed, zom->GetTop());
+			zom->Update();
+			//zom->SetTopLeft(zom->GetLeft() + zom->speed, zom->GetTop());
 			for (auto &s : plants)
 			{
 				if (s->GetIsPlace()&&(zom->GetLeft() <= s->GetLeft() + 30 && zom->GetLeft() >= s->GetLeft() + 20 && zom->GetTop() <= s->GetTop() + 0 && zom->GetTop() >= s->GetTop() - 60 && zom->die_flag == 0) ){
@@ -109,7 +113,7 @@ public:
 			MakeZombie<Basic_zombie>(950, zb_y_random(level));
 			basic_counter += 1;
 			call_time = 0;
-		}else if(basic_counter < 3)
+		}else if(basic_counter < 6)
 		{
 			call_time+=1;
 		}
