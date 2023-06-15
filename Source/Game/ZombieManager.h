@@ -95,7 +95,7 @@ public:
 			//zom->SetTopLeft(zom->GetLeft() + zom->speed, zom->GetTop());
 			for (auto &s : plants)
 			{
-				if (s->GetIsPlace()&&(zom->GetLeft() <= s->GetLeft() + 30 && zom->GetLeft() >= s->GetLeft() + 20 && zom->GetTop() <= s->GetTop() + 0 && zom->GetTop() >= s->GetTop() - 60 && zom->die_flag == 0) ){
+				if (s->GetIsPlace()&&(zom->GetLeft() + 50 <= s->GetLeft() + s->GetWidth() && zom->GetLeft() + 50 >= s->GetLeft() && zom->GetTop() <= s->GetTop() + 0 && zom->GetTop() >= s->GetTop() - 60 && zom->die_flag == 0) ){
 					zom->state = 4;
 					zom->cd += 1;
 					if (zom->cd >= 100 && s->hp > 0) {

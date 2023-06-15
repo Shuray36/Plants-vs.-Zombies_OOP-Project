@@ -31,7 +31,7 @@ void Bean::Update(){
 }
 
 void Bean::Attack() {
-	pb_manager->MakePb(Vector2::add(GetPosition(),{65,0}));
+	pb_manager->MakePb(Vector2::add(GetPosition(),{65,0}),GetCoordinateY());
 }
 
 void Bean::SetPbManager(shared_ptr<PbManager> p)

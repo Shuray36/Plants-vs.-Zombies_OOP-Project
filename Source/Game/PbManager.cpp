@@ -1,12 +1,17 @@
 #include "stdafx.h"
 #include "PbManager.h"
 
-void PbManager::MakePb(Vector2 pos)
+void PbManager::MakePb(Vector2 pos,int y)
 {
-    Pb s = Pb();
-    s.init();
-    s.SetPosition(pos);
-    pbs.push_back(s);
+	for (auto z : zombies) {
+		if ((int)z->GetTop() == a[y]) {
+			Pb s = Pb();
+			s.init();
+			s.SetPosition(pos);
+			pbs.push_back(s);
+		}
+	}
+    
 }
 
 void PbManager::Update()

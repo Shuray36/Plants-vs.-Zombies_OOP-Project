@@ -31,7 +31,7 @@ void Chili::Init() {
 		"Plants_vs_Zombies_Image/plants/chili/fire/fire_6.bmp",
 		"Plants_vs_Zombies_Image/plants/chili/fire/fire_7.bmp", }, RGB(0, 0, 0));
 #pragma endregion
-	//fire.SetTopLeft(200, 240);
+	fire.SetTopLeft(200, 240);
 	fire.SetAnimation(120, true);
 	fire.ToggleAnimation();
 }
@@ -45,7 +45,7 @@ bool Chili::CanAttack() {
 void Chili::Attack() {
 	for (auto&z : zombies) {
 		if (z->GetPosition().y == a[GetCoordinateY()]) {
-			z->die_flag = 1;//設這個目的是防止再吃得時候然稍有延遲
+			z->die_flag = 1; 
 			z->state = 5;
 		}
 	}
