@@ -25,6 +25,7 @@ public:
 	int state = 0;
 	int attack = 0;
 	int cd = 0;
+	int t = 0;
 };
 
 

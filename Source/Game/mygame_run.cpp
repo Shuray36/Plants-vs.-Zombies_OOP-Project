@@ -535,6 +535,9 @@ void CGameStateRun::reset() {
 	//殭屍-----------
 	zombieManager.clear();
 	zombieManager.reset_call_time();
+	zombieManager.SetCallTime(200);
+	zombieManager.SetTriTime(350);
+	zombieManager.SetBucketTime(500);
 	//---------------
 
 	//小太陽-----------

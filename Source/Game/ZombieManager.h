@@ -109,7 +109,7 @@ public:
 	}
 	void UpdateCallZombie(int level)
 	{
-		if (call_time == 200) {
+		if (call_time == 400) {
 			MakeZombie<Basic_zombie>(950, zb_y_random(level));
 			basic_counter += 1;
 			call_time = 0;
@@ -120,7 +120,7 @@ public:
 		if(level !=1)
 		{
 			if (tri_counter < 3) tri_call_time += 1;
-			if (tri_call_time == 210) {
+			if (tri_call_time == 450) {
 				MakeZombie<Triangle_zombie>(950, zb_y_random(level));
 				tri_counter += 1;
 				tri_call_time = 0;
@@ -135,7 +135,7 @@ public:
 		}
 		if(level >= 3){
 			if (bucket_counter < 3) bucketcall_time += 1;
-			if (bucketcall_time == 220) {
+			if (bucketcall_time == 550) {
 				MakeZombie<Bucket_zombie>(950,zb_y_random(level));
 				bucket_counter += 1;
 				bucketcall_time = 0;
@@ -167,6 +167,15 @@ public:
 		basic_counter = 0;
 		tri_counter = 0;
 		bucket_counter = 0;
+	}
+	void SetCallTime(int time) {
+		call_time = time;
+	}
+	void SetTriTime(int time) {
+		tri_call_time = time;
+	}
+	void SetBucketTime(int time) {
+		bucketcall_time = time;
 	}
 };
 
