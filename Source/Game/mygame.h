@@ -141,8 +141,6 @@ namespace game_framework {
 		int pointy = 0;
 		int money = 1000;
 		CMovingBitmap fight_background;
-		CMovingBitmap L1_map;
-		CMovingBitmap L2_map;
 		// BG1的判斷變數
 		int BG1_flag1 = 0;
 		int time = 0;
