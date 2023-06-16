@@ -5,8 +5,8 @@
 
 void Music::load_music() {
 	sound = game_framework::CAudio::Instance();
-	sound->Load(1, "Plants_vs_Zombies_Image/music/fight.wav");
 	sound->Load(0, "Plants_vs_Zombies_Image/music/Begin.wav");
+	sound->Load(1, "Plants_vs_Zombies_Image/music/fight.wav");
 	sound->Load(2, "Plants_vs_Zombies_Image/music/atk.wav");
 	sound->Load(3, "Plants_vs_Zombies_Image/music/place.wav");
 	sound->Load(4, "Plants_vs_Zombies_Image/music/chili.wav");

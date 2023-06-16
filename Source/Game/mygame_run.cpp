@@ -121,6 +121,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 
 	plantManager.setSunmanager(sun_manager);
 	plantManager.setPbmanager(pb_manager);
+	bgm.play(0, true);
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -395,6 +396,8 @@ void CGameStateRun::judge_zombie_victory() {
 		if (end_time >= 300) {
 			end_flag = 0;
 			end_time = 0;
+			bgm.Stop(1);
+			bgm.play(0, false);
 			GotoGameState(GAME_STATE_OVER);
 		}
 	}
@@ -548,8 +551,8 @@ void CGameStateRun::uproot(int targetx, int targety) {
 }
 
 void CGameStateRun::reset() {
-	money = 100;
-	if (Map::level == 6) money = 300;
+	money = 300;
+	if (Map::level == 6) money = 900;
 	BG1_flag1 = 0;
 	time = 0;
 	overflag = 0;
