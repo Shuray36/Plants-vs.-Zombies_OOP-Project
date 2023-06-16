@@ -322,17 +322,17 @@ void CGameStateRun::place_seat(int targetx, int targety,int item){
 	//int seat_x[9];
 	int map_topleftX = 200;
 	int map_topleftY =  90;
-	int miny=0,maxy=5;
+	int miny=0,maxy=4;
 	if (Map::level == 1) {
 		miny = 2;
 		maxy = 2;
 	}
 	else if (Map::level == 2) {
 		miny =1;
-		maxy = 1;
+		maxy = 3;
 	}
 	
-	for (int y = miny; y < maxy; y++){
+	for (int y = miny; y <= maxy; y++){
 		for (int x = 0; x < 9; x++){
 			if (targetx >= map_topleftX +x*BLOCK_WIDTH && targetx < map_topleftX+(x+1)*(BLOCK_WIDTH) && targety > map_topleftY + y * BLOCK_HEIGHT && targety < map_topleftY + (y + 1) * BLOCK_HEIGHT  && plantManager.GetSeat(x,y) != 2){
 				plantManager.SetSeat(x,y,1);
