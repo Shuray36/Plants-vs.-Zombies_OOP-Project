@@ -188,30 +188,30 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 	money+=sun_manager->Lbutton(mousePosition);
 	// sun_flag=1;
 
-	if (CMovingBitmap::IsCardClick(pointx, pointy, sunflower_card) && money >= 50) {
+	if (shovel_flag != 1 && CMovingBitmap::IsCardClick(pointx, pointy, sunflower_card) && money >= 50) {
 		item = 0;
 		place_flag = 1;
 		plantManager.MakePlant(PlantType::SUN_FLOWER,mousePosition);
 	}
 
-	if (CMovingBitmap::IsCardClick(pointx, pointy, peashooter_card)&&money>=100) { //245 15  330 50
+	if (shovel_flag != 1 && CMovingBitmap::IsCardClick(pointx, pointy, peashooter_card)&&money>=100) { //245 15  330 50
 		item = 1;
 		place_flag = 1;
 		plantManager.MakePlant(PlantType::BEAN_PLANT,mousePosition);
 	}
 	
-	if (CMovingBitmap::IsCardClick(pointx, pointy, nut_card) && money >= 75) {
+	if (shovel_flag != 1 && CMovingBitmap::IsCardClick(pointx, pointy, nut_card) && money >= 75) {
 		item = 2;
 		place_flag = 1;
 		plantManager.MakePlant(PlantType::NUT_PLANT,mousePosition);
 	}
 
-	if (CMovingBitmap::IsCardClick(pointx, pointy, db_card) && money >= 100 && Map::level != 1) {
+	if (shovel_flag != 1 && CMovingBitmap::IsCardClick(pointx, pointy, db_card) && money >= 100 && Map::level != 1) {
 		item = 3;
 		place_flag = 1;
 		plantManager.MakePlant(PlantType::DOUBLE_BEAN,mousePosition);
 	}
-	if (CMovingBitmap::IsCardClick(pointx, pointy, chili_card) && money >= 150 && Map::level == 6 ) {
+	if (shovel_flag != 1 && CMovingBitmap::IsCardClick(pointx, pointy, chili_card) && money >= 150 && Map::level == 6 ) {
 		item = 4;
 		place_flag = 1;
 		plantManager.MakePlant(PlantType::CHILI_PLANT, mousePosition);
@@ -225,7 +225,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 			GotoGameState(GAME_STATE_INIT);
 		}
 	}
-	if (CMovingBitmap::IsCardClick(pointx, pointy, shovel_box) ) {
+	if (CMovingBitmap::IsCardClick(pointx, pointy, shovel_box) && place_flag !=1 ) {
 		shovel_flag = 1;
 	}
 
@@ -355,6 +355,8 @@ void CGameStateRun::OnShow()
 //-------------------------------------------------------------------------------------------
 void CGameStateRun::judge_plant_victory() {
 	int die_num = zombieManager.GetDienum();
+	
+	/*
 	if (Map::level != 3 && Map::level != 6) {
 		if (die_num >= 6) overflag = 1;
 	}
@@ -362,6 +364,19 @@ void CGameStateRun::judge_plant_victory() {
 		if (die_num >= 6) overflag = 1;
 	}
 	else if (Map::level >= 6) {
+		if (die_num >= 36) overflag = 1;
+	}
+	else {
+		if (die_num >= 9) overflag = 1;
+	}
+	*/
+	if (Map::level == 1) {
+		if (die_num >= 6) overflag = 1;
+	}
+	else if (Map::level == 2) {
+		if (die_num >= 6) overflag = 1;
+	}
+	else if (Map::level == 6) {
 		if (die_num >= 36) overflag = 1;
 	}
 	else {

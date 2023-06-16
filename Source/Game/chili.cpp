@@ -64,6 +64,10 @@ void Chili::Show() {
 	}
 	else
 	{
+		if (GetFrameIndexOfBitmap() == 6) {
+			game_framework::CAudio* audio = game_framework::CAudio::Instance();
+			audio->Play(4, false);
+		}
 		Plant::Show();
 	}
 }

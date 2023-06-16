@@ -70,6 +70,8 @@ void PlantManager::OnLButtonDown(Vector2 coordinate)
             static_cast<float>(BoardTop +BLOCK_HEIGHT*static_cast<int>(coordinate.y))
         });
         plants.back()->SetIsPlace(true);
+		game_framework::CAudio* audio = game_framework::CAudio::Instance();
+		audio->Play(3, false);
     }
 }
 

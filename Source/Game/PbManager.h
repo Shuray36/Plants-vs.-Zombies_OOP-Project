@@ -5,6 +5,7 @@
 #include "pb.h"
 #include "Vector2.h"
 #include "zombie.h"
+#include "../Library/audio.h"
 
 class PbManager
 {

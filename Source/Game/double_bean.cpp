@@ -29,7 +29,7 @@ Double_bean::Double_bean() {
 void Double_bean::Attack()
 {
 	Bean::Attack();
-	SetAttackCounter(1600 - GetAttackCycle());
+	SetAttackCounter(2600 - GetAttackCycle());
 }
 
 
