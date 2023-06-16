@@ -22,14 +22,14 @@ Double_bean::Double_bean() {
 		"Plants_vs_Zombies_Image/plants/double_bean/double_bean_11.bmp",
 		"Plants_vs_Zombies_Image/plants/double_bean/double_bean_12.bmp", 
 		"Plants_vs_Zombies_Image/plants/double_bean/double_bean_13.bmp",
-		"Plants_vs_Zombies_Image/plants/double_bean/double_bean_14.bmp", }, RGB(255, 255, 255),240);
+		"Plants_vs_Zombies_Image/plants/double_bean/double_bean_14.bmp", }, RGB(255, 255, 255),120);
 	hp = 100;
 }
 
 void Double_bean::Attack()
 {
 	Bean::Attack();
-	SetAttackCounter(1600 - GetAttackCycle());
+	SetAttackCounter(2600 - GetAttackCycle());
 }
 
 

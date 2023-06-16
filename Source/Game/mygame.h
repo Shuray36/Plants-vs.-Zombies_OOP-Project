@@ -54,8 +54,8 @@
 #include "basic_zombie.h"
 #include "triangle_zombie.h"
 #include "bucket_zombie.h"
-#include "CardManager.h"
 #include "ZombieManager.h"
+#include "music.h"
 
 
 namespace game_framework {
@@ -94,11 +94,10 @@ namespace game_framework {
 		CMovingBitmap start_button_2;
 		int pointx = 0;
 		int pointy = 0;
-
 		CMovingBitmap level_menu;
 		void load_level_menu();
 		int menu_flag = 0;
-
+		Music m;
 		CMovingBitmap close_button;
 		void load_close_button();
 
@@ -110,6 +109,7 @@ namespace game_framework {
 		CMovingBitmap L6;
 		void load_level();
 
+		
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -136,6 +136,7 @@ namespace game_framework {
 		void draw_text();
 	private:
 		int test = 0;
+		//main
 		PlantManager plantManager;
 		int pointx = 0;
 		int pointy = 0;
@@ -146,10 +147,18 @@ namespace game_framework {
 		int time = 0;
 		int overflag = 0;
 		int overtime = 0;
+		
+		//map-------------------
 		int place_flag = 0;
 		void place_seat(int x,int y,int item);
 		int item = -1;
+		//----------------------
+		
+		//殭屍---------------
 		ZombieManager zombieManager;
+
+		//CAudio * bgm = CAudio::Instance();
+
 		//太陽記分板-----------------------------------------------------------------
 		CMovingBitmap sunback;
 		void load_sunback();
@@ -167,12 +176,35 @@ namespace game_framework {
 		//-------------------------------------------------------------------
 
 		//card------------------------------------------------------------
-		CardManager cardManager;
 		//太陽花----------------------------------------------------------
+		CMovingBitmap sunflower_card;
+		void load_sunflower_card();
+		CMovingBitmap sunflower_gray_card;
+		void load_sunflower_gray_card();
+		int sunflower_flag = 0;
 		//射手----------------------------------------------------
+		CMovingBitmap peashooter_card;
+		void load_peashooter_card();
+		CMovingBitmap peashooter_gray_card;
+		void load_peashooter_gray_card();
+		int pershooter_flag = 0;
 		//堅果----------------------------------------------------
+		CMovingBitmap nut_card;
+		void load_nut_card();
+		CMovingBitmap nut_gray_card;
+		void load_nut_gray_card();
+		int nut_flag = 0;
 		//雙重豌豆射手---------------------------------------------
+		CMovingBitmap db_card;
+		void load_db_card();
+		CMovingBitmap db_gray_card;
+		void load_db_gray_card();
+		int db_flag = 0;
 		//辣椒------------------------------------------------------
+		CMovingBitmap chili_card;
+		void load_chili_card();
+		CMovingBitmap chili_gray_card;
+		int chili_flag = 0;
 		//-------------------------------------------------------------------
 		//地圖 位置左上(200,85) 右上(940,85) 左下(200,570) 右下(940,570)
 
@@ -199,6 +231,7 @@ namespace game_framework {
 		//-------------------------
 		//隨機---------------------
 		//------------------------
+		Music bgm;
 		
 	};
 

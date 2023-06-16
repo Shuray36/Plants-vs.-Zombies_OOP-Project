@@ -1,12 +1,23 @@
 #include "stdafx.h"
 #include "PbManager.h"
 
-void PbManager::MakePb(Vector2 pos)
+
+void PbManager::MakePb(Vector2 pos,int y)
 {
-    Pb s = Pb();
-    s.init();
-    s.SetPosition(pos);
-    pbs.push_back(s);
+	
+	
+	for (auto z : zombies) {
+		if ((int)z->GetTop() == a[y]) {
+			Pb s = Pb();
+			s.init();
+			s.SetPosition(pos);
+			pbs.push_back(s);
+			break;
+		}
+	}
+	
+	
+    
 }
 
 void PbManager::Update()
@@ -16,6 +27,9 @@ void PbManager::Update()
 		for (auto&zom : zombies)
 		{
 			if (s.GetLeft() <= zom->GetLeft() + 50 && s.GetLeft() >= zom->GetLeft() + 45 && s.GetTop() <= zom->GetTop() + 60 && s.GetTop() >= zom->GetTop() - 0 && zom->die_flag == 0) {
+				game_framework::CAudio* audio = game_framework::CAudio::Instance();
+				audio->Play(2, false);
+				s.leave();
 				zom->hp -= 30;
 				if (zom->hp <= 0) {
 					zom->state = 1;

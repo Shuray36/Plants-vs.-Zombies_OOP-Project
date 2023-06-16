@@ -70,6 +70,8 @@ void PlantManager::OnLButtonDown(Vector2 coordinate)
             static_cast<float>(BoardTop +BLOCK_HEIGHT*static_cast<int>(coordinate.y))
         });
         plants.back()->SetIsPlace(true);
+		game_framework::CAudio* audio = game_framework::CAudio::Instance();
+		audio->Play(3, false);
     }
 }
 
@@ -87,7 +89,7 @@ void PlantManager::MakePlant(PlantType type, Vector2 position)
             auto s=make_shared<Sunflower>();
             s->Init();
             s->setSunmanager(sun_manager);
-            s->SetAttackCounter(3000);
+            s->SetAttackCounter(6300);
             p=s;
         }
         break;
@@ -95,7 +97,7 @@ void PlantManager::MakePlant(PlantType type, Vector2 position)
         {
             auto bean=make_shared<Bean>();
             bean->Init();
-            bean->SetAttackCounter(1500);
+            bean->SetAttackCounter(2500);
             bean->SetPbManager(pb_manager);
             p=bean;
         }
@@ -112,7 +114,7 @@ void PlantManager::MakePlant(PlantType type, Vector2 position)
             
             auto bean=make_shared<Double_bean>();
             bean->Init();
-            bean->SetAttackCounter(1500);
+            bean->SetAttackCounter(2500);
             bean->SetPbManager(pb_manager);
             p=bean;
         }
@@ -121,7 +123,8 @@ void PlantManager::MakePlant(PlantType type, Vector2 position)
 		{
 			auto chili = make_shared<Chili>();
 			chili->Init();
-			chili->SetAttackCounter(1500);
+			chili->SetAttackCounter(0);
+			chili->SetZombies(zombies);
 			p = chili;
 		}
 		break;

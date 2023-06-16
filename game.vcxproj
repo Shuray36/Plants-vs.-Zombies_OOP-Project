@@ -247,11 +247,11 @@
     <ClCompile Include="Source\Game\bean.cpp" />
     <ClCompile Include="Source\Game\bucket_zombie.cpp" />
     <ClCompile Include="Source\Game\Car.cpp" />
-    <ClCompile Include="Source\Game\CardManager.cpp" />
     <ClCompile Include="Source\Game\chili.cpp" />
     <ClCompile Include="Source\Game\Counter.cpp" />
     <ClCompile Include="Source\Game\double_bean.cpp" />
     <ClCompile Include="Source\Game\map.cpp" />
+    <ClCompile Include="Source\Game\music.cpp" />
     <ClCompile Include="Source\Game\mygame_initialize.cpp" />
     <ClCompile Include="Source\Game\mygame_over.cpp" />
     <ClCompile Include="Source\Game\mygame_run.cpp" />
@@ -285,12 +285,12 @@
     <ClInclude Include="Source\Game\Bean.h" />
     <ClInclude Include="Source\Game\bucket_zombie.h" />
     <ClInclude Include="Source\Game\Car.h" />
-    <ClInclude Include="Source\Game\CardManager.h" />
     <ClInclude Include="Source\Game\chili.h" />
     <ClInclude Include="Source\Game\config.h" />
     <ClInclude Include="Source\Game\Counter.h" />
     <ClInclude Include="Source\Game\double_bean.h" />
     <ClInclude Include="Source\Game\map.h" />
+    <ClInclude Include="Source\Game\music.h" />
     <ClInclude Include="Source\Game\Nut.h" />
     <ClInclude Include="Source\Game\pb.h" />
     <ClInclude Include="Source\Game\PbManager.h" />

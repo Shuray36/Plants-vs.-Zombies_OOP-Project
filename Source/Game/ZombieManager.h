@@ -4,8 +4,10 @@
 
 #include "basic_zombie.h"
 #include "bucket_zombie.h"
+#include "triangle_zombie.h"
 #include "plant.h"
 #include "zombie.h"
+#include "map.h"
 
 class ZombieManager
 {
@@ -19,19 +21,22 @@ class ZombieManager
 
 	std::vector<std::shared_ptr<Zombie>> zombies;
 public:
+	
 	std::vector<std::shared_ptr<Zombie>> GetZombies();
 	template<typename Z = Zombie>
 	void MakeZombie(int level){
 		auto z = std::make_shared<Z>();
 		z->init();
-		z->SetTopLeft(950, zb_y_random(level));
+		z->SetPosition({ 950.0f,(float)zb_y_random(level) });
+		//z->SetTopLeft(950, zb_y_random(level));
 		zombies.push_back(z);
 	}
 	template<typename Z = Zombie>
 	void MakeZombie(int x, int y){
 		auto z = std::make_shared<Z>();
 		z->init();
-		z->SetTopLeft(x, y);
+		z->SetPosition({ (float)x,(float)y });
+		//z->SetTopLeft(x, y);
 		zombies.push_back(z);
 	}
 	void clear();
@@ -57,7 +62,8 @@ public:
 		for (auto &z : zombies) {
 			if (z->state == 4) {
 				z->state = 0;
-				z->speed = -1;
+				//z->speed = -1;
+				z->SetSpeed({ -0.5f,0.0f });
 			}
 		}
 	}
@@ -84,10 +90,12 @@ public:
 	{
 		for (auto&zom : zombies)
 		{
-			zom->SetTopLeft(zom->GetLeft() + zom->speed, zom->GetTop());
+			zom->Update();
+			//Map::level = zom->state;
+			//zom->SetTopLeft(zom->GetLeft() + zom->speed, zom->GetTop());
 			for (auto &s : plants)
 			{
-				if (s->GetIsPlace()&&(zom->GetLeft() <= s->GetLeft() + 30 && zom->GetLeft() >= s->GetLeft() + 20 && zom->GetTop() <= s->GetTop() + 0 && zom->GetTop() >= s->GetTop() - 60 && zom->die_flag == 0) ){
+				if (s->GetIsPlace()&&(zom->GetLeft() + 50 <= s->GetLeft() + s->GetWidth() && zom->GetLeft() + 50 >= s->GetLeft() && zom->GetTop() <= s->GetTop() + 0 && zom->GetTop() >= s->GetTop() - 60 && zom->die_flag == 0) ){
 					zom->state = 4;
 					zom->cd += 1;
 					if (zom->cd >= 100 && s->hp > 0) {
@@ -103,31 +111,47 @@ public:
 	}
 	void UpdateCallZombie(int level)
 	{
-		if (call_time == 200) {
+		if (call_time == 400) {
 			MakeZombie<Basic_zombie>(950, zb_y_random(level));
 			basic_counter += 1;
 			call_time = 0;
 		}else if(basic_counter < 3)
 		{
-			call_time+=1;
+			call_time += 1;
+		}
+		else if (basic_counter < 6 && level == 1) {
+			call_time += 1;
 		}
 		if(level !=1)
 		{
 			if (tri_counter < 3) tri_call_time += 1;
-			if (tri_call_time == 210) {
-				MakeZombie<Basic_zombie>(950, zb_y_random(level));
+			if (tri_call_time == 450) {
+				MakeZombie<Triangle_zombie>(950, zb_y_random(level));
 				tri_counter += 1;
 				tri_call_time = 0;
-			}else if(basic_counter < 3)
+			}
+			/*
+			else if(basic_counter < 3)
 			{
 				call_time+=1;
 			}
+			*/
+			
 		}
-		if(level >= 3){
-			if (bucketcall_time == 220) {
+		if(level >= 3 && level != 6){
+			if (bucket_counter < 3) bucketcall_time += 1;
+			if (bucketcall_time == 550) {
 				MakeZombie<Bucket_zombie>(950,zb_y_random(level));
 				bucket_counter += 1;
 				bucketcall_time = 0;
+			}
+		}
+		if (level == 6) {
+			if (bucket_counter < 30) bucketcall_time += 1;
+			if (bucketcall_time == 550) {
+				MakeZombie<Bucket_zombie>(950, zb_y_random(level));
+				bucket_counter += 1;
+				bucketcall_time = 450;
 			}
 		}
 	}
@@ -147,6 +171,24 @@ public:
 			ry = rand() % 5;
 			return zb_y[ry];
 		}
+	}
+	void reset_call_time() {
+		call_time = 0;
+		tri_call_time = 0;
+		bucketcall_time = 0;
+
+		basic_counter = 0;
+		tri_counter = 0;
+		bucket_counter = 0;
+	}
+	void SetCallTime(int time) {
+		call_time = time;
+	}
+	void SetTriTime(int time) {
+		tri_call_time = time;
+	}
+	void SetBucketTime(int time) {
+		bucketcall_time = time;
 	}
 };
 
